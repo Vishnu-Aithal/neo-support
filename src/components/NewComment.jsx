@@ -6,7 +6,7 @@ export const NewComment = ({ postComment = () => null }) => {
                 className="w-full p-2 outline-none peer"
                 placeholder="Add Comment"
             />
-            <button className="ml-auto px-2 border m-1 rounded-sm peer-placeholder-shown:hidden">
+            <button className="ml-auto px-2 border-2 m-1 rounded-md peer-placeholder-shown:hidden hover:shadow-sm">
                 Comment
             </button>
         </div>
