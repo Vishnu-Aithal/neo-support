@@ -26,18 +26,22 @@ const NavBarLink = ({ to, Icon, name }) => {
 
 export const NavBar = () => {
     return (
-        <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0 sm:pt-20">
-            <ul className="py-2 text-sm font-medium sm:space-y-5 sm:block flex justify-around w-full">
+        <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0  bg-white border-t-2 sm:border-t-0">
+            <ul className="sm:py-5 text-sm font-medium sm:space-y-5 sm:block flex justify-around items-center w-full">
                 <li>
                     <NavBarLink
-                        to={"/links"}
+                        to={"/pull-requests"}
                         Icon={GithubIcon}
                         name={"Pull Requests"}
                     />
                 </li>
 
                 <li>
-                    <NavBarLink to={"/posts"} Icon={PostIcon} name={"Posts"} />
+                    <NavBarLink
+                        to={"/questions"}
+                        Icon={PostIcon}
+                        name={"Questions"}
+                    />
                 </li>
 
                 <li>
