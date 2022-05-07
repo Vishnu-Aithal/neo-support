@@ -8,9 +8,9 @@ export const UserReviews = ({ data }) => {
                     alt={data.login}></img>
                 <h4 className="ml-2 font-semibold text-lg">{data.login}</h4>
             </div>
-            <ul className="p-2">
+            <ul className="p-2 text-xs font-medium divide-y">
                 {data.reviews.map((review, index) => (
-                    <li className="border-b pl-4" key={index}>
+                    <li className="p-1" key={index}>
                         {review}
                     </li>
                 ))}

@@ -17,9 +17,9 @@ export const PostPreview = ({
     downVote = () => null,
 }) => {
     return (
-        <div className="flex sm:w-11/12 w-full mx-auto border rounded-md p-2">
+        <div className="flex sm:w-11/12 w-full mx-auto border rounded-md p-2 shadow-md">
             {/* User Image */}
-            <div className="flex items-center justify-center w-1/12">
+            <div className="flex items-center justify-start p-2 w-1/12">
                 <img
                     src="https://picsum.photos/200/300"
                     alt="random"
@@ -46,10 +46,12 @@ export const PostPreview = ({
                         initiated by a prerender hint.
                     </p>
 
-                    <div className="flex p-2 gap-2">
-                        <p className="border px-2 rounded-md">4 Comments</p>
-                        <p className="border px-2 rounded-md">25 Votes</p>
-                        <p className="text-xs ml-auto text-gray-600 font-semibold mt-auto">
+                    <div className="flex p-2 gap-2 text-xs">
+                        <p className="border px-2 py-1 rounded-md">
+                            4 Comments
+                        </p>
+                        <p className="border px-2 py-1 rounded-md">25 Votes</p>
+                        <p className="ml-auto text-gray-600 font-semibold mt-auto">
                             Posted - 07-05-2022 10:49 AM
                         </p>
                     </div>

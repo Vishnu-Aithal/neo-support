@@ -23,7 +23,7 @@ export const PullRequestCard = ({ url }) => {
                     <UserReviews key={userReview.id} data={userReview} />
                 ))}
             </div>
-            <div className="p-2 border-t">
+            <div className="p-2 border-t divide-y">
                 <Comment />
                 <Comment />
                 <Comment />

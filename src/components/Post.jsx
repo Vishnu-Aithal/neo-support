@@ -20,12 +20,12 @@ export const Post = ({
         <div className="flex flex-col w-full sm:w-10/12 mx-auto ">
             <div className="border rounded-md rounded-br-none">
                 {/* Header */}
-                <div className="flex items-stretch p-4 border-b">
+                <div className="flex p-4 pt-2 border-b">
                     {/* Author Image */}
                     <img
                         src="https://picsum.photos/200/300"
                         alt="random"
-                        className="w-16 rounded-lg object-cover object-center h-16 mt-auto"
+                        className="w-20 rounded-lg object-cover object-center h-20 mt-auto flex-shrink-0"
                     />
                     {/* Author Namme */}
 
@@ -37,7 +37,7 @@ export const Post = ({
                         Posted - 07-05-2022 10:49 AM
                     </p>
                     {/* Votes */}
-                    <div className="flex flex-col ml-2 mb-auto items-center text-xl">
+                    <div className="flex flex-col sm:ml-2 ml-1 items-center text-xl">
                         <button>
                             <ChevronLeftIcon className={"h-8 w-8"} />
                         </button>
@@ -62,7 +62,7 @@ export const Post = ({
                 </p>
                 {/* comments */}
             </div>
-            <div className="w-11/12 ml-auto border border-t-0 rounded-md rounded-t-none divide-y">
+            <div className="w-11/12 ml-auto border border-t-0 rounded-md rounded-t-none divide-y p-2">
                 <Comment />
                 <Comment />
                 <Comment />
