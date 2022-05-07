@@ -1,9 +1,15 @@
+import { PullRequestCard } from "components";
+import { Post } from "components/Post";
 function App() {
+    const url = "https://github.com/Vishnu-Aithal/notes-app/pull/1";
     return (
         <div className="App">
-            <header className="w-full h-20 bg-red-500 text-center">
-                <p>Initial Setup</p>
-            </header>
+            <div className="p-4 border border-black">
+                <PullRequestCard url={url} />
+            </div>
+            <div className="p-4 border border-black">
+                <Post />
+            </div>
         </div>
     );
 }
