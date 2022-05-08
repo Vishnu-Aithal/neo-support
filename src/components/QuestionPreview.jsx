@@ -1,54 +1,60 @@
-import { Comment } from "components/Comment";
-import { ChevronLeftIcon, ChevronRightIcon } from "components/Icons";
-import { NewComment } from "components/NewComment";
+import { getDateString } from "utils/firebase";
+import { Link } from "react-router-dom";
+import { deleteQuestion } from "utils/firebase";
+import { CloseIcon } from "./Icons";
+import { useAuth } from "contexts/AuthContext";
 
 export const QuestionPreview = ({
     postData = {
-        id: 1234,
+        uid: 1234,
         type: "question",
         title: "asdfsadf",
         body: "asdfhsdkj",
         author: "authorId",
-        date: new Date(),
-        comments: [{ id: 456, author: "authorId", body: "" }],
-        answers: ["postid1", "postid2"],
+        authorDetails: {},
+        created: new Date(),
         votes: 25,
     },
-    upVote = () => null,
-    downVote = () => null,
 }) => {
-    const textTrimmer = (text) => {
-        return text.length === 50 ? text.slice(0, 48) + "..." : text;
-    };
-
+    const { currentUser } = useAuth();
     return (
-        <div className="flex w-full mx-auto border rounded-md p-2 shadow-md">
-            {/* User Image */}
-            <div className="flex items-center justify-start sm:p-2 flex-shrink-0 ">
-                <img
-                    src="https://picsum.photos/200/300"
-                    alt="random"
-                    className=" aspect-square w-16 rounded-full object-cover object-center mb-auto"
-                />
-            </div>
-
-            {/* body */}
-
-            <div className="flex flex-col ml-4 ">
-                <h2 className="font-semibold text-lg p-2">Example User</h2>
-
-                <p className="p-2 text-sm">
-                    {textTrimmer("How to Center a Div? Please Help!")}
-                </p>
-
-                <div className="flex p-2 gap-2 text-xs">
-                    <p className="border px-2 py-1 rounded-md">4 Comments</p>
-                    <p className="border px-2 py-1 rounded-md">25 Votes</p>
-                    <p className="ml-auto text-gray-600 font-semibold mt-auto">
-                        Posted - 07-05-2022 10:49 AM
-                    </p>
+        <div className="relative w-full">
+            {currentUser.uid === postData.author && (
+                <button
+                    onClick={() => deleteQuestion(postData)}
+                    className="absolute rounded-sm p-2 -top-1 -right-1 hover:scale-105 hover:bg-red-400 transition-all">
+                    <CloseIcon className={"w-5 h-5"} />
+                </button>
+            )}
+            <Link
+                to={`/question/${postData.uid}`}
+                className="flex w-full mx-auto border rounded-md p-2 shadow-sm hover:shadow-md">
+                {/* User Image */}
+                <div className="flex items-center justify-start sm:p-2 flex-shrink-0 ">
+                    <img
+                        src={postData.authorDetails.photoURL}
+                        alt="random"
+                        className=" aspect-square w-16 rounded-full object-cover object-center mb-auto"
+                    />
                 </div>
-            </div>
+
+                {/* body */}
+
+                <div className="flex flex-col ml-4 flex-grow">
+                    <h2 className="font-semibold text-lg p-2">
+                        {postData.authorDetails.displayName}
+                    </h2>
+
+                    <p className="p-2 text-sm">{postData.title}</p>
+
+                    <div className="flex items-center p-2 gap-2 text-xs">
+                        <p className="border px-2 py-1 rounded-md">{`${postData.votes} Votes`}</p>
+                        <p className="ml-auto text-gray-600 font-semibold">
+                            {`Created - ${getDateString(postData.created)}`}
+                        </p>
+                    </div>
+                </div>
+            </Link>
         </div>
     );
 };
