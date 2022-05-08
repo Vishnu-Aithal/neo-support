@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body *::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+body *::-webkit-scrollbar-thumb {
+    background-color: rgb(75 85 99);
+}
+body *::-webkit-scrollbar-track {
+    background-color: rgb(220 220 220);
+}
+
+body * {
+    transition-property: color, background-color, transform, opacity;
+    transition-timing: ease;
+    transition-duration: 150ms;
+}
