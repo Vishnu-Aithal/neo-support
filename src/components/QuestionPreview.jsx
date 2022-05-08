@@ -13,16 +13,17 @@ export const QuestionPreview = ({
         author: "authorId",
         authorDetails: {},
         created: new Date(),
-        votes: 25,
+        upVotes: [],
+        downVotes: [],
     },
 }) => {
     const { currentUser } = useAuth();
     return (
         <div className="relative w-full">
-            {currentUser.uid === postData.author && (
+            {currentUser?.uid === postData.author && (
                 <button
                     onClick={() => deleteQuestion(postData)}
-                    className="absolute rounded-sm p-2 -top-1 -right-1 hover:scale-105 hover:bg-red-400 transition-all">
+                    className="absolute rounded-sm p-2 top-1 right-1 hover:scale-105 bg-red-400 transition-all">
                     <CloseIcon className={"w-5 h-5"} />
                 </button>
             )}
@@ -48,7 +49,10 @@ export const QuestionPreview = ({
                     <p className="p-2 text-sm">{postData.title}</p>
 
                     <div className="flex items-center p-2 gap-2 text-xs">
-                        <p className="border px-2 py-1 rounded-md">{`${postData.votes} Votes`}</p>
+                        <p className="border px-2 py-1 rounded-md">{`${postData.answers.length} Answers`}</p>
+                        <p className="border px-2 py-1 rounded-md">{`${
+                            postData.upVotes.length - postData.downVotes.length
+                        } Votes`}</p>
                         <p className="ml-auto text-gray-600 font-semibold">
                             {`Created - ${getDateString(postData.created)}`}
                         </p>

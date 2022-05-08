@@ -1,14 +1,13 @@
-import { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
 
-export const NewPost = () => {
-    const [value, setValue] = useState("**Hello world!!!**>");
+export const NewPost = ({ value, setValue }) => {
     return (
-        <div data-color-mode="light" className="">
+        <div data-color-mode="light" className="w-full">
             <MDEditor
                 enableScroll
-                height={300}
+                minHeight={100}
+                maxHeight={500}
                 preview="edit"
                 commandsFilter={(command, isExtra) =>
                     isExtra ? false : command
@@ -21,7 +20,7 @@ export const NewPost = () => {
                 }}
             />
             <MDEditor.Markdown
-                className=" mt-2 border shadow-sm rounded-md p-2 h-72 overflow-auto"
+                className=" my-2 border rounded-sm p-2 max-h-72 overflow-auto"
                 source={value}
                 rehypePlugins={[[rehypeSanitize]]}
             />

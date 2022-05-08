@@ -2,7 +2,13 @@ import { Comment } from "components/Comment";
 import { ChevronLeftIcon, ChevronRightIcon } from "components/Icons";
 import { NewComment } from "components/NewComment";
 import { useState } from "react";
-import { getDateString, useComments } from "utils/firebase";
+import {
+    downVoteQuestion,
+    getDateString,
+    unVoteQuestion,
+    upVoteQuestion,
+    useComments,
+} from "utils/firebase";
 import { useAuth } from "contexts/AuthContext";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
@@ -33,11 +39,26 @@ export const Question = ({ question }) => {
                     </p>
                     {/* Votes */}
                     <div className="flex flex-col sm:ml-2 ml-1 items-center text-xl">
-                        <button>
+                        <button
+                            disabled={!currentUser}
+                            onClick={() =>
+                                question.downVotes.includes(currentUser.uid)
+                                    ? unVoteQuestion(question, currentUser.uid)
+                                    : upVoteQuestion(question, currentUser.uid)
+                            }>
                             <ChevronLeftIcon className={"h-8 w-8"} />
                         </button>
-                        {question.votes}
-                        <button>
+                        {question.upVotes.length - question.downVotes.length}
+                        <button
+                            disabled={!currentUser}
+                            onClick={() =>
+                                question.upVotes.includes(currentUser.uid)
+                                    ? unVoteQuestion(question, currentUser.uid)
+                                    : downVoteQuestion(
+                                          question,
+                                          currentUser.uid
+                                      )
+                            }>
                             <ChevronRightIcon className={"h-8 w-8"} />
                         </button>
                     </div>
