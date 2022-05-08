@@ -6,6 +6,7 @@ import { ProfilePage } from "routes/ProfilePage";
 import { PullRequestsPage } from "./PullRequestsPage";
 import { HomePage } from "./HomePage";
 import { useAuth } from "contexts/AuthContext";
+import { SingleQuestionsPage } from "./SingleQuestionPage";
 export const ConditionalRouter = ({}) => {
     const { currentUser } = useAuth();
     return (
@@ -14,6 +15,11 @@ export const ConditionalRouter = ({}) => {
                 <Route index element={<Navigate to={"/home"} replace />} />
                 <Route path="questions" element={<QuestionsPage />} />
                 <Route path="pull-requests" element={<PullRequestsPage />} />
+                <Route
+                    path="question/:questionId"
+                    element={<SingleQuestionsPage />}
+                />
+
                 <Route element={<ProtectedRoute currentUser={currentUser} />}>
                     <Route
                         path="profile"

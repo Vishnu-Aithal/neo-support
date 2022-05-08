@@ -1,33 +1,82 @@
 import { Container } from "components/Container";
+import { NewPost } from "components/NewPost";
 import { QuestionPreview } from "components/QuestionPreview";
+import { useAuth } from "contexts/AuthContext";
+import { useEffect, useState } from "react";
+import { addNewQuestion } from "utils/firebase";
+import { useQuestions } from "utils/firebase";
 
 export const QuestionsPage = () => {
+    const [questions, setQuestions] = useState([]);
+    const [filteredQuestions, setFilteredQuestions] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [questionBody, setQuestionBody] = useState("");
+    const [questionTitle, setQuestionTitle] = useState("");
+    const { currentUser } = useAuth();
+
+    useQuestions(setQuestions);
+
+    useEffect(() => setFilteredQuestions(questions), [questions]);
+
+    useEffect(() => {
+        console.log("here");
+        const searchTermsArray = searchTerm.split(" ").filter((_) => _ !== "");
+        const filtered = questions.filter(({ title }) => {
+            const titleWithoutSpaces = title.replaceAll(" ", "").toLowerCase();
+
+            for (const word of searchTermsArray) {
+                if (!titleWithoutSpaces.includes(word)) return false;
+            }
+            return true;
+        });
+        setFilteredQuestions(filtered);
+    }, [searchTerm]);
+
     return (
         <Container>
             <div className="w-full flex">
-                <select className="border p-2 rounded-md shadow-sm outline-none">
-                    <option value="">ALL</option>
-                    <option value="">POD A</option>
-                    <option value="">POD B</option>
-                    <option value="">POD C</option>
-                    <option value="">POD D</option>
-                </select>
                 <input
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     type="text"
-                    className="ml-4 w-full p-2 border rounded"
+                    className="w-full p-2 border rounded"
                     placeholder="Search"
                 />
             </div>
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
-            <QuestionPreview />
+            {currentUser && (
+                <div className="border w-full p-2 rounded-md flex flex-col">
+                    <input
+                        value={questionTitle}
+                        onChange={(e) => setQuestionTitle(e.target.value)}
+                        type="text"
+                        className="p-2 outline-none border-b mb-3"
+                        placeholder="Question Title"
+                    />
+                    <NewPost value={questionBody} setValue={setQuestionBody} />
+
+                    <button
+                        onClick={() => {
+                            addNewQuestion({
+                                title: questionTitle,
+                                body: questionBody,
+                                author: currentUser.uid,
+                                authorDetails: currentUser,
+                                answers: [],
+                                upVotes: [],
+                                downVotes: [],
+                            });
+                            setQuestionTitle("");
+                            setQuestionBody("");
+                        }}
+                        disabled={!(questionBody && questionTitle)}
+                        className="border px-3 py-1 rounded-md ml-auto mt-3 shadow-md bg-gray-300 disabled:text-gray-500 hover:scale-110 disabled:shadow-none disabled:pointer-events-none">
+                        Post Question
+                    </button>
+                </div>
+            )}
+            {filteredQuestions.map((question) => (
+                <QuestionPreview key={question.uid} postData={question} />
+            ))}
         </Container>
     );
 };

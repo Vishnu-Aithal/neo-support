@@ -33,22 +33,24 @@ export const SingleQuestionsPage = () => {
                         onChange={(e) => setAnswerTitle(e.target.value)}
                         type="text"
                         className="p-2 outline-none border-b mb-3"
-                        placeholder="Question Title"
+                        placeholder="Answer Title"
                     />
                     <NewPost value={answerBody} setValue={setAnswerBody} />
 
                     <button
-                        onClick={() =>
+                        onClick={() => {
                             addNewAnswer({
                                 title: answerTitle,
                                 parentId: questionId,
                                 body: answerBody,
                                 author: currentUser.uid,
                                 authorDetails: currentUser,
-                                type: "answer",
-                                votes: 0,
-                            })
-                        }
+                                upVotes: [],
+                                downVotes: [],
+                            });
+                            setAnswerBody("");
+                            setAnswerTitle("");
+                        }}
                         disabled={!(answerBody && setAnswerBody)}
                         className="border px-3 py-1 rounded-md ml-auto mt-3 shadow-md bg-gray-300 disabled:text-gray-500 disabled:shadow-none">
                         Post Answer
