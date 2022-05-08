@@ -1,14 +1,15 @@
-import { PullRequestCard } from "components";
-import { Post } from "components/Post";
+import { Outlet } from "react-router-dom";
+import { NavBar } from "components/NavBar";
+import { Header } from "components/Header";
 function App() {
-    const url = "https://github.com/Vishnu-Aithal/notes-app/pull/1";
     return (
-        <div className="App">
-            <div className="p-4 border border-black">
-                <PullRequestCard url={url} />
-            </div>
-            <div className="p-4 border border-black">
-                <Post />
+        <div className="h-screen w-screen flex flex-col text-zinc-700">
+            <div className="flex h-full w-full sm:w-11/12 m-auto overflow-auto flex-col  sm:shadow-md">
+                <Header />
+                <div className="flex h-full w-full overflow-auto relative pb-10">
+                    <NavBar />
+                    <Outlet />
+                </div>
             </div>
         </div>
     );
