@@ -8,6 +8,9 @@ module.exports = {
                     "100%": { opacity: "1" },
                 },
             },
+            rotate: {
+                360: "360deg",
+            },
             animation: {
                 "fade-in": "fade-in 0.5s ease-in-out backwards",
             },
