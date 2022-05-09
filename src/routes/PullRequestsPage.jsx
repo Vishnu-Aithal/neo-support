@@ -63,7 +63,7 @@ export const PullRequestsPage = ({}) => {
                         });
                         setNewLink("");
                     }}
-                    className="ml-2 px-5 py-2 border rounded-md shadow-sm hover:scale-110 hover:bg-gray-200 disabled:pointer-events-none, disabled:text-gray-100 disabled:bg-gray-300">
+                    className="ml-2 px-5 py-2 border rounded-md shadow-sm hover:scale-110 hover:bg-gray-200 disabled:pointer-events-none disabled:text-gray-100 disabled:bg-gray-300">
                     Add
                 </button>
             </div>
