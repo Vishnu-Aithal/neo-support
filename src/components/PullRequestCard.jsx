@@ -28,12 +28,14 @@ export const PullRequestCard = ({
         (async () => {
             const reviews = await getReviewsAndComments(url);
             setUserReviews(reviews);
-
-            if (userReviews.length >= 2) {
-                updatePRlink(prData);
-            }
         })();
     }, [url]);
+
+    useEffect(() => {
+        if (userReviews.length >= 2) {
+            updatePRlink(prData);
+        }
+    }, [userReviews]);
 
     useComments(uid, setComments);
 

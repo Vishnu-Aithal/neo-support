@@ -16,10 +16,17 @@ export const QuestionsPage = () => {
 
     useQuestions(setQuestions);
 
-    useEffect(() => setFilteredQuestions(questions), [questions]);
+    useEffect(() => {
+        setFilteredQuestions(
+            questions.sort((a, b) => {
+                const aVotes = a.upVotes.length - a.downVotes.length;
+                const bVotes = b.upVotes.length - b.downVotes.length;
+                return bVotes - aVotes;
+            })
+        );
+    }, [questions]);
 
     useEffect(() => {
-        console.log("here");
         const searchTermsArray = searchTerm.split(" ").filter((_) => _ !== "");
         const filtered = questions.filter(({ title }) => {
             const titleWithoutSpaces = title.replaceAll(" ", "").toLowerCase();

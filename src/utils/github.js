@@ -11,6 +11,15 @@ export const processUrl = (userUrl) => {
     return { reviewsUrl, commentsUrl };
 };
 
+export const processUrlForValidation = (userUrl) => {
+    userUrl = userUrl.replace(
+        "https://github.com/",
+        "https://api.github.com/repos/"
+    );
+    userUrl = userUrl.replace("/pull/", "/pulls/");
+    return userUrl;
+};
+
 export const getReviewsAndComments = async (url) => {
     const { commentsUrl, reviewsUrl } = processUrl(url);
 

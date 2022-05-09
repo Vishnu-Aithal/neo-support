@@ -47,7 +47,9 @@ export const AnswerPreview = ({
                     <p className="p-2 text-sm">{postData.title}</p>
 
                     <div className="flex items-center p-2 gap-2 text-xs">
-                        <p className="border px-2 py-1 rounded-md">{`${postData.votes} Votes`}</p>
+                        <p className="border px-2 py-1 rounded-md">{`${
+                            postData.upVotes.length - postData.downVotes.length
+                        } Votes`}</p>
                         <p className="ml-auto text-gray-600 font-semibold">
                             {`Created - ${getDateString(postData.created)}`}
                         </p>

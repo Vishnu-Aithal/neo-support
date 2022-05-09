@@ -2,7 +2,7 @@ import { Question } from "components/Question";
 import { Container } from "components/Container";
 import { useAuth } from "contexts/AuthContext";
 import { NewPost } from "components/NewPost";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addNewAnswer, useSingleQuestion, useAnswers } from "utils/firebase";
 import { useParams } from "react-router-dom";
 import { Answer } from "components/Answer";
@@ -14,15 +14,33 @@ export const SingleQuestionsPage = () => {
     useSingleQuestion(questionId, setQuestion);
     const { currentUser } = useAuth();
     const [answers, setAnswers] = useState([]);
+    const [sortedAnswers, setSortedAnswers] = useState([]);
     const [answerTitle, setAnswerTitle] = useState("");
 
     const [answerBody, setAnswerBody] = useState("");
     useAnswers(questionId, setAnswers);
+
+    useEffect(() => {
+        setSortedAnswers(
+            answers.sort((a, b) => {
+                const aVotes = a.upVotes.length - a.downVotes.length;
+                const bVotes = b.upVotes.length - b.downVotes.length;
+                return bVotes - aVotes;
+            })
+        );
+    }, [answers]);
+
     return (
         <Container>
             {question && <Question question={question} />}
-            <h2 className="text-lg font-semibol">Answers</h2>
-            {answers.map((answer) => (
+            <div className="border-b-2 w-full p-2 border-zinc-400">
+                {answers.length !== 0 ? (
+                    <h2 className="font-semibold">{`${answers.length} Answers`}</h2>
+                ) : (
+                    <h2 className="font-semibold">Not Yet Answered</h2>
+                )}
+            </div>
+            {sortedAnswers.map((answer) => (
                 <Answer key={answer.uid} answer={answer} />
             ))}
 
