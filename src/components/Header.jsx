@@ -1,4 +1,4 @@
-import { LogOutIcon, ToolsIcon, UserIcon } from "./Icons";
+import { LogInIcon, LogOutIcon, ToolsIcon } from "./Icons";
 import { Link } from "react-router-dom";
 import { signOutFromApp } from "utils/firebase";
 import { useAuth } from "contexts/AuthContext";
@@ -39,7 +39,7 @@ export const Header = ({}) => {
                 <Link
                     to="/home"
                     className="ml-auto hover:cursor-pointer  hover:bg-gray-100 rounded-md group p-3">
-                    <UserIcon className="h-5 w-5 overflow-visible" />
+                    <LogInIcon className="h-5 w-5 overflow-visible" />
                 </Link>
             )}
         </header>

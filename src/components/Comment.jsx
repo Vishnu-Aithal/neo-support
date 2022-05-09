@@ -67,7 +67,7 @@ export const Comment = ({
                             onClick={() =>
                                 setEdit({ ...edit, editMode: false })
                             }
-                            className="rounded-sm p-1 hover:scale-105 bg-red-400 transition-all">
+                            className="ml-1 rounded-sm p-1 hover:scale-105 bg-red-400 transition-all">
                             <CloseIcon className={"w-3 h-3"} />
                         </button>
                     </div>

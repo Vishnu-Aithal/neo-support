@@ -1,5 +1,5 @@
 import { Comment } from "components/Comment";
-import { ChevronLeftIcon, ChevronRightIcon } from "components/Icons";
+import { CaretUpFillIcon, CaretDownFillIcon } from "components/Icons";
 import { NewComment } from "components/NewComment";
 import { useState } from "react";
 import {
@@ -46,7 +46,7 @@ export const Question = ({ question }) => {
                                     ? unVoteQuestion(question, currentUser.uid)
                                     : upVoteQuestion(question, currentUser.uid)
                             }>
-                            <ChevronLeftIcon className={"h-8 w-8"} />
+                            <CaretUpFillIcon className={"h-8 w-8"} />
                         </button>
                         {question.upVotes.length - question.downVotes.length}
                         <button
@@ -59,7 +59,7 @@ export const Question = ({ question }) => {
                                           currentUser.uid
                                       )
                             }>
-                            <ChevronRightIcon className={"h-8 w-8"} />
+                            <CaretDownFillIcon className={"h-8 w-8"} />
                         </button>
                     </div>
                 </div>

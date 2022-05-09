@@ -70,7 +70,7 @@ export const SingleQuestionsPage = () => {
                             setAnswerTitle("");
                         }}
                         disabled={!(answerBody && setAnswerBody)}
-                        className="border px-3 py-1 rounded-md ml-auto mt-3 shadow-md bg-gray-300 disabled:text-gray-500 disabled:shadow-none">
+                        className="border px-3 py-1 rounded-md ml-auto mt-3 shadow-md bg-gray-300 disabled:text-gray-500 hover:scale-110 disabled:shadow-none disabled:pointer-events-none">
                         Post Answer
                     </button>
                 </div>

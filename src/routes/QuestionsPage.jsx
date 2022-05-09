@@ -46,7 +46,7 @@ export const QuestionsPage = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     type="text"
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded outline-none focus:shadow-md"
                     placeholder="Search"
                 />
             </div>
