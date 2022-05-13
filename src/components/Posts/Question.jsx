@@ -8,13 +8,14 @@ import {
     upVoteQuestion,
     useComments,
 } from "utils/firebase-utils";
-import { useAuth } from "contexts/AuthContext";
+
 import { PostHeader } from "./PostHeader";
 import { PostBody } from "./PostBody";
+import { useSelector } from "react-redux";
 
 export const Question = ({ question }) => {
     const [comments, setComments] = useState([]);
-    const { currentUser } = useAuth();
+    const currentUser = useSelector((state) => state.currentUser);
     useComments(question.uid, setComments);
     return (
         <div className="flex flex-col w-full mx-auto ">

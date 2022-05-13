@@ -10,12 +10,13 @@ import {
     upVoteAnswer,
     downVoteAnswer,
 } from "utils/firebase-utils";
-import { useAuth } from "contexts/AuthContext";
+
 import { PostBody } from "./PostBody";
+import { useSelector } from "react-redux";
 
 export const Answer = ({ answer }) => {
     const [comments, setComments] = useState([]);
-    const { currentUser } = useAuth();
+    const currentUser = useSelector((state) => state.currentUser);
     useComments(answer.uid, setComments);
     return (
         <div className="relative w-full">

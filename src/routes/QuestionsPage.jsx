@@ -2,8 +2,9 @@ import { Container } from "components/Layout/Container";
 import { NewPost } from "components/Posts/NewPost";
 import { NewPostContainer } from "components/Posts/NewPostContainer";
 import { Preview } from "components/Previews/Preview";
-import { useAuth } from "contexts/AuthContext";
+
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { addNewQuestion } from "utils/firebase-utils";
 import { useQuestions } from "utils/firebase-utils";
 
@@ -13,7 +14,7 @@ export const QuestionsPage = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [questionBody, setQuestionBody] = useState("");
     const [questionTitle, setQuestionTitle] = useState("");
-    const { currentUser } = useAuth();
+    const currentUser = useSelector((state) => state.currentUser);
 
     useQuestions(setQuestions);
 

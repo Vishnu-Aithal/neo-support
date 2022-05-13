@@ -4,9 +4,10 @@ import {
     getDateString,
     editComment,
 } from "utils/firebase-utils";
-import { useAuth } from "contexts/AuthContext";
+
 import { CommentButtons } from "./CommentButtons";
 import { EditCommentButtons } from "./EditCommentButtons";
+import { useSelector } from "react-redux";
 
 export const Comment = ({
     commentData = {
@@ -21,7 +22,7 @@ export const Comment = ({
         editMode: false,
         editedText: "",
     });
-    const { currentUser } = useAuth();
+    const currentUser = useSelector((state) => state.currentUser);
     useEffect(() => {
         if (edit.editMode === true) {
             setEdit((edit) => ({ ...edit, editedText: commentData.body }));
