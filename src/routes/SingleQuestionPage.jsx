@@ -1,11 +1,15 @@
-import { Question } from "components/Question";
-import { Container } from "components/Container";
+import { Question } from "components/Posts/Question";
+import { Container } from "components/Layout/Container";
 import { useAuth } from "contexts/AuthContext";
-import { NewPost } from "components/NewPost";
 import { useState, useEffect } from "react";
-import { addNewAnswer, useSingleQuestion, useAnswers } from "utils/firebase";
+import {
+    addNewAnswer,
+    useSingleQuestion,
+    useAnswers,
+} from "utils/firebase-utils";
 import { useParams } from "react-router-dom";
-import { Answer } from "components/Answer";
+import { Answer } from "components/Posts/Answer";
+import { NewPostContainer } from "components/Posts/NewPostContainer";
 
 export const SingleQuestionsPage = () => {
     const { questionId } = useParams();
@@ -30,6 +34,20 @@ export const SingleQuestionsPage = () => {
         );
     }, [answers]);
 
+    const addClickHandler = () => {
+        addNewAnswer({
+            title: answerTitle,
+            parentId: questionId,
+            body: answerBody,
+            author: currentUser.uid,
+            authorDetails: currentUser,
+            upVotes: [],
+            downVotes: [],
+        });
+        setAnswerBody("");
+        setAnswerTitle("");
+    };
+
     return (
         <Container>
             {question && <Question question={question} />}
@@ -45,35 +63,14 @@ export const SingleQuestionsPage = () => {
             ))}
 
             {currentUser && (
-                <div className="border w-full p-2 rounded-md flex flex-col">
-                    <input
-                        value={answerTitle}
-                        onChange={(e) => setAnswerTitle(e.target.value)}
-                        type="text"
-                        className="p-2 outline-none border-b mb-3"
-                        placeholder="Answer Title"
-                    />
-                    <NewPost value={answerBody} setValue={setAnswerBody} />
-
-                    <button
-                        onClick={() => {
-                            addNewAnswer({
-                                title: answerTitle,
-                                parentId: questionId,
-                                body: answerBody,
-                                author: currentUser.uid,
-                                authorDetails: currentUser,
-                                upVotes: [],
-                                downVotes: [],
-                            });
-                            setAnswerBody("");
-                            setAnswerTitle("");
-                        }}
-                        disabled={!(answerBody && setAnswerBody)}
-                        className="border px-3 py-1 rounded-md ml-auto mt-3 shadow-md bg-gray-300 disabled:text-gray-500 hover:scale-110 disabled:shadow-none disabled:pointer-events-none">
-                        Post Answer
-                    </button>
-                </div>
+                <NewPostContainer
+                    type="answer"
+                    title={answerTitle}
+                    setTitle={setAnswerTitle}
+                    addClickHandler={addClickHandler}
+                    body={answerBody}
+                    setBody={setAnswerBody}
+                />
             )}
         </Container>
     );

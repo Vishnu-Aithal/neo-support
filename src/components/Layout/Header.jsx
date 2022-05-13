@@ -1,6 +1,6 @@
-import { LogInIcon, LogOutIcon, ToolsIcon } from "./Icons";
+import { LogInIcon, LogOutIcon, ToolsIcon } from "../../assets/Icons/Icons";
 import { Link } from "react-router-dom";
-import { signOutFromApp } from "utils/firebase";
+import { signOutFromApp } from "utils/firebase-utils";
 import { useAuth } from "contexts/AuthContext";
 
 const UserDisplay = ({ currentUser }) => {

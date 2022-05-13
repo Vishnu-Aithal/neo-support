@@ -1,9 +1,5 @@
-import { Container } from "components/Container";
-import { MyPullRequests } from "components/MyPullRequests";
-import { MyComments } from "components/MyComments";
-import { NavLink, useParams } from "react-router-dom";
-import { MyQuestions } from "components/MyQuestions";
-import { MyAnswers } from "components/MyAnswers";
+import { Container } from "components/Layout/Container";
+import { NavLink, Outlet } from "react-router-dom";
 
 const TopNavLink = ({ to, name }) => (
     <NavLink
@@ -18,7 +14,6 @@ const TopNavLink = ({ to, name }) => (
 );
 
 export const ProfilePage = () => {
-    const { page } = useParams();
     return (
         <Container>
             <div className="flex w-full gap-2 flex-wrap">
@@ -27,10 +22,7 @@ export const ProfilePage = () => {
                 <TopNavLink to="/profile/my-questions" name="My Questions" />
                 <TopNavLink to="/profile/my-answers" name="My Answers" />
             </div>
-            {page === "my-pr-links" && <MyPullRequests />}
-            {page === "my-comments" && <MyComments />}
-            {page === "my-questions" && <MyQuestions />}
-            {page === "my-answers" && <MyAnswers />}
+            <Outlet />
         </Container>
     );
 };

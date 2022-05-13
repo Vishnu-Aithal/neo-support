@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useMyComments } from "utils/firebase";
-import { Comment } from "components/Comment";
+import { useMyComments } from "utils/firebase-utils";
+import { Comment } from "components/Comments/Comment";
 import { useAuth } from "contexts/AuthContext";
 
 export const MyComments = () => {

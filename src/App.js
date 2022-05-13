@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { NavBar } from "components/NavBar";
-import { Header } from "components/Header";
+import { NavBar } from "components/Layout/NavBar";
+import { Header } from "components/Layout/Header";
 function App() {
     return (
         <div className="h-screen w-screen flex flex-col text-zinc-700">

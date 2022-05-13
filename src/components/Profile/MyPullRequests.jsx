@@ -1,5 +1,5 @@
-import { PullRequestCard } from "components/PullRequestCard";
-import { useMyPRLinks } from "utils/firebase";
+import { PullRequestCard } from "components/PullRequests/PullRequestCard";
+import { useMyPRLinks } from "utils/firebase-utils";
 import { useAuth } from "contexts/AuthContext";
 import { useState } from "react";
 

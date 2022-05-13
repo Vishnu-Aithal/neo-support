@@ -1,9 +1,9 @@
-import { AnswerPreview } from "./AnswerPreview";
-import { useMyAnswers } from "utils/firebase";
+import { Preview } from "components/Previews/Preview";
+import { useMyAnswers } from "utils/firebase-utils";
 import { useAuth } from "contexts/AuthContext";
 import { useState } from "react";
 
-export const MyAnswers = ({}) => {
+export const MyAnswers = () => {
     const [answers, setAnswers] = useState([]);
     const { currentUser } = useAuth();
 
@@ -11,7 +11,7 @@ export const MyAnswers = ({}) => {
     return (
         <>
             {answers.map((question) => (
-                <AnswerPreview postData={question} key={question.uid} />
+                <Preview postData={question} key={question.uid} />
             ))}
         </>
     );

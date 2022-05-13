@@ -1,4 +1,4 @@
-import { SignIn } from "components/SignIn";
+import { SignIn } from "components/SignIn/SignIn";
 import { useAuth } from "contexts/AuthContext";
 import HomeImage from "assets/images/home-image.svg";
 

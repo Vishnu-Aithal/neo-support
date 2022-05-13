@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { GithubIcon, PostIcon, UserIcon } from "components/Icons";
+import { GithubIcon, PostIcon, UserIcon } from "assets/Icons/Icons";
 
 const NavBarLink = ({ to, Icon, name }) => {
     return (

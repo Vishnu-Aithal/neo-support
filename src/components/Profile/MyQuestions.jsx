@@ -1,9 +1,9 @@
-import { QuestionPreview } from "./QuestionPreview";
-import { useMyQuestions } from "utils/firebase";
+import { Preview } from "../Previews/Preview";
+import { useMyQuestions } from "utils/firebase-utils";
 import { useAuth } from "contexts/AuthContext";
 import { useState } from "react";
 
-export const MyQuestions = ({}) => {
+export const MyQuestions = () => {
     const [questions, setQuestions] = useState([]);
     const { currentUser } = useAuth();
 
@@ -11,7 +11,7 @@ export const MyQuestions = ({}) => {
     return (
         <>
             {questions.map((question) => (
-                <QuestionPreview postData={question} key={question.uid} />
+                <Preview postData={question} key={question.uid} />
             ))}
         </>
     );

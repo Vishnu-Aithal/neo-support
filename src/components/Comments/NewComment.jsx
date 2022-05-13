@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addNewComment } from "utils/firebase";
+import { addNewComment } from "utils/firebase-utils";
 
 export const NewComment = ({ parentId = "sdfadsjf", currentUser = null }) => {
     const [body, setBody] = useState("");

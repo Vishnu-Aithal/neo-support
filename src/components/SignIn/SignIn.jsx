@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { signInWithGoogle } from "utils/firebase";
-import { GoogleIcon } from "./Icons";
+import { signInWithGoogle } from "utils/firebase-utils";
+import { GoogleIcon } from "../../assets/Icons/Icons";
 
 export const SignIn = () => {
     return (

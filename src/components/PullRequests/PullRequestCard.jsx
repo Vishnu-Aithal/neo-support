@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import { getReviewsAndComments } from "utils/github.js";
-import { Comment } from "components/Comment";
-import { NewComment } from "./NewComment";
-import { UserReviews } from "components/UserReviews";
+import { getReviewsAndComments } from "utils/github-utils/github.js";
+import { Comment } from "components/Comments/Comment";
+import { NewComment } from "../Comments/NewComment";
+import { UserReviews } from "components/PullRequests/UserReviews";
 import {
     getDateString,
     updatePRlink,
     deletePRlink,
     useComments,
-} from "utils/firebase";
-import { CloseIcon } from "./Icons";
+} from "utils/firebase-utils";
+import { PRCardDeleteButton } from "./DeleteButton";
 
 export const PullRequestCard = ({
     currentUser = null,
@@ -35,7 +35,7 @@ export const PullRequestCard = ({
         if (userReviews.length >= 2) {
             updatePRlink(prData);
         }
-    }, [userReviews]);
+    }, [userReviews, prData]);
 
     useComments(uid, setComments);
 
@@ -43,18 +43,14 @@ export const PullRequestCard = ({
         <div
             className={`flex flex-col border-2 shadow-md w-full sm:w-96 rounded-md relative ${
                 userReviews.length >= 2
-                    ? "border-green-100 shadow-green-200"
+                    ? "border-green-200 shadow-green-200"
                     : ""
             }`}>
             {currentUser?.uid === prData.author && (
-                <button
-                    onClick={() => deletePRlink(prData)}
-                    className="absolute rounded-sm p-1 -top-1 -right-1 hover:scale-105 bg-red-400 transition-all">
-                    <CloseIcon className={"w-5 h-5"} />
-                </button>
+                <PRCardDeleteButton {...{ deletePRlink, prData }} />
             )}
             <div className="p-4 border-b text-lg font-semibold flex flex-col">
-                <a href={url} target="_blank">
+                <a href={url} target="_blank" rel="noreferrer">
                     {url}
                 </a>
                 <p className="ml-auto text-xs text-gray-600">
