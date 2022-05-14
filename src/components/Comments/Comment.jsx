@@ -49,7 +49,7 @@ export const Comment = ({
                     {commentData.authorDetails.displayName}
                 </p>
                 <p className="text-gray-500 font-medium">
-                    {getDateString(commentData.created)}
+                    {commentData.created}
                 </p>
             </div>
         </div>

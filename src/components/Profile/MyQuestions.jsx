@@ -1,14 +1,14 @@
 import { Preview } from "../Previews/Preview";
 import { useMyQuestions } from "utils/firebase-utils";
 
-import { useState } from "react";
+import { setMyQuestions } from "store/profile-slice";
 import { useSelector } from "react-redux";
 
 export const MyQuestions = () => {
-    const [questions, setQuestions] = useState([]);
+    const questions = useSelector((state) => state.profile.myQuestions);
     const currentUser = useSelector((state) => state.currentUser);
 
-    useMyQuestions(currentUser.uid, setQuestions);
+    useMyQuestions(currentUser.uid, setMyQuestions);
     return (
         <>
             {questions.map((question) => (

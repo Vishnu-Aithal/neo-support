@@ -10,8 +10,9 @@ import {
     updateDoc,
     deleteDoc,
 } from "firebase/firestore";
-import { db } from "./main";
+import { db, getDateString } from "./main";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const commentsCollectionRef = collection(db, "comments");
 
@@ -27,6 +28,7 @@ export const useComments = (parentId, setComments) => {
             commentSnapshots.forEach((commentSnapshot) => {
                 const uid = commentSnapshot.id;
                 const data = commentSnapshot.data();
+                data.created = getDateString(data.created);
                 allComments.push({ uid, ...data });
             });
             setComments(allComments);
@@ -55,22 +57,24 @@ export const deleteComment = async (commentData) => {
     }
 };
 
-export const editComment = async (editedCommentData) => {
+export const editComment = async (uid, editedCommentData) => {
+    console.log(editedCommentData);
     try {
-        const commentRef = doc(db, "comments", editedCommentData.uid);
-        await updateDoc(commentRef, { ...editedCommentData });
+        const commentRef = doc(db, "comments", uid);
+        await updateDoc(commentRef, editedCommentData);
     } catch (error) {
         console.log(error);
     }
 };
 
-export const useMyComments = (userId, setComments) => {
-    const userCommentsQuery = query(
-        commentsCollectionRef,
-        where("author", "==", userId)
-    );
+export const useMyComments = (userId, actionCreator) => {
+    const dispatch = useDispatch();
 
     return useEffect(() => {
+        const userCommentsQuery = query(
+            commentsCollectionRef,
+            where("author", "==", userId)
+        );
         const unsubscribe = onSnapshot(
             userCommentsQuery,
             (commentSnapshots) => {
@@ -78,13 +82,15 @@ export const useMyComments = (userId, setComments) => {
                 commentSnapshots.forEach((commentSnapshot) => {
                     const uid = commentSnapshot.id;
                     const data = commentSnapshot.data();
+                    data.created = getDateString(data.created);
+
                     allComments.push({ uid, ...data });
                 });
-                setComments(allComments);
+                dispatch(actionCreator(allComments));
             }
         );
         return unsubscribe;
-    }, []);
+    }, [dispatch, userId, actionCreator]);
 };
 
 export const deleteChildComments = async (parentId) => {

@@ -11,10 +11,11 @@ import {
     updateDoc,
     deleteDoc,
 } from "firebase/firestore";
-import { db } from "./main";
+import { db, getDateString } from "./main";
 import { deleteChildComments } from "./comments";
 import { deleteChildAnswers } from "./answers";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const questionsCollectionRef = collection(db, "questions");
 
@@ -40,9 +41,11 @@ export const deleteQuestion = async (question) => {
     }
 };
 
-export const useQuestions = (setQuestions) => {
-    const allQuestionsQuery = query(questionsCollectionRef);
+export const useQuestions = (actionCreator) => {
+    const dispatch = useDispatch();
     return useEffect(() => {
+        const allQuestionsQuery = query(questionsCollectionRef);
+
         const unsubscribe = onSnapshot(
             allQuestionsQuery,
             (questionSnapshots) => {
@@ -50,13 +53,14 @@ export const useQuestions = (setQuestions) => {
                 questionSnapshots.forEach((questionSnapShot) => {
                     const uid = questionSnapShot.id;
                     const data = questionSnapShot.data();
+                    data.created = getDateString(data.created);
                     questions.push({ uid, ...data });
                 });
-                setQuestions(questions);
+                dispatch(actionCreator(questions));
             }
         );
         return unsubscribe;
-    }, []);
+    }, [actionCreator, dispatch]);
 };
 export const useSingleQuestion = (questionId, setQuestion) => {
     const questionRef = doc(db, "questions", questionId);
@@ -71,24 +75,26 @@ export const useSingleQuestion = (questionId, setQuestion) => {
     }, []);
 };
 
-export const useMyQuestions = (userId, setQuestions) => {
-    const questionsQuery = query(
-        questionsCollectionRef,
-        where("author", "==", userId)
-    );
+export const useMyQuestions = (userId, actionCreator) => {
+    const dispatch = useDispatch();
 
     return useEffect(() => {
+        const questionsQuery = query(
+            questionsCollectionRef,
+            where("author", "==", userId)
+        );
         const unsubscribe = onSnapshot(questionsQuery, (questionSnapshots) => {
             const allQuestions = [];
             questionSnapshots.forEach((questionSnapshot) => {
                 const uid = questionSnapshot.id;
                 const data = questionSnapshot.data();
+                data.created = getDateString(data.created);
                 allQuestions.push({ uid, ...data });
             });
-            setQuestions(allQuestions);
+            dispatch(actionCreator(allQuestions));
         });
         return unsubscribe;
-    }, []);
+    }, [userId, actionCreator, dispatch]);
 };
 
 export const upVoteQuestion = async (question, userId) => {

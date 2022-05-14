@@ -12,9 +12,10 @@ import {
     deleteDoc,
     getDocs,
 } from "firebase/firestore";
-import { db } from "./main";
+import { db, getDateString } from "./main";
 import { deleteChildComments } from "./comments";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const answersCollectionRef = collection(db, "answers");
 
@@ -69,24 +70,26 @@ export const useAnswers = (parentId, setAnswers) => {
     }, []);
 };
 
-export const useMyAnswers = (userId, setAnswers) => {
-    const answersQuery = query(
-        answersCollectionRef,
-        where("author", "==", userId)
-    );
+export const useMyAnswers = (userId, actionCreator) => {
+    const dispatch = useDispatch();
 
     return useEffect(() => {
+        const answersQuery = query(
+            answersCollectionRef,
+            where("author", "==", userId)
+        );
         const unsubscribe = onSnapshot(answersQuery, (answerSnapShots) => {
             const allAnswers = [];
             answerSnapShots.forEach((answerSnapShot) => {
                 const uid = answerSnapShot.id;
                 const data = answerSnapShot.data();
+                data.created = getDateString(data.created);
                 allAnswers.push({ uid, ...data });
             });
-            setAnswers(allAnswers);
+            dispatch(actionCreator(allAnswers));
         });
         return unsubscribe;
-    }, []);
+    }, [userId, actionCreator, dispatch]);
 };
 
 export const deleteAnswer = async (answerData) => {

@@ -1,14 +1,14 @@
 import { Preview } from "components/Previews/Preview";
 import { useMyAnswers } from "utils/firebase-utils";
 
-import { useState } from "react";
+import { setMyAnswers } from "store/profile-slice";
 import { useSelector } from "react-redux";
 
 export const MyAnswers = () => {
-    const [answers, setAnswers] = useState([]);
+    const answers = useSelector((state) => state.profile.myAnswers);
     const currentUser = useSelector((state) => state.currentUser);
 
-    useMyAnswers(currentUser.uid, setAnswers);
+    useMyAnswers(currentUser.uid, setMyAnswers);
     return (
         <>
             {answers.map((question) => (

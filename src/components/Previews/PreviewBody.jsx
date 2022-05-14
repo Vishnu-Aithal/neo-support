@@ -17,7 +17,7 @@ export const PreviewBody = ({ postData }) => {
                     postData.upVotes.length - postData.downVotes.length
                 } Votes`}</p>
                 <p className="ml-auto text-gray-600 font-semibold">
-                    {`Created - ${getDateString(postData.created)}`}
+                    {`Created - ${postData.created}`}
                 </p>
             </div>
         </div>
