@@ -12,8 +12,24 @@ import { MyComments } from "components/Profile/MyComments";
 import { MyQuestions } from "components/Profile/MyQuestions";
 import { MyAnswers } from "components/Profile/MyAnswers";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "store/currentUser-slice";
+import { getUserData, onAuthListener } from "utils/firebase-utils";
 export const ConditionalRouter = () => {
     const currentUser = useSelector((state) => state.currentUser);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const listenerCleaner = onAuthListener(async (user) => {
+            if (user) {
+                const userData = await getUserData(user);
+                dispatch(setCurrentUser(userData));
+            } else {
+                dispatch(setCurrentUser(null));
+            }
+        });
+        return listenerCleaner;
+    }, [dispatch]);
     return (
         <Routes>
             <Route path="/" element={<App />}>
