@@ -1,31 +1,26 @@
 import { Container } from "components/Layout/Container";
-import { NewPost } from "components/Posts/NewPost";
+
 import { NewPostContainer } from "components/Posts/NewPostContainer";
 import { Preview } from "components/Previews/Preview";
-import { useAuth } from "contexts/AuthContext";
+
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setQuestions, setSortedQuestions } from "store/questions-slice";
 import { addNewQuestion } from "utils/firebase-utils";
 import { useQuestions } from "utils/firebase-utils";
 
 export const QuestionsPage = () => {
-    const [questions, setQuestions] = useState([]);
-    const [filteredQuestions, setFilteredQuestions] = useState([]);
+    const dispatch = useDispatch();
+    const questions = useSelector((state) => state.questions.questions);
+    const sortedQuestions = useSelector(
+        (state) => state.questions.sortedQuestions
+    );
     const [searchTerm, setSearchTerm] = useState("");
     const [questionBody, setQuestionBody] = useState("");
     const [questionTitle, setQuestionTitle] = useState("");
-    const { currentUser } = useAuth();
+    const currentUser = useSelector((state) => state.currentUser);
 
     useQuestions(setQuestions);
-
-    useEffect(() => {
-        setFilteredQuestions(
-            questions.sort((a, b) => {
-                const aVotes = a.upVotes.length - a.downVotes.length;
-                const bVotes = b.upVotes.length - b.downVotes.length;
-                return bVotes - aVotes;
-            })
-        );
-    }, [questions]);
 
     useEffect(() => {
         const searchTermsArray = searchTerm.split(" ").filter((_) => _ !== "");
@@ -37,8 +32,14 @@ export const QuestionsPage = () => {
             }
             return true;
         });
-        setFilteredQuestions(filtered);
-    }, [searchTerm, questions]);
+        const sorted = [...filtered];
+        sorted.sort((a, b) => {
+            const aVotes = a.upVotes.length - a.downVotes.length;
+            const bVotes = b.upVotes.length - b.downVotes.length;
+            return bVotes - aVotes;
+        });
+        dispatch(setSortedQuestions(sorted));
+    }, [searchTerm, dispatch, questions]);
 
     const addClickHandler = () => {
         addNewQuestion({
@@ -75,7 +76,7 @@ export const QuestionsPage = () => {
                     setBody={setQuestionBody}
                 />
             )}
-            {filteredQuestions.map((question) => (
+            {sortedQuestions.map((question) => (
                 <Preview key={question.uid} postData={question} />
             ))}
         </Container>

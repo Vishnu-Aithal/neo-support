@@ -3,12 +3,7 @@ import { getReviewsAndComments } from "utils/github-utils/github.js";
 import { Comment } from "components/Comments/Comment";
 import { NewComment } from "../Comments/NewComment";
 import { UserReviews } from "components/PullRequests/UserReviews";
-import {
-    getDateString,
-    updatePRlink,
-    deletePRlink,
-    useComments,
-} from "utils/firebase-utils";
+import { updatePRlink, deletePRlink, useComments } from "utils/firebase-utils";
 import { PRCardDeleteButton } from "./DeleteButton";
 
 export const PullRequestCard = ({
@@ -53,9 +48,7 @@ export const PullRequestCard = ({
                 <a href={url} target="_blank" rel="noreferrer">
                     {url}
                 </a>
-                <p className="ml-auto text-xs text-gray-600">
-                    {getDateString(created)}
-                </p>
+                <p className="ml-auto text-xs text-gray-600">{created}</p>
             </div>
             <div className="p-2">
                 {userReviews.map((userReview) => (

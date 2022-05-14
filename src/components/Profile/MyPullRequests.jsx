@@ -1,13 +1,14 @@
 import { PullRequestCard } from "components/PullRequests/PullRequestCard";
 import { useMyPRLinks } from "utils/firebase-utils";
-import { useAuth } from "contexts/AuthContext";
-import { useState } from "react";
 
-export const MyPullRequests = ({}) => {
-    const [prLinks, setPrLinks] = useState([]);
-    const { currentUser } = useAuth();
+import { setMyPullRequests } from "store/profile-slice";
+import { useSelector } from "react-redux";
 
-    useMyPRLinks(currentUser.uid, setPrLinks);
+export const MyPullRequests = () => {
+    const prLinks = useSelector((state) => state.profile.myPullRequests);
+    const currentUser = useSelector((state) => state.currentUser);
+
+    useMyPRLinks(currentUser.uid, setMyPullRequests);
     return (
         <>
             {prLinks.map((prData) => (

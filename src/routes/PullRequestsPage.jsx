@@ -1,16 +1,20 @@
 import { Container } from "components/Layout/Container";
 import { PullRequestCard } from "components/PullRequests/PullRequestCard";
 import { addNewPRLink, usePRLinks } from "utils/firebase-utils";
-import { useAuth } from "contexts/AuthContext";
-import { useState } from "react";
+
+import {
+    setPullRequests,
+    setSortedPullRequests,
+} from "store/pullRequests-slice";
 import { NewPullRequest } from "components/PullRequests/NewPullRequest";
+import { useSelector } from "react-redux";
 
 export const PullRequestsPage = () => {
-    const [prLinks, setPrLinks] = useState([]);
+    const prLinks = useSelector((state) => state.pullRequests.pullRequests);
 
-    const { currentUser } = useAuth();
+    const currentUser = useSelector((state) => state.currentUser);
 
-    usePRLinks(setPrLinks);
+    usePRLinks(setPullRequests);
 
     return (
         <Container>

@@ -19,8 +19,7 @@ export const EditCommentButtons = ({
             <div className="ms-auto flex-shrink-0">
                 <button
                     onClick={() => {
-                        editComment({
-                            ...commentData,
+                        editComment(commentData.uid, {
                             body: edit.editedText,
                         });
                         setEdit({ ...edit, editMode: false });

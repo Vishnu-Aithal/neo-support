@@ -1,7 +1,8 @@
 import { LogInIcon, LogOutIcon, ToolsIcon } from "../../assets/Icons/Icons";
 import { Link } from "react-router-dom";
 import { signOutFromApp } from "utils/firebase-utils";
-import { useAuth } from "contexts/AuthContext";
+
+import { useSelector } from "react-redux";
 
 const UserDisplay = ({ currentUser }) => {
     return (
@@ -17,7 +18,7 @@ const UserDisplay = ({ currentUser }) => {
 };
 
 export const Header = ({}) => {
-    const { currentUser } = useAuth();
+    const currentUser = useSelector((state) => state.currentUser);
     return (
         <header className="flex p-3 items-center h-fit border-b">
             <Link to={"/"} className="flex flex-shrink-0 items-center ml-3 ">

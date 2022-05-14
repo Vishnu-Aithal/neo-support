@@ -16,7 +16,7 @@ export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
             </h2>
             {/* Time Stamp */}
             <p className="text-xs ml-auto text-gray-600 font-semibold mt-auto">
-                {`Posted - ${getDateString(post.created)}`}
+                {`Posted - ${post.created}`}
             </p>
             {/* Votes */}
             <div className="flex flex-col sm:ml-2 ml-1 items-center text-xl">
