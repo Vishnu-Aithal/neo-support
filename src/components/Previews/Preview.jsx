@@ -31,7 +31,7 @@ export const Preview = ({
             <Link
                 to={
                     postData.parentId
-                        ? `/question/${postData.parentId}`
+                        ? `/question/${postData.parentId}?answerId=${postData.uid}`
                         : `/question/${postData.uid}`
                 }
                 className="flex w-full mx-auto border rounded-md p-2 shadow-sm hover:shadow-md">
