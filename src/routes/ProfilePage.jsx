@@ -21,6 +21,14 @@ export const ProfilePage = () => {
                 <TopNavLink to="/profile/my-comments" name="My Comments" />
                 <TopNavLink to="/profile/my-questions" name="My Questions" />
                 <TopNavLink to="/profile/my-answers" name="My Answers" />
+                <TopNavLink
+                    to="/profile/bookmarked-questions"
+                    name="Bookmarked Questions"
+                />
+                <TopNavLink
+                    to="/profile/bookmarked-answers"
+                    name="Bookmarked Answers"
+                />
             </div>
             <Outlet />
         </Container>
