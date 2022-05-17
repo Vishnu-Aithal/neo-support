@@ -7,28 +7,83 @@ import {
     unVoteQuestion,
     upVoteQuestion,
     useComments,
+    deleteQuestion,
+    updateQuestion,
+    addBookMarkQuestion,
+    removeBookMarkQuestion,
 } from "utils/firebase-utils";
 
 import { PostHeader } from "./PostHeader";
 import { PostBody } from "./PostBody";
 import { useSelector } from "react-redux";
+import { NewPostContainer } from "./NewPostContainer";
+import { PostButtons } from "./PostButtons";
 
 export const Question = ({ question }) => {
     const [comments, setComments] = useState([]);
+    const [editMode, setEditMode] = useState(false);
+    const [questionBody, setQuestionBody] = useState("");
+    const [questionTitle, setQuestionTitle] = useState("");
     const currentUser = useSelector((state) => state.currentUser);
+    const editModeHandler = () => {
+        setEditMode((editMode) => !editMode);
+        setQuestionTitle(question.title);
+        setQuestionBody(question.body);
+    };
+    const saveClickHandler = () => {
+        updateQuestion(
+            {
+                title: questionTitle,
+                body: questionBody,
+            },
+            question.uid
+        );
+        setQuestionBody("");
+        setQuestionTitle("");
+        setEditMode(false);
+    };
     useComments(question.uid, setComments);
+
     return (
-        <div className="flex flex-col w-full mx-auto ">
-            <div className="border rounded-md rounded-br-none">
-                <PostHeader
-                    currentUser={currentUser}
+        <div className="flex flex-col w-full mx-auto relative">
+            {currentUser && (
+                <PostButtons
+                    type="question"
+                    deletePost={deleteQuestion}
+                    editMode={editMode}
+                    editModeHandler={editModeHandler}
                     post={question}
-                    unVote={unVoteQuestion}
-                    upVote={upVoteQuestion}
-                    downVote={downVoteQuestion}
+                    addBookMarkPost={addBookMarkQuestion}
+                    removeBookMarkPost={removeBookMarkQuestion}
                 />
-                <PostBody post={question} />
-            </div>
+            )}
+
+            {editMode ? (
+                <div>
+                    <p className="p-2 border-t font-medium">
+                        Editing Your Question...
+                    </p>
+                    <NewPostContainer
+                        type="edit"
+                        title={questionTitle}
+                        setTitle={setQuestionTitle}
+                        addClickHandler={saveClickHandler}
+                        body={questionBody}
+                        setBody={setQuestionBody}
+                    />
+                </div>
+            ) : (
+                <div className="border rounded-md rounded-br-none">
+                    <PostHeader
+                        currentUser={currentUser}
+                        post={question}
+                        unVote={unVoteQuestion}
+                        upVote={upVoteQuestion}
+                        downVote={downVoteQuestion}
+                    />
+                    <PostBody post={question} />
+                </div>
+            )}
             <div className="w-11/12 ml-auto border border-t-0 rounded-md rounded-t-none divide-y p-2">
                 {currentUser && (
                     <NewComment
