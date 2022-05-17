@@ -1,33 +1,42 @@
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import App from "App";
+
 import { ProtectedRoute, ProtectedAuth } from "./ProtectedRoute";
-import { QuestionsPage } from "routes/QuestionsPage";
-import { ProfilePage } from "routes/ProfilePage";
+import { QuestionsPage } from "./QuestionsPage";
+import { ProfilePage } from "./ProfilePage";
 import { PullRequestsPage } from "./PullRequestsPage";
 import { HomePage } from "./HomePage";
-import { ToastContainer } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
-
 import { SingleQuestionsPage } from "./SingleQuestionPage";
 import { MyPullRequests } from "components/Profile/MyPullRequests";
 import { MyComments } from "components/Profile/MyComments";
 import { MyQuestions } from "components/Profile/MyQuestions";
 import { MyAnswers } from "components/Profile/MyAnswers";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { BookMarkedQuestions } from "components/Profile/BookmarkedQuestions";
+import { BookMarkedAnswers } from "components/Profile/BookmarkedAnswers";
+
 import { setCurrentUser } from "store/currentUser-slice";
-import { getUserData, onAuthListener } from "utils/firebase-utils";
+import { onAuthListener, listenUserData } from "utils/firebase-utils";
+
 export const ConditionalRouter = () => {
     const currentUser = useSelector((state) => state.currentUser);
     const dispatch = useDispatch();
+    let userDataUnsubscribe = useRef(() => null);
+
     useEffect(() => {
         const listenerCleaner = onAuthListener(async (user) => {
+            userDataUnsubscribe.current();
             if (user) {
-                const userData = await getUserData(user);
-                dispatch(setCurrentUser(userData));
+                userDataUnsubscribe.current = listenUserData(
+                    user,
+                    dispatch,
+                    setCurrentUser
+                );
             } else {
+                userDataUnsubscribe.current = () => null;
                 dispatch(setCurrentUser(null));
             }
         });
@@ -69,6 +78,14 @@ export const ConditionalRouter = () => {
                             <Route
                                 path="my-comments"
                                 element={<MyComments />}
+                            />
+                            <Route
+                                path="bookmarked-questions"
+                                element={<BookMarkedQuestions />}
+                            />
+                            <Route
+                                path="bookmarked-answers"
+                                element={<BookMarkedAnswers />}
                             />
                         </Route>
                     </Route>
