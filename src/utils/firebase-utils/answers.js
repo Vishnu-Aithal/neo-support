@@ -51,12 +51,11 @@ export const addNewAnswer = async (answerData) => {
 };
 
 export const useAnswers = (parentId, setAnswers) => {
-    const answersQuery = query(
-        answersCollectionRef,
-        where("parentId", "==", parentId)
-    );
-
     return useEffect(() => {
+        const answersQuery = query(
+            answersCollectionRef,
+            where("parentId", "==", parentId)
+        );
         const unsubscribe = onSnapshot(answersQuery, (answerSnapshots) => {
             const allAnswers = [];
             answerSnapshots.forEach((answerSnapshot) => {
