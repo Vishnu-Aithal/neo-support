@@ -21,30 +21,30 @@ export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
             <div className="flex flex-col sm:ml-2 ml-1 items-center text-xl duration-75">
                 <button
                     className={`${
-                        post.upVotes.includes(currentUser.uid)
+                        post.upVotes.includes(currentUser?.uid)
                             ? "scale-125 text-green-400"
                             : ""
                     }`}
                     disabled={!currentUser}
                     onClick={() =>
-                        post.downVotes.includes(currentUser.uid)
-                            ? unVote(post, currentUser.uid)
-                            : upVote(post, currentUser.uid)
+                        post.downVotes.includes(currentUser?.uid)
+                            ? unVote(post, currentUser?.uid)
+                            : upVote(post, currentUser?.uid)
                     }>
                     <CaretUpFillIcon className={"h-8 w-8"} />
                 </button>
                 {post.upVotes.length - post.downVotes.length}
                 <button
                     className={`${
-                        post.downVotes.includes(currentUser.uid)
+                        post.downVotes.includes(currentUser?.uid)
                             ? "scale-125 text-red-400"
                             : ""
                     }`}
                     disabled={!currentUser}
                     onClick={() =>
-                        post.upVotes.includes(currentUser.uid)
-                            ? unVote(post, currentUser.uid)
-                            : downVote(post, currentUser.uid)
+                        post.upVotes.includes(currentUser?.uid)
+                            ? unVote(post, currentUser?.uid)
+                            : downVote(post, currentUser?.uid)
                     }>
                     <CaretDownFillIcon className={"h-8 w-8"} />
                 </button>
