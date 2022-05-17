@@ -14,6 +14,7 @@ import { db, getDateString } from "./main";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteChildComments } from "./comments";
+import { toast } from "react-toastify";
 const prCollectionRef = collection(db, "links");
 
 export const getUnreviewedPRLinks = async () => {
@@ -37,8 +38,12 @@ export const addNewPRLink = async (prData) => {
                 ...prData,
                 created: serverTimestamp(),
             });
+            toast.success("PR Added Successfully!");
+        } else {
+            toast.error("PR Already Exists!");
         }
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
@@ -50,6 +55,7 @@ export const updatePRlink = async (prData) => {
             hasTwoReviews: true,
         });
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
@@ -58,7 +64,9 @@ export const deletePRlink = async (prData) => {
         const prRef = doc(db, "links", prData.uid);
         await deleteDoc(prRef);
         await deleteChildComments(prData.uid);
+        toast.info("PR Deleted");
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };

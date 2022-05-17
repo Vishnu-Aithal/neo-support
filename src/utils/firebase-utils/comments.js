@@ -13,6 +13,7 @@ import {
 import { db, getDateString } from "./main";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const commentsCollectionRef = collection(db, "comments");
 
@@ -43,7 +44,9 @@ export const addNewComment = async (commentData) => {
             ...commentData,
             created: serverTimestamp(),
         });
+        toast.success("Comment Added!");
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
@@ -52,17 +55,20 @@ export const deleteComment = async (commentData) => {
     try {
         const commentRef = doc(db, "comments", commentData.uid);
         await deleteDoc(commentRef);
+        toast.info("Comment Deleted!");
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
 
 export const editComment = async (uid, editedCommentData) => {
-    console.log(editedCommentData);
     try {
         const commentRef = doc(db, "comments", uid);
         await updateDoc(commentRef, editedCommentData);
+        toast.success("Comment Updated!");
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
@@ -107,6 +113,7 @@ export const deleteChildComments = async (parentId) => {
             await deleteDoc(commentRef);
         });
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };

@@ -6,6 +6,7 @@ import {
     onAuthStateChanged,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -23,7 +24,9 @@ export const signInWithGoogle = async () => {
                 email,
             });
         }
+        toast.success("Sign In Success");
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
@@ -31,7 +34,9 @@ export const signInWithGoogle = async () => {
 export const signOutFromApp = async () => {
     try {
         await signOut(auth);
+        toast.info("Signed Out");
     } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
