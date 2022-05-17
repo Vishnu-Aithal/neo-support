@@ -1,4 +1,4 @@
-import { ArrowRightIcon, CloseIcon } from "assets/Icons/Icons";
+import { ArrowRightIcon, CheckIcon } from "assets/Icons/Icons";
 export const EditCommentButtons = ({
     setEdit,
     edit,
@@ -25,12 +25,12 @@ export const EditCommentButtons = ({
                         setEdit({ ...edit, editMode: false });
                     }}
                     className="rounded-sm p-1 hover:scale-105 bg-yellow-200 transition-all">
-                    <ArrowRightIcon className={"w-3 h-3"} />
+                    <CheckIcon className={"w-3 h-3"} />
                 </button>
                 <button
                     onClick={() => setEdit({ ...edit, editMode: false })}
                     className="ml-1 rounded-sm p-1 hover:scale-105 bg-red-400 transition-all">
-                    <CloseIcon className={"w-3 h-3"} />
+                    <ArrowRightIcon className={"w-3 h-3"} />
                 </button>
             </div>
         </div>
