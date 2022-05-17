@@ -5,7 +5,7 @@ import {
     signOut,
     onAuthStateChanged,
 } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 const googleProvider = new GoogleAuthProvider();
@@ -48,4 +48,13 @@ export const getUserData = async (user) => {
 
 export const onAuthListener = (callbackFunc) => {
     return onAuthStateChanged(auth, callbackFunc);
+};
+
+export const listenUserData = (user, dispatch, actionCreater) => {
+    const userRef = doc(db, "users", user.uid);
+    const unsubscribe = onSnapshot(userRef, (snapshot) => {
+        const currentUserData = snapshot.data();
+        dispatch(actionCreater(currentUserData));
+    });
+    return unsubscribe;
 };
