@@ -16,6 +16,7 @@ import { deleteChildComments } from "./comments";
 import { deleteChildAnswers } from "./answers";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const questionsCollectionRef = collection(db, "questions");
 
@@ -25,7 +26,20 @@ export const addNewQuestion = async (questionDetails) => {
             ...questionDetails,
             created: serverTimestamp(),
         });
+        toast.success("Question Posted Succesfully!");
     } catch (error) {
+        toast.error("Something Went Wrong!");
+        console.log(error);
+    }
+};
+
+export const updateQuestion = async (updatedData, uid) => {
+    try {
+        const questionRef = doc(db, "questions", uid);
+        await updateDoc(questionRef, updatedData);
+        toast.success("Question Updated Successfully!");
+    } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
@@ -36,7 +50,30 @@ export const deleteQuestion = async (question) => {
         await deleteDoc(questionRef);
         await deleteChildAnswers(question.uid);
         await deleteChildComments(question.uid);
+        toast.info("Question Deleted Successfully!");
     } catch (error) {
+        toast.error("Something Went Wrong!");
+        console.log(error);
+    }
+};
+
+export const addBookMarkQuestion = async (post, userId) => {
+    try {
+        const questionRef = doc(db, "questions", post.uid);
+        await updateDoc(questionRef, { bookmarkedBy: arrayUnion(userId) });
+        toast.success("Bookmarked!");
+    } catch (error) {
+        toast.error("Something Went Wrong!");
+        console.log(error);
+    }
+};
+export const removeBookMarkQuestion = async (post, userId) => {
+    try {
+        const questionRef = doc(db, "questions", post.uid);
+        await updateDoc(questionRef, { bookmarkedBy: arrayRemove(userId) });
+        toast.info("Bookmark Removed");
+    } catch (error) {
+        toast.error("Something Went Wrong!");
         console.log(error);
     }
 };
@@ -63,8 +100,8 @@ export const useQuestions = (actionCreator) => {
     }, [actionCreator, dispatch]);
 };
 export const useSingleQuestion = (questionId, setQuestion) => {
-    const questionRef = doc(db, "questions", questionId);
     return useEffect(() => {
+        const questionRef = doc(db, "questions", questionId);
         const unsubscribe = onSnapshot(questionRef, (questionSnapshot) => {
             const data = questionSnapshot.data();
             const uid = questionSnapshot.id;
@@ -73,7 +110,7 @@ export const useSingleQuestion = (questionId, setQuestion) => {
             setQuestion({ uid, ...data });
         });
         return unsubscribe;
-    }, []);
+    }, [setQuestion, questionId]);
 };
 
 export const useMyQuestions = (userId, actionCreator) => {
@@ -96,6 +133,25 @@ export const useMyQuestions = (userId, actionCreator) => {
         });
         return unsubscribe;
     }, [userId, actionCreator, dispatch]);
+};
+export const useMyBookmarkedQuestions = (userId, setState) => {
+    return useEffect(() => {
+        const questionsQuery = query(
+            questionsCollectionRef,
+            where("bookmarkedBy", "array-contains", userId)
+        );
+        const unsubscribe = onSnapshot(questionsQuery, (questionSnapshots) => {
+            const myBookmarkedQuestions = [];
+            questionSnapshots.forEach((questionSnapshot) => {
+                const uid = questionSnapshot.id;
+                const data = questionSnapshot.data();
+                data.created = getDateString(data.created);
+                myBookmarkedQuestions.push({ uid, ...data });
+            });
+            setState(myBookmarkedQuestions);
+        });
+        return unsubscribe;
+    }, [userId, setState]);
 };
 
 export const upVoteQuestion = async (question, userId) => {
