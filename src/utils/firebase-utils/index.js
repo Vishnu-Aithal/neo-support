@@ -4,6 +4,7 @@ export {
     signOutFromApp,
     getUserData,
     onAuthListener,
+    listenUserData,
 } from "./auth";
 
 export {
@@ -24,6 +25,9 @@ export {
     upVoteQuestion,
     downVoteQuestion,
     unVoteQuestion,
+    updateQuestion,
+    addBookMarkQuestion,
+    removeBookMarkQuestion,
 } from "./questions";
 
 export {
@@ -34,6 +38,9 @@ export {
     upVoteAnswer,
     downVoteAnswer,
     unVoteAnswer,
+    updateAnswer,
+    addBookMarkAnswer,
+    removeBookMarkAnswer,
 } from "./answers";
 
 export {
