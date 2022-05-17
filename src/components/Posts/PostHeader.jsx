@@ -18,8 +18,13 @@ export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
                 {`Posted - ${post.created}`}
             </p>
             {/* Votes */}
-            <div className="flex flex-col sm:ml-2 ml-1 items-center text-xl">
+            <div className="flex flex-col sm:ml-2 ml-1 items-center text-xl duration-75">
                 <button
+                    className={`${
+                        post.upVotes.includes(currentUser.uid)
+                            ? "scale-125 text-green-400"
+                            : ""
+                    }`}
                     disabled={!currentUser}
                     onClick={() =>
                         post.downVotes.includes(currentUser.uid)
@@ -30,6 +35,11 @@ export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
                 </button>
                 {post.upVotes.length - post.downVotes.length}
                 <button
+                    className={`${
+                        post.downVotes.includes(currentUser.uid)
+                            ? "scale-125 text-red-400"
+                            : ""
+                    }`}
                     disabled={!currentUser}
                     onClick={() =>
                         post.upVotes.includes(currentUser.uid)
