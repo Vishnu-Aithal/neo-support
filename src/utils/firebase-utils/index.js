@@ -28,6 +28,7 @@ export {
     updateQuestion,
     addBookMarkQuestion,
     removeBookMarkQuestion,
+    useMyBookmarkedQuestions,
 } from "./questions";
 
 export {
@@ -41,6 +42,7 @@ export {
     updateAnswer,
     addBookMarkAnswer,
     removeBookMarkAnswer,
+    useMyBookmarkedAnswers,
 } from "./answers";
 
 export {
