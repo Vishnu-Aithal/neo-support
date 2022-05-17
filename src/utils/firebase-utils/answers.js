@@ -62,6 +62,7 @@ export const useAnswers = (parentId, setAnswers) => {
             answerSnapshots.forEach((answerSnapshot) => {
                 const uid = answerSnapshot.id;
                 const data = answerSnapshot.data();
+                data.created = getDateString(data.created);
                 allAnswers.push({ uid, ...data });
             });
             setAnswers(allAnswers);

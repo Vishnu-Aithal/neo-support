@@ -1,5 +1,4 @@
 import { CaretUpFillIcon, CaretDownFillIcon } from "assets/Icons/Icons";
-import { getDateString } from "utils/firebase-utils";
 export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
     return (
         <div className="flex p-4 pt-2 border-b">

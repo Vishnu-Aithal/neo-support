@@ -68,6 +68,7 @@ export const useSingleQuestion = (questionId, setQuestion) => {
         const unsubscribe = onSnapshot(questionRef, (questionSnapshot) => {
             const data = questionSnapshot.data();
             const uid = questionSnapshot.id;
+            data.created = getDateString(data.created);
 
             setQuestion({ uid, ...data });
         });
