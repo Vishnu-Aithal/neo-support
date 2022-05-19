@@ -5,10 +5,10 @@ import { useState } from "react";
 import { useMyBookmarkedAnswers } from "utils/firebase-utils";
 
 export const BookMarkedAnswers = () => {
-    const [bookMarkedAnswers, setBookMarkedBookmarkedAnswers] = useState([]);
+    const [bookMarkedAnswers, setBookMarkedAnswers] = useState([]);
     const currentUser = useSelector((state) => state.currentUser);
 
-    useMyBookmarkedAnswers(currentUser.uid, setBookMarkedBookmarkedAnswers);
+    useMyBookmarkedAnswers(currentUser.uid, setBookMarkedAnswers);
     return (
         <>
             {bookMarkedAnswers.map((post) => (
