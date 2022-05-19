@@ -5,6 +5,8 @@ export {
     getUserData,
     onAuthListener,
     listenUserData,
+    signInWithEmailPassword,
+    signUpWithEmailPassword,
 } from "./auth";
 
 export {

@@ -4,8 +4,10 @@ import {
     GoogleAuthProvider,
     signOut,
     onAuthStateChanged,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc, addDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 const googleProvider = new GoogleAuthProvider();
@@ -38,6 +40,43 @@ export const signOutFromApp = async () => {
     } catch (error) {
         toast.error("Something Went Wrong!");
         console.log(error);
+    }
+};
+
+export const signUpWithEmailPassword = async ({
+    email,
+    password,
+    displayName,
+    photoURL,
+}) => {
+    try {
+        const { user } = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+        const { uid } = user;
+        const userRef = doc(db, "users", user.uid);
+
+        await setDoc(userRef, {
+            uid,
+            displayName,
+            photoURL,
+            email,
+        });
+
+        toast.success("Sign Up Success!");
+    } catch (error) {
+        toast.error(error.message);
+    }
+};
+
+export const signInWithEmailPassword = async ({ email, password }) => {
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        toast.success("Sign In Success");
+    } catch (error) {
+        toast.error(error.message);
     }
 };
 
