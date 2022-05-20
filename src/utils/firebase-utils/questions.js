@@ -24,6 +24,7 @@ export const addNewQuestion = async (questionDetails) => {
     try {
         await addDoc(questionsCollectionRef, {
             ...questionDetails,
+            collection: "questions",
             created: serverTimestamp(),
         });
         toast.success("Question Posted Succesfully!");

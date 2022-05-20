@@ -36,6 +36,7 @@ export const addNewPRLink = async (prData) => {
         if (existingPR.size === 0) {
             await addDoc(prCollectionRef, {
                 ...prData,
+                collection: "links",
                 created: serverTimestamp(),
             });
             toast.success("PR Added Successfully!");

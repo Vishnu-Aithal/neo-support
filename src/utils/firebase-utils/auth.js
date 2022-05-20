@@ -80,8 +80,8 @@ export const signInWithEmailPassword = async ({ email, password }) => {
     }
 };
 
-export const getUserData = async (user) => {
-    const userDataSnapshot = await getDoc(doc(db, "users", user.uid));
+export const getUserData = async (userId) => {
+    const userDataSnapshot = await getDoc(doc(db, "users", userId));
     return userDataSnapshot.data();
 };
 

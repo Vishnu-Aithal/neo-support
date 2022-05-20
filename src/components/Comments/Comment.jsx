@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-    deleteComment,
-    getDateString,
-    editComment,
-} from "utils/firebase-utils";
+import { deleteComment, editComment } from "utils/firebase-utils";
 
 import { CommentButtons } from "./CommentButtons";
 import { EditCommentButtons } from "./EditCommentButtons";
 import { useSelector } from "react-redux";
 
 export const Comment = ({
+    parent,
     commentData = {
         uid: 456,
         author: "authorId",
@@ -34,7 +31,7 @@ export const Comment = ({
         <div className="flex flex-col p-1 text-xs relative w-full">
             {!edit.editMode && currentUser?.uid === commentData.author && (
                 <CommentButtons
-                    {...{ edit, setEdit, deleteComment, commentData }}
+                    {...{ edit, setEdit, deleteComment, commentData, parent }}
                 />
             )}
             {edit.editMode ? (

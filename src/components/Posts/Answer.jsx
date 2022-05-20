@@ -19,7 +19,7 @@ import { NewPostContainer } from "./NewPostContainer";
 import { PostButtons } from "./PostButtons";
 import { useSearchParams } from "react-router-dom";
 
-export const Answer = ({ answer }) => {
+export const Answer = ({ parent, answer }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [comments, setComments] = useState([]);
     const [editMode, setEditMode] = useState(false);
@@ -44,6 +44,8 @@ export const Answer = ({ answer }) => {
         setAnswerTitle("");
         setEditMode(false);
     };
+
+    const deletePost = (post) => deleteAnswer(parent, post);
     useComments(answer.uid, setComments);
     useEffect(() => {
         const redirectedAnswerId = searchParams.get("answerId");
@@ -52,7 +54,7 @@ export const Answer = ({ answer }) => {
                 behavior: "smooth",
                 block: "start",
             });
-            setSearchParams({});
+            setSearchParams({}, { replace: true });
         }
     }, [searchParams, answer, setSearchParams]);
     return (
@@ -60,7 +62,7 @@ export const Answer = ({ answer }) => {
             {currentUser && (
                 <PostButtons
                     type="answer"
-                    deletePost={deleteAnswer}
+                    deletePost={deletePost}
                     editMode={editMode}
                     editModeHandler={editModeHandler}
                     post={answer}
@@ -100,13 +102,14 @@ export const Answer = ({ answer }) => {
 
                 <div className="w-11/12 ml-auto border border-t-0 rounded-md rounded-t-none divide-y p-2">
                     {currentUser && (
-                        <NewComment
-                            parentId={answer.uid}
-                            currentUser={currentUser}
-                        />
+                        <NewComment parent={answer} currentUser={currentUser} />
                     )}
                     {comments.map((comment) => (
-                        <Comment key={comment.uid} commentData={comment} />
+                        <Comment
+                            parent={answer}
+                            key={comment.uid}
+                            commentData={comment}
+                        />
                     ))}
                 </div>
             </div>

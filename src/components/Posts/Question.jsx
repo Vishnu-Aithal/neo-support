@@ -86,13 +86,14 @@ export const Question = ({ question }) => {
             )}
             <div className="w-11/12 ml-auto border border-t-0 rounded-md rounded-t-none divide-y p-2">
                 {currentUser && (
-                    <NewComment
-                        parentId={question.uid}
-                        currentUser={currentUser}
-                    />
+                    <NewComment parent={question} currentUser={currentUser} />
                 )}
                 {comments.map((comment) => (
-                    <Comment key={comment.uid} commentData={comment} />
+                    <Comment
+                        parent={question}
+                        key={comment.uid}
+                        commentData={comment}
+                    />
                 ))}
             </div>
         </div>

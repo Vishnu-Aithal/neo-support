@@ -43,6 +43,7 @@ export const addNewAnswer = async (answerData) => {
     try {
         const response = await addDoc(answersCollectionRef, {
             ...answerData,
+            collection: "answers",
             created: serverTimestamp(),
         });
         const questionRef = doc(db, "questions", answerData.parentId);

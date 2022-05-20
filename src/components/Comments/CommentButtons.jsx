@@ -1,6 +1,7 @@
 import { PencilIcon, CloseIcon } from "assets/Icons/Icons";
 
 export const CommentButtons = ({
+    parent,
     setEdit,
     edit,
     deleteComment,
@@ -14,7 +15,7 @@ export const CommentButtons = ({
                 <PencilIcon className={"w-3 h-3"} />
             </button>
             <button
-                onClick={() => deleteComment(commentData)}
+                onClick={() => deleteComment(parent, commentData)}
                 className="rounded-sm p-1 hover:scale-105 bg-red-400 transition-all">
                 <CloseIcon className={"w-3 h-3"} />
             </button>

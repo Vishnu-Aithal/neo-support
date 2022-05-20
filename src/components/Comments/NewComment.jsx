@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { addNewComment } from "utils/firebase-utils";
 
-export const NewComment = ({ parentId = "sdfadsjf", currentUser = null }) => {
+export const NewComment = ({ parent = {}, currentUser = null }) => {
     const [body, setBody] = useState("");
     return (
         <div className="flex">
@@ -14,8 +14,9 @@ export const NewComment = ({ parentId = "sdfadsjf", currentUser = null }) => {
             />
             <button
                 onClick={() => {
-                    addNewComment({
-                        parentId,
+                    addNewComment(parent, {
+                        parentId: parent.uid,
+                        parentCollection: parent.collection,
                         body,
                         author: currentUser.uid,
                         authorDetails: currentUser,
