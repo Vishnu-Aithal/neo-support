@@ -64,12 +64,12 @@ export const Notification = ({ notification }) => {
                         await deleteNotification(notification, currentUser.uid);
                         toast.info("Notification Deleted");
                     }}
-                    className="absolute rounded-sm p-1 top-1 right-1 hover:scale-105 bg-red-400 transition-all">
+                    className="absolute rounded-sm p-1 top-1 right-1 hover:scale-105 bg-red-400 dark:bg-red-600 transition-all">
                     <CloseIcon className={"w-3 h-3"} />
                 </button>
                 <Link
                     to={getLink()}
-                    className="rounded-md border hover:shadow-md p-2 flex items-start w-full">
+                    className="rounded-md border dark:border-zinc-600 hover:shadow-md p-2 flex items-start w-full">
                     <img
                         className="rounded-full w-12"
                         src={userData.photoURL}
@@ -79,12 +79,12 @@ export const Notification = ({ notification }) => {
                         <h2 className="font-semibold">
                             {userData.displayName}
                         </h2>
-                        <p>
+                        <p className="text-sm">
                             {`${message[notification.type]} on ${
                                 parent[notification.parentCollection]
                             }`}
                         </p>
-                        <p className="font-semibold mt-2">{`${parentData?.title}`}</p>
+                        <p className="font-semibold text-lg mt-2">{`${parentData?.title}`}</p>
                     </div>
                 </Link>
             </div>

@@ -28,12 +28,12 @@ export const PostButtons = ({
                             type === "question" && navigate("/questions");
                             deletePost(post);
                         }}
-                        className="rounded-md  hover:scale-105 bg-red-400 transition-all p-0.5">
+                        className="rounded-md  hover:scale-105 bg-red-400 dark:bg-red-600 transition-all p-0.5">
                         <CloseIcon className={"w-4 h-4"} />
                     </button>
                     <button
                         onClick={editModeHandler}
-                        className={` rounded-md  hover:scale-105 bg-yellow-200 transition-all p-0.5 ${
+                        className={` rounded-md  hover:scale-105 bg-yellow-200 dark:bg-yellow-500 transition-all p-0.5 ${
                             editMode ? "scale-125 hover:scale-125" : ""
                         }`}>
                         <PencilIcon className={"w-4 h-4"} />
@@ -46,7 +46,7 @@ export const PostButtons = ({
                             ? removeBookMarkPost(post, currentUser.uid)
                             : addBookMarkPost(post, currentUser.uid)
                     }
-                    className={` rounded-md text-slate-100  hover:scale-105 bg-blue-500 transition-all p-0.5 ${
+                    className={` rounded-md text-slate-100  hover:scale-105 bg-blue-500 dark:bg-blue-700 transition-all p-0.5 ${
                         isBookMarked ? "scale-125 hover:scale-125" : ""
                     }`}>
                     {isBookMarked ? (

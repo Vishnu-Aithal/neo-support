@@ -8,7 +8,7 @@ export const InputField = ({ type, label, name, value, onChange }) => {
             <input
                 value={value}
                 onChange={onChange}
-                className="border-b p-1 outline-none bg-transparent placeholder-transparent peer "
+                className="border-b dark:border-zinc-600 p-1 outline-none bg-transparent placeholder-transparent peer "
                 type={
                     type !== "password"
                         ? type

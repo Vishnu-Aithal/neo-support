@@ -23,7 +23,7 @@ export const Preview = ({
                         ? `/question/${postData.parentId}?answerId=${postData.uid}`
                         : `/question/${postData.uid}`
                 }
-                className="flex w-full mx-auto border rounded-md p-2 shadow-sm hover:shadow-md">
+                className="flex w-full mx-auto border dark:border-zinc-600 rounded-md p-2 shadow-sm hover:shadow-md">
                 <UserImage src={postData.authorDetails.photoURL} />
 
                 <PreviewBody postData={postData} />

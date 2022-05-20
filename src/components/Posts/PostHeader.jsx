@@ -1,7 +1,7 @@
 import { CaretUpFillIcon, CaretDownFillIcon } from "assets/Icons/Icons";
 export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
     return (
-        <div className="flex p-4 pt-2 border-b">
+        <div className="flex p-4 pt-2 border-b dark:border-zinc-600">
             {/* Author Image */}
             <img
                 src={post.authorDetails.photoURL}
@@ -11,7 +11,7 @@ export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
             {/* Author Namme */}
 
             <div className="ml-4 flex flex-col w-full pt-2">
-                <p className="ml-auto text-xs text-gray-600 font-semibold">
+                <p className="ml-auto text-xs text-gray-500 font-semibold">
                     {`Posted - ${post.created}`}
                 </p>
                 <h2 className="font-semibold text-xl mt-auto">

@@ -9,7 +9,7 @@ const NavBarLink = ({ to, Icon, name }) => {
             className={({ isActive }) =>
                 `flex items-center sm:rounded-l-sm sm:p-4 sm:pl-4 py-4 p-6 group rounded-md ${
                     isActive
-                        ? " bg-gray-300 "
+                        ? "bg-gray-300 dark:bg-zinc-700"
                         : "hover:bg-gray-300 hover:bg-opacity-50"
                 }`
             }>
@@ -28,7 +28,7 @@ const NavBarLink = ({ to, Icon, name }) => {
 export const NavBar = () => {
     const currentUser = useSelector((state) => state.currentUser);
     return (
-        <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0 z-10 bg-white border-t-2 sm:border-t-0">
+        <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0 z-10 bg-white dark:bg-zinc-800 border-t-2 sm:border-t-0">
             <ul className="sm:py-5 text-sm font-medium sm:space-y-5 sm:block flex justify-around items-center w-full">
                 <li>
                     <NavBarLink

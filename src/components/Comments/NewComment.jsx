@@ -9,7 +9,7 @@ export const NewComment = ({ parent = {}, currentUser = null }) => {
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 type="text"
-                className="w-full p-2 outline-none peer"
+                className="w-full p-2 outline-none peer dark:bg-zinc-800"
                 placeholder="Add Comment"
             />
             <button
@@ -23,7 +23,7 @@ export const NewComment = ({ parent = {}, currentUser = null }) => {
                     });
                     setBody("");
                 }}
-                className="ml-auto px-2 border-2 m-1 hover:bg-gray-200 rounded-md peer-placeholder-shown:hidden hover:shadow-sm">
+                className="ml-auto text-sm px-2 border-2 dark:border-zinc-600 m-1 hover:bg-gray-200 dark:hover:bg-zinc-700 rounded-md peer-placeholder-shown:hidden hover:shadow-sm animate-fade-in">
                 Comment
             </button>
         </div>

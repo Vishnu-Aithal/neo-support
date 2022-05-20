@@ -73,7 +73,7 @@ export const Question = ({ question }) => {
                     />
                 </div>
             ) : (
-                <div className="border rounded-md rounded-br-none">
+                <div className="border dark:border-zinc-600 rounded-md rounded-br-none">
                     <PostHeader
                         currentUser={currentUser}
                         post={question}
@@ -84,7 +84,7 @@ export const Question = ({ question }) => {
                     <PostBody post={question} />
                 </div>
             )}
-            <div className="w-11/12 ml-auto border border-t-0 rounded-md rounded-t-none divide-y p-2">
+            <div className="w-11/12 ml-auto border dark:border-zinc-600 border-t-0 rounded-md rounded-t-none divide-y dark:divide-zinc-600 p-2">
                 {currentUser && (
                     <NewComment parent={question} currentUser={currentUser} />
                 )}

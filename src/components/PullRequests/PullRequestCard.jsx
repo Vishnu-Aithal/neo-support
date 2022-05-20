@@ -54,15 +54,15 @@ export const PullRequestCard = ({
     return (
         <div
             ref={prRef}
-            className={`flex flex-col border-2 shadow-md w-full sm:w-96 rounded-md relative ${
+            className={`flex flex-col border-2 dark:border-zinc-600 shadow-md w-full sm:w-96 rounded-md relative ${
                 userReviews.length >= 2
-                    ? "border-green-200 shadow-green-200"
+                    ? "border-green-200 dark:border-green-700 shadow-green-200 dark:shadow-green-700"
                     : ""
             }`}>
             {currentUser?.uid === prData.author && (
                 <PRCardDeleteButton {...{ deletePRlink, prData }} />
             )}
-            <div className="p-4 border-b text-lg font-semibold flex flex-col">
+            <div className="p-4 border-b dark:border-zinc-600 text-lg font-semibold flex flex-col">
                 <a href={url} target="_blank" rel="noreferrer">
                     {url}
                 </a>
@@ -73,7 +73,7 @@ export const PullRequestCard = ({
                     <UserReviews key={userReview.id} data={userReview} />
                 ))}
             </div>
-            <div className="p-2 border-t divide-y mt-auto">
+            <div className="p-2 border-t dark:border-zinc-600 divide-y mt-auto">
                 {currentUser && (
                     <NewComment parent={prData} currentUser={currentUser} />
                 )}

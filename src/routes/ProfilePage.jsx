@@ -4,8 +4,8 @@ import { NavLink, Outlet } from "react-router-dom";
 const TopNavLink = ({ to, name }) => (
     <NavLink
         className={({ isActive }) =>
-            `p-2 rounded-md border hover:bg-gray-300 ${
-                isActive ? "bg-gray-300" : ""
+            `p-2 rounded-md border dark:border-zinc-600 hover:bg-gray-300 dark:hover:bg-zinc-600 ${
+                isActive ? "bg-gray-300 dark:bg-zinc-600" : ""
             }`
         }
         to={to}>

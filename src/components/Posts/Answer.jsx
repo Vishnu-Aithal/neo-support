@@ -74,7 +74,7 @@ export const Answer = ({ parent, answer }) => {
             <div className="flex flex-col w-full mx-auto ">
                 {editMode ? (
                     <div>
-                        <p className="p-2 border-t font-medium">
+                        <p className="p-2 border-t dark:border-zinc-600 font-medium">
                             Editing Your Answer...
                         </p>
                         <NewPostContainer
@@ -87,7 +87,7 @@ export const Answer = ({ parent, answer }) => {
                         />
                     </div>
                 ) : (
-                    <div className="border rounded-md rounded-br-none">
+                    <div className="border dark:border-zinc-600 rounded-md rounded-br-none">
                         <PostHeader
                             currentUser={currentUser}
                             post={answer}
@@ -100,7 +100,7 @@ export const Answer = ({ parent, answer }) => {
                     </div>
                 )}
 
-                <div className="w-11/12 ml-auto border border-t-0 rounded-md rounded-t-none divide-y p-2">
+                <div className="w-11/12 ml-auto border dark:border-zinc-600 border-t-0 rounded-md rounded-t-none divide-y dark:divide-zinc-600 p-2">
                     {currentUser && (
                         <NewComment parent={answer} currentUser={currentUser} />
                     )}

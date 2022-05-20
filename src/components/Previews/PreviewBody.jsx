@@ -1,5 +1,3 @@
-import { getDateString } from "utils/firebase-utils";
-
 export const PreviewBody = ({ postData }) => {
     return (
         <div className="flex flex-col ml-4 flex-grow">
@@ -11,12 +9,12 @@ export const PreviewBody = ({ postData }) => {
 
             <div className="flex items-center p-2 gap-2 text-xs">
                 {postData.answers && (
-                    <p className="border px-2 py-1 rounded-md">{`${postData.answers.length} Answers`}</p>
+                    <p className="border dark:border-zinc-600 px-2 py-1 rounded-md">{`${postData.answers.length} Answers`}</p>
                 )}
-                <p className="border px-2 py-1 rounded-md">{`${
+                <p className="border dark:border-zinc-600 px-2 py-1 rounded-md">{`${
                     postData.upVotes.length - postData.downVotes.length
                 } Votes`}</p>
-                <p className="ml-auto text-gray-600 font-semibold">
+                <p className="ml-auto text-gray-500 font-semibold">
                     {`Created - ${postData.created}`}
                 </p>
             </div>

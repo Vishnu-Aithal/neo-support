@@ -30,7 +30,7 @@ export const CommentLinks = ({ commentData }) => {
         parent.collection !== "links" && (
             <Link
                 to={getLink()}
-                className="border rounded-sm p-1 hover:bg-gray-200">
+                className="border dark:border-zinc-600 rounded-md p-1 hover:bg-gray-200 dark:hover:bg-zinc-600">
                 <Comment
                     commentData={commentData}
                     parent={parent}

@@ -23,7 +23,7 @@ export const SignIn = () => {
         }
     }, [email]);
     return (
-        <div className="border shadow-xs px-12 py-2 rounded-md flex flex-col w-fit animate-fade-in">
+        <div className="border dark:border-zinc-600 shadow-xs px-12 py-2 rounded-md flex flex-col w-fit animate-fade-in">
             <form
                 className="flex flex-col"
                 onSubmit={(e) => e.preventDefault()}>
@@ -66,7 +66,7 @@ export const SignIn = () => {
                             onClick={() => setSignUpMode(true)}
                             className="group flex flex-col text-gray-400 cursor-pointer hover:scale-110">
                             New?
-                            <span className="group-hover:text-zinc-800 group-hover:font-semibold">
+                            <span className="group-hover:text-zinc-800 dark:group-hover:text-zinc-200 group-hover:font-semibold">
                                 Sign Up
                             </span>
                         </p>
@@ -75,7 +75,7 @@ export const SignIn = () => {
                                 signInWithEmailPassword({ email, password })
                             }
                             disabled={!(validEmail && password)}
-                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400"
+                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700  border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400"
                             to={"/pull-requests"}>
                             Sign In
                         </button>
@@ -87,7 +87,7 @@ export const SignIn = () => {
                             onClick={() => setSignUpMode(false)}
                             className="group flex flex-col text-gray-400 cursor-pointer hover:scale-110">
                             Existing User?
-                            <span className="group-hover:text-zinc-800 group-hover:font-semibold">
+                            <span className="group-hover:text-zinc-800 dark:group-hover:text-zinc-200 group-hover:font-semibold">
                                 Sign In
                             </span>
                         </p>
@@ -108,7 +108,7 @@ export const SignIn = () => {
                                     photoURL
                                 )
                             }
-                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400"
+                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700 border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400"
                             to={"/pull-requests"}>
                             Sign Up
                         </button>
@@ -119,7 +119,7 @@ export const SignIn = () => {
                 <button
                     onClick={() => signInWithGoogle()}
                     type="button"
-                    className="group px-4 py-1 flex items-center bg-white border shadow-sm rounded-md font-bold disabled:pointer-events-none disabled:bg-gray-400 hover:bg-blue-400 hover:text-slate-100">
+                    className="group px-4 py-1 flex items-center bg-white dark:bg-zinc-700 border dark:border-zinc-600 shadow-sm rounded-md font-bold disabled:pointer-events-none  hover:bg-blue-400 hover:text-slate-100 dark:hover:text-white">
                     <span className="group-hover:translate-x-4  transition-transform">
                         Sign in with Google
                     </span>
@@ -132,12 +132,12 @@ export const SignIn = () => {
                             password: process.env.REACT_APP_TEST_PASSWORD,
                         })
                     }
-                    className="px-4 py-1 w-full text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400"
+                    className="px-4 py-1 w-full text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md ml-auto font-bold disabled:pointer-events-none dark:bg-zinc-700 dark:border-zinc-600 dark:hover:text-white"
                     to={"/pull-requests"}>
                     Sign In Demo
                 </button>
                 <Link
-                    className="px-4 py-1 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md font-bold disabled:pointer-events-none disabled:bg-gray-400"
+                    className="px-4 py-1 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md font-bold disabled:pointer-events-none dark:bg-zinc-700 dark:border-zinc-600 dark:hover:text-white"
                     to={"/pull-requests"}>
                     Explore
                 </Link>

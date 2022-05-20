@@ -22,9 +22,11 @@ import { BookMarkedQuestions } from "components/Profile/BookmarkedQuestions";
 import { BookMarkedAnswers } from "components/Profile/BookmarkedAnswers";
 import { UserFeedPage } from "./UserFeedPage";
 import { NotificationsPage } from "./NotificationsPage";
+import { restoreDarkMode } from "store/themeSlice";
 
 export const ConditionalRouter = () => {
     const currentUser = useSelector((state) => state.currentUser);
+    const darkMode = useSelector((state) => state.theme.darkMode);
     const dispatch = useDispatch();
     let userDataUnsubscribe = useRef(() => null);
 
@@ -42,6 +44,7 @@ export const ConditionalRouter = () => {
                 dispatch(setCurrentUser(null));
             }
         });
+        dispatch(restoreDarkMode());
         return listenerCleaner;
     }, [dispatch]);
     return (
@@ -107,7 +110,7 @@ export const ConditionalRouter = () => {
                 autoClose={2000}
                 hideProgressBar={true}
                 newestOnTop={false}
-                theme="light"
+                theme={darkMode ? "dark" : "light"}
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
