@@ -23,7 +23,7 @@ export const Header = ({}) => {
         <header className="flex p-3 items-center h-fit border-b">
             <Link to={"/"} className="flex flex-shrink-0 items-center ml-3 ">
                 <ToolsIcon className={"h-10 w-10"} />
-                <h1 className="text-xl font-medium min-w-fit mx-4 sm:text-2xl sm:w-auto overflow-hidden">
+                <h1 className="text-xl hidden sm:block font-medium min-w-fit mx-4 sm:text-2xl sm:w-auto overflow-hidden">
                     Neo Support
                 </h1>
             </Link>

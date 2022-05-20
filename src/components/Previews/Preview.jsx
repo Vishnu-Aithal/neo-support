@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
-import { deleteQuestion } from "utils/firebase-utils";
-
-import { PreviewDeleteButton } from "./PreviewDeleteButton";
 import { UserImage } from "./UserImage";
 import { PreviewBody } from "./PreviewBody";
-import { useSelector } from "react-redux";
 
 export const Preview = ({
     postData = {
@@ -19,15 +15,8 @@ export const Preview = ({
         downVotes: [],
     },
 }) => {
-    const currentUser = useSelector((state) => state.currentUser);
     return (
         <div className="relative w-full">
-            {currentUser?.uid === postData.author && (
-                <PreviewDeleteButton
-                    deletePreview={deleteQuestion}
-                    postData={postData}
-                />
-            )}
             <Link
                 to={
                     postData.parentId

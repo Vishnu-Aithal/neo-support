@@ -10,13 +10,15 @@ export const PostHeader = ({ post, unVote, upVote, downVote, currentUser }) => {
             />
             {/* Author Namme */}
 
-            <h2 className="ml-4 font-semibold text-xl mt-auto">
-                {post.authorDetails.displayName}
-            </h2>
-            {/* Time Stamp */}
-            <p className="text-xs ml-auto text-gray-600 font-semibold mt-auto">
-                {`Posted - ${post.created}`}
-            </p>
+            <div className="ml-4 flex flex-col w-full pt-2">
+                <p className="ml-auto text-xs text-gray-600 font-semibold">
+                    {`Posted - ${post.created}`}
+                </p>
+                <h2 className="font-semibold text-xl mt-auto">
+                    {post.authorDetails.displayName}
+                </h2>
+                {/* Time Stamp */}
+            </div>
             {/* Votes */}
             <div className="flex flex-col sm:ml-2 ml-1 items-center text-xl duration-75">
                 <button
