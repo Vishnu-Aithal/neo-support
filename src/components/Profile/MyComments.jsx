@@ -1,18 +1,19 @@
 import { useMyComments } from "utils/firebase-utils";
-import { Comment } from "components/Comments/Comment";
 import { setMyComments } from "store/profile-slice";
 
 import { useSelector } from "react-redux";
+import { CommentLinks } from "components/Comments/CommentLinks";
 
 export const MyComments = () => {
     const comments = useSelector((state) => state.profile.myComments);
 
     const currentUser = useSelector((state) => state.currentUser);
+
     useMyComments(currentUser.uid, setMyComments);
     return (
-        <div className="flex flex-col w-11/12 mx-auto divide-y-2 border rounded-md">
+        <div className="flex flex-col w-11/12 mx-auto gap-2">
             {comments.map((comment) => (
-                <Comment key={comment.uid} commentData={comment} />
+                <CommentLinks key={comment.uid} commentData={comment} />
             ))}
         </div>
     );
