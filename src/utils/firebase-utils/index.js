@@ -1,4 +1,4 @@
-export { getDateString } from "./main";
+export { getDateString, getParentData } from "./main";
 export {
     signInWithGoogle,
     signOutFromApp,
@@ -55,3 +55,5 @@ export {
     useMyComments,
     deleteChildComments,
 } from "./comments";
+
+export { deleteNotification, clearNotificationCount } from "./notifications";

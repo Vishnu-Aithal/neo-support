@@ -17,6 +17,7 @@ import { deleteChildComments } from "./comments";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { addNewNotification, removeNotification } from "./notifications";
 
 const answersCollectionRef = collection(db, "answers");
 
@@ -39,7 +40,7 @@ export const deleteChildAnswers = async (parentId) => {
     }
 };
 
-export const addNewAnswer = async (answerData) => {
+export const addNewAnswer = async (parent, answerData) => {
     try {
         const response = await addDoc(answersCollectionRef, {
             ...answerData,
@@ -48,6 +49,7 @@ export const addNewAnswer = async (answerData) => {
         });
         const questionRef = doc(db, "questions", answerData.parentId);
         await updateDoc(questionRef, { answers: arrayUnion(response.id) });
+        await addNewNotification(parent, answerData, response.id, "answer");
         toast.success("Answer Posted SuccesFully!");
     } catch (error) {
         toast.error("Something Went Wrong!");
@@ -117,13 +119,14 @@ export const useMyBookmarkedAnswers = (userId, setState) => {
     }, [userId, setState]);
 };
 
-export const deleteAnswer = async (answerData) => {
+export const deleteAnswer = async (parent, answerData) => {
     try {
         const answerRef = doc(db, "answers", answerData.uid);
         const questionRef = doc(db, "questions", answerData.parentId);
         await updateDoc(questionRef, { answers: arrayRemove(answerData.uid) });
         await deleteChildComments(answerData.uid);
         await deleteDoc(answerRef);
+        await removeNotification(parent, answerData.uid);
         toast.info("Answer Deleted Successfully!");
     } catch (error) {
         toast.error("Something Went Wrong!");

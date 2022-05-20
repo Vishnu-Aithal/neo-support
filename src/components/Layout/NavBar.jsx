@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { GithubIcon, PostIcon, UserIcon } from "assets/Icons/Icons";
+import { BellIcon, GithubIcon, PostIcon, UserIcon } from "assets/Icons/Icons";
+import { useSelector } from "react-redux";
 
 const NavBarLink = ({ to, Icon, name }) => {
     return (
@@ -14,7 +15,7 @@ const NavBarLink = ({ to, Icon, name }) => {
             }>
             <Icon
                 className={
-                    "sm:w-6 sm:h-6 h-8 w-8 sm:ml-3 sm:mr-5 group-hover:scale-110 transition-transform stroke-2"
+                    "sm:w-6 sm:h-6 h-6 w-6 sm:ml-3 sm:mr-5 group-hover:scale-110 transition-transform stroke-2"
                 }
             />{" "}
             <p className="group-hover:translate-x-1 transition-transform w-0 lg:w-44  overflow-hidden">
@@ -25,6 +26,7 @@ const NavBarLink = ({ to, Icon, name }) => {
 };
 
 export const NavBar = () => {
+    const currentUser = useSelector((state) => state.currentUser);
     return (
         <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0 z-10 bg-white border-t-2 sm:border-t-0">
             <ul className="sm:py-5 text-sm font-medium sm:space-y-5 sm:block flex justify-around items-center w-full">
@@ -42,6 +44,23 @@ export const NavBar = () => {
                         Icon={PostIcon}
                         name={"Questions"}
                     />
+                </li>
+
+                <li className="relative overflow-visible">
+                    <NavBarLink
+                        to={"/notifications"}
+                        Icon={BellIcon}
+                        name={"Notifications"}
+                    />
+
+                    <div
+                        className={`${
+                            currentUser?.notificationCount ? "flex" : "hidden"
+                        } absolute top-1 right-1 items-center content-center p-1 rounded-full min-w-fit w-6 bg-red-500`}>
+                        <p className=" text-white text-center w-full text-xs font-bold">
+                            {currentUser?.notificationCount}
+                        </p>
+                    </div>
                 </li>
 
                 <li>

@@ -5,6 +5,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "App";
 
+import { setCurrentUser } from "store/currentUser-slice";
+import { onAuthListener, listenUserData } from "utils/firebase-utils";
+
 import { ProtectedRoute, ProtectedAuth } from "./ProtectedRoute";
 import { QuestionsPage } from "./QuestionsPage";
 import { ProfilePage } from "./ProfilePage";
@@ -17,9 +20,8 @@ import { MyQuestions } from "components/Profile/MyQuestions";
 import { MyAnswers } from "components/Profile/MyAnswers";
 import { BookMarkedQuestions } from "components/Profile/BookmarkedQuestions";
 import { BookMarkedAnswers } from "components/Profile/BookmarkedAnswers";
-
-import { setCurrentUser } from "store/currentUser-slice";
-import { onAuthListener, listenUserData } from "utils/firebase-utils";
+import { UserFeedPage } from "./UserFeedPage";
+import { NotificationsPage } from "./NotificationsPage";
 
 export const ConditionalRouter = () => {
     const currentUser = useSelector((state) => state.currentUser);
@@ -59,6 +61,11 @@ export const ConditionalRouter = () => {
 
                     <Route
                         element={<ProtectedRoute currentUser={currentUser} />}>
+                        <Route path="user-feed" element={<UserFeedPage />} />
+                        <Route
+                            path="notifications"
+                            element={<NotificationsPage />}
+                        />
                         <Route path="profile" element={<ProfilePage />}>
                             <Route
                                 index
