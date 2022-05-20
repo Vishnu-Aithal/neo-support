@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { clearNotificationCount } from "utils/firebase-utils";
 
 export const NotificationsPage = () => {
-    const { currentUser } = useSelector((state) => state.currentUser);
+    const currentUser = useSelector((state) => state.currentUser);
     useEffect(() => {
         (async () => {
             await clearNotificationCount(currentUser.uid);
@@ -13,7 +13,7 @@ export const NotificationsPage = () => {
     }, [currentUser.uid]);
     return (
         <Container>
-            {currentUser?.notifications.map((notification) => (
+            {currentUser?.notifications?.map((notification) => (
                 <Notification
                     key={notification.uid}
                     notification={notification}
