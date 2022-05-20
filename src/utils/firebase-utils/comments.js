@@ -9,11 +9,13 @@ import {
     doc,
     updateDoc,
     deleteDoc,
+    arrayUnion,
 } from "firebase/firestore";
 import { db, getDateString } from "./main";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { addNewNotification, removeNotification } from "./notifications";
 
 const commentsCollectionRef = collection(db, "comments");
 
@@ -38,12 +40,13 @@ export const useComments = (parentId, setComments) => {
     }, []);
 };
 
-export const addNewComment = async (commentData) => {
+export const addNewComment = async (parent, commentData) => {
     try {
-        await addDoc(commentsCollectionRef, {
+        const response = await addDoc(commentsCollectionRef, {
             ...commentData,
             created: serverTimestamp(),
         });
+        await addNewNotification(parent, commentData, response.id, "comment");
         toast.success("Comment Added!");
     } catch (error) {
         toast.error("Something Went Wrong!");
@@ -51,10 +54,11 @@ export const addNewComment = async (commentData) => {
     }
 };
 
-export const deleteComment = async (commentData) => {
+export const deleteComment = async (parent, commentData) => {
     try {
         const commentRef = doc(db, "comments", commentData.uid);
         await deleteDoc(commentRef);
+        await removeNotification(parent, commentData.uid);
         toast.info("Comment Deleted!");
     } catch (error) {
         toast.error("Something Went Wrong!");
