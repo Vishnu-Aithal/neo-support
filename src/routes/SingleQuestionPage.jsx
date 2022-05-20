@@ -36,9 +36,10 @@ export const SingleQuestionsPage = () => {
     }, [answers]);
 
     const addClickHandler = () => {
-        addNewAnswer({
+        addNewAnswer(question, {
             title: answerTitle,
             parentId: questionId,
+            parentCollection: "questions",
             body: answerBody,
             author: currentUser.uid,
             authorDetails: currentUser,
@@ -60,7 +61,7 @@ export const SingleQuestionsPage = () => {
                 )}
             </div>
             {sortedAnswers.map((answer) => (
-                <Answer key={answer.uid} answer={answer} />
+                <Answer parent={question} key={answer.uid} answer={answer} />
             ))}
 
             {currentUser && (

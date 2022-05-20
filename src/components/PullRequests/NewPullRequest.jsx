@@ -42,6 +42,7 @@ export const NewPullRequest = ({ currentUser, addNewPRLink }) => {
                 disabled={!validLink}
                 onClick={() => {
                     addNewPRLink({
+                        title: newLink,
                         author: currentUser.uid,
                         authorDetails: currentUser,
                         link: newLink,
