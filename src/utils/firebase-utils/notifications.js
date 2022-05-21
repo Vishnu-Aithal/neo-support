@@ -20,6 +20,22 @@ export const addNewNotification = async (parent, child, responseId, type) => {
             parentCollection: child.parentCollection,
         }),
     });
+    if (parent?.bookmarkedBy?.length !== 0) {
+        parent.bookmarkedBy.forEach(async (userId) => {
+            const authorRef = doc(db, "users", userId);
+            await updateDoc(authorRef, {
+                notificationCount: increment(1),
+                notifications: arrayUnion({
+                    uid: responseId,
+                    type: type,
+                    bookmarked: true,
+                    author: child.author,
+                    parent: parent.uid,
+                    parentCollection: child.parentCollection,
+                }),
+            });
+        });
+    }
 };
 
 export const removeNotification = async (parent, uid) => {
@@ -32,6 +48,21 @@ export const removeNotification = async (parent, uid) => {
     if (notificationToRemove) {
         await updateDoc(authorRef, {
             notifications: arrayRemove(notificationToRemove),
+        });
+    }
+    if (parent?.bookmarkedBy?.length !== 0) {
+        parent.bookmarkedBy.forEach(async (userId) => {
+            const authorRef = doc(db, "users", userId);
+            const authorData = await getUserData(userId);
+
+            const notificationToRemove = authorData.notifications.find(
+                (notification) => notification.uid === uid
+            );
+            if (notificationToRemove) {
+                await updateDoc(authorRef, {
+                    notifications: arrayRemove(notificationToRemove),
+                });
+            }
         });
     }
 };

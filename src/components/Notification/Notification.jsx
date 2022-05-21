@@ -18,9 +18,9 @@ export const Notification = ({ notification }) => {
         answer: "answered",
     };
     const parent = {
-        questions: "your Question",
+        questions: "your question",
         links: "your PR-Link",
-        answers: "your Answer",
+        answers: "your answer",
     };
     const getLink = () => {
         if (notification.type === "comment") {
@@ -81,7 +81,9 @@ export const Notification = ({ notification }) => {
                         </h2>
                         <p className="text-sm">
                             {`${message[notification.type]} on ${
-                                parent[notification.parentCollection]
+                                notification.bookmarked
+                                    ? "your bookmarked post"
+                                    : parent[notification.parentCollection]
                             }`}
                         </p>
                         <p className="font-semibold text-lg mt-2">{`${parentData?.title}`}</p>
