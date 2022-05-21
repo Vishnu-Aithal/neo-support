@@ -7,6 +7,9 @@ export const NewPostContainer = ({
     addClickHandler,
     body,
     setBody,
+    currentTags,
+    currentTagHandler,
+    tags,
 }) => {
     const buttonTypes = {
         question: "Post Question",
@@ -18,8 +21,9 @@ export const NewPostContainer = ({
         answer: "Answer Title",
         edit: "New Title",
     };
+
     return (
-        <div className="border dark:border-zinc-600 w-full p-2 rounded-md flex flex-col shadow-sm">
+        <div className="border dark:border-zinc-600 w-full p-2 rounded-md flex flex-col shadow-sm animate-fade-in">
             <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -28,7 +32,21 @@ export const NewPostContainer = ({
                 placeholder={`${placeHolderTypes[type]} `}
             />
             <NewPost value={body} setValue={setBody} />
-
+            {type === "question" && (
+                <div className="flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                        <button
+                            onClick={() => currentTagHandler(tag)}
+                            className={`${
+                                currentTags.includes(tag)
+                                    ? "bg-gray-300 dark:bg-zinc-700"
+                                    : ""
+                            } p-2 border dark:border-zinc-600 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600`}>
+                            {tag}
+                        </button>
+                    ))}
+                </div>
+            )}
             <button
                 onClick={addClickHandler}
                 disabled={!(body && title)}

@@ -18,6 +18,7 @@ export const QuestionsPage = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [questionBody, setQuestionBody] = useState("");
     const [questionTitle, setQuestionTitle] = useState("");
+    const [newQuestionTags, setNewQuestionTags] = useState([]);
     const currentUser = useSelector((state) => state.currentUser);
 
     useQuestions(setQuestions);
@@ -47,6 +48,7 @@ export const QuestionsPage = () => {
             body: questionBody,
             author: currentUser.uid,
             authorDetails: currentUser,
+            tags: newQuestionTags,
             answers: [],
             upVotes: [],
             downVotes: [],
@@ -55,6 +57,15 @@ export const QuestionsPage = () => {
         setQuestionBody("");
     };
 
+    const newQuestionTagHandler = (tag) => {
+        if (newQuestionTags.includes(tag)) {
+            setNewQuestionTags(
+                newQuestionTags.filter((currentTag) => currentTag !== tag)
+            );
+        } else {
+            setNewQuestionTags([...newQuestionTags, tag]);
+        }
+    };
     return (
         <Container>
             <div className="w-full flex">
@@ -74,6 +85,9 @@ export const QuestionsPage = () => {
                     addClickHandler={addClickHandler}
                     body={questionBody}
                     setBody={setQuestionBody}
+                    currentTagHandler={newQuestionTagHandler}
+                    currentTags={newQuestionTags}
+                    tags={tags}
                 />
             )}
             {sortedQuestions.map((question) => (
