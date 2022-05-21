@@ -14,6 +14,14 @@ export const PreviewBody = ({ postData }) => {
                 <p className="border dark:border-zinc-600 px-2 py-1 rounded-md">{`${
                     postData.upVotes.length - postData.downVotes.length
                 } Votes`}</p>
+                {postData?.tags &&
+                    postData.tags.map((tag) => (
+                        <p
+                            key={tag}
+                            className="border dark:border-zinc-600 px-2 py-1 rounded-md">
+                            {tag}
+                        </p>
+                    ))}
                 <p className="ml-auto text-gray-500 font-semibold">
                     {`Created - ${postData.created}`}
                 </p>

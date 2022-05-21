@@ -82,6 +82,16 @@ export const Question = ({ question }) => {
                         downVote={downVoteQuestion}
                     />
                     <PostBody post={question} />
+                    <div className="w-full flex flex-wrap p-4 gap-2">
+                        {question?.tags &&
+                            question.tags.map((tag) => (
+                                <p
+                                    key={tag}
+                                    className="border dark:border-zinc-600 px-2 py-1 rounded-md w-fit">
+                                    {tag}
+                                </p>
+                            ))}
+                    </div>
                 </div>
             )}
             <div className="w-11/12 ml-auto border dark:border-zinc-600 border-t-0 rounded-md rounded-t-none divide-y dark:divide-zinc-600 p-2">
