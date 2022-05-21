@@ -3,6 +3,7 @@ import axios from "axios";
 import { processUrlForValidation } from "utils/github-utils/github";
 export const NewPullRequest = ({ currentUser, addNewPRLink }) => {
     const [newLink, setNewLink] = useState("");
+    const [linkPod, setLinkPod] = useState("Select Pod");
     const [validLink, setValidLink] = useState(false);
 
     useEffect(() => {
@@ -38,14 +39,27 @@ export const NewPullRequest = ({ currentUser, addNewPRLink }) => {
                 }`}
                 placeholder="Add PR-Link for Review"
             />
+            <select
+                value={linkPod}
+                onChange={(e) => setLinkPod(e.target.value)}
+                name="pod"
+                id=""
+                className="p-2 border dark:border-zinc-600 dark:bg-zinc-700 rounded-md ml-2">
+                <option value="Select Pod">Select Pod</option>
+                <option value="POD A">POD A</option>
+                <option value="POD B">POD B</option>
+                <option value="POD C">POD C</option>
+                <option value="POD D">POD D</option>
+            </select>
             <button
-                disabled={!validLink}
+                disabled={!validLink || linkPod === "Select Pod"}
                 onClick={() => {
                     addNewPRLink({
                         title: newLink,
                         author: currentUser.uid,
                         authorDetails: currentUser,
                         link: newLink,
+                        pod: linkPod,
                         hasTwoReviews: false,
                     });
                     setNewLink("");
