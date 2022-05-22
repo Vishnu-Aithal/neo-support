@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getParentData } from "utils/firebase-utils";
 import { Comment } from "./Comment";
 
 export const CommentLinks = ({ commentData }) => {
     const [parent, setParent] = useState(null);
+    const navigate = useNavigate();
     const getLink = () => {
         if (parent.collection === "questions") {
             return `/question/${parent.uid}`;
@@ -28,15 +29,15 @@ export const CommentLinks = ({ commentData }) => {
     return (
         parent &&
         parent.collection !== "links" && (
-            <Link
-                to={getLink()}
-                className="border dark:border-zinc-600 rounded-md p-1 hover:bg-gray-200 dark:hover:bg-zinc-600">
+            <button
+                onClick={() => navigate(getLink())}
+                className="border text-left dark:border-zinc-600 rounded-md p-1 hover:bg-gray-200 dark:hover:bg-zinc-600">
                 <Comment
                     commentData={commentData}
                     parent={parent}
                     key={commentData.uid}
                 />
-            </Link>
+            </button>
         )
     );
 };
