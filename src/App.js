@@ -12,7 +12,7 @@ function App() {
             }`}>
             <div className="flex h-full w-full m-auto overflow-auto flex-col  sm:shadow-md dark:bg-zinc-800 dark:text-zinc-200">
                 <Header />
-                <div className="flex h-full w-full overflow-auto relative pb-20 dark:bg-zinc-800">
+                <div className="flex h-full w-full overflow-auto relative pb-20 sm:pb-2 dark:bg-zinc-800">
                     <NavBar />
                     <Outlet />
                 </div>
