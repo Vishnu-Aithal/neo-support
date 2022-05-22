@@ -7,7 +7,7 @@ export const PreviewBody = ({ postData }) => {
 
             <p className="p-2 text-sm">{postData.title}</p>
 
-            <div className="flex items-center p-2 gap-2 text-xs">
+            <div className="flex items-center flex-wrap p-2 gap-2 text-xs">
                 {postData.answers && (
                     <p className="border dark:border-zinc-600 px-2 py-1 rounded-md">{`${postData.answers.length} Answers`}</p>
                 )}
