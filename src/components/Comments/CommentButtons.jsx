@@ -15,7 +15,10 @@ export const CommentButtons = ({
                 <PencilIcon className={"w-3 h-3"} />
             </button>
             <button
-                onClick={() => deleteComment(parent, commentData)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    deleteComment(parent, commentData);
+                }}
                 className="rounded-sm p-1 hover:scale-105 bg-red-400 dark:bg-red-600 transition-all">
                 <CloseIcon className={"w-3 h-3"} />
             </button>
