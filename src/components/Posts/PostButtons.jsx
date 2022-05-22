@@ -1,7 +1,7 @@
 import {
     BookmarkIcon,
     CheckIcon,
-    CloseIcon,
+    DeleteIcon,
     PencilIcon,
 } from "assets/Icons/Icons";
 import { useSelector } from "react-redux";
@@ -29,7 +29,7 @@ export const PostButtons = ({
                             deletePost(post);
                         }}
                         className="rounded-md  hover:scale-105 bg-red-400 dark:bg-red-600 transition-all p-0.5">
-                        <CloseIcon className={"w-4 h-4"} />
+                        <DeleteIcon className={"w-4 h-4"} />
                     </button>
                     <button
                         onClick={editModeHandler}

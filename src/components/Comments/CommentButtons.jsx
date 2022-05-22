@@ -1,4 +1,4 @@
-import { PencilIcon, CloseIcon } from "assets/Icons/Icons";
+import { PencilIcon, DeleteIcon } from "assets/Icons/Icons";
 
 export const CommentButtons = ({
     parent,
@@ -20,7 +20,7 @@ export const CommentButtons = ({
                     deleteComment(parent, commentData);
                 }}
                 className="rounded-sm p-1 hover:scale-105 bg-red-400 dark:bg-red-600 transition-all">
-                <CloseIcon className={"w-3 h-3"} />
+                <DeleteIcon className={"w-3 h-3"} />
             </button>
         </div>
     );

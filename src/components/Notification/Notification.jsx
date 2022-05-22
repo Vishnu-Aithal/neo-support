@@ -1,4 +1,4 @@
-import { CloseIcon } from "assets/Icons/Icons";
+import { DeleteIcon } from "assets/Icons/Icons";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -66,7 +66,7 @@ export const Notification = ({ notification }) => {
                         toast.info("Notification Deleted");
                     }}
                     className="absolute rounded-sm p-1 top-1 right-1 hover:scale-105 bg-red-400 dark:bg-red-600 transition-all">
-                    <CloseIcon className={"w-3 h-3"} />
+                    <DeleteIcon className={"w-3 h-3"} />
                 </button>
                 <Link
                     onClick={() =>
