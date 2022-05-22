@@ -33,7 +33,7 @@ export const NavBar = () => {
         0
     );
     return (
-        <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0 z-10 bg-white dark:bg-zinc-800 border-t-2 sm:border-t-0">
+        <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0 z-10 bg-white dark:bg-zinc-800 border-t-2 sm:border-t-0 dark:border-zinc-600">
             <ul className="sm:py-5 text-sm font-medium sm:space-y-5 sm:block flex justify-around items-center w-full">
                 <li>
                     <NavBarLink
