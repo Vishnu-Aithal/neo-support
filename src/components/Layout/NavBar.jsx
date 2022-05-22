@@ -27,6 +27,11 @@ const NavBarLink = ({ to, Icon, name }) => {
 
 export const NavBar = () => {
     const currentUser = useSelector((state) => state.currentUser);
+    const notificationCount = currentUser?.notifications?.reduce(
+        (count, notification) =>
+            notification.read === false ? count + 1 : count,
+        0
+    );
     return (
         <aside className="sm:h-full h-fit w-full sm:w-fit overflow-auto sm:static fixed bottom-0 z-10 bg-white dark:bg-zinc-800 border-t-2 sm:border-t-0">
             <ul className="sm:py-5 text-sm font-medium sm:space-y-5 sm:block flex justify-around items-center w-full">
@@ -55,10 +60,10 @@ export const NavBar = () => {
 
                     <div
                         className={`${
-                            currentUser?.notificationCount ? "flex" : "hidden"
+                            notificationCount ? "flex" : "hidden"
                         } absolute top-1 right-1 items-center content-center p-1 rounded-full min-w-fit w-6 bg-red-500`}>
                         <p className=" text-white text-center w-full text-xs font-bold">
-                            {currentUser?.notificationCount}
+                            {notificationCount}
                         </p>
                     </div>
                 </li>

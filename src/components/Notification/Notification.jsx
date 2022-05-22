@@ -7,6 +7,7 @@ import {
     deleteNotification,
     getParentData,
     getUserData,
+    markNotificationAsRead,
 } from "utils/firebase-utils";
 
 export const Notification = ({ notification }) => {
@@ -68,6 +69,13 @@ export const Notification = ({ notification }) => {
                     <CloseIcon className={"w-3 h-3"} />
                 </button>
                 <Link
+                    onClick={() =>
+                        markNotificationAsRead(
+                            notification.uid,
+                            currentUser.notifications,
+                            currentUser.uid
+                        )
+                    }
                     to={getLink()}
                     className="rounded-md border dark:border-zinc-600 hover:shadow-md p-2 flex items-start w-full">
                     <img

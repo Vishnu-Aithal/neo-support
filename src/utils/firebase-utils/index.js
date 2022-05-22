@@ -56,4 +56,4 @@ export {
     deleteChildComments,
 } from "./comments";
 
-export { deleteNotification, clearNotificationCount } from "./notifications";
+export { deleteNotification, markNotificationAsRead } from "./notifications";

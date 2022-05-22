@@ -1,35 +1,29 @@
-import {
-    arrayRemove,
-    arrayUnion,
-    doc,
-    increment,
-    updateDoc,
-} from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { getUserData } from "./auth";
 import { db } from "./main";
 
 export const addNewNotification = async (parent, child, responseId, type) => {
     const authorRef = doc(db, "users", parent.author);
     await updateDoc(authorRef, {
-        notificationCount: increment(1),
         notifications: arrayUnion({
             uid: responseId,
             type: type,
             author: child.author,
+            read: false,
             parent: parent.uid,
             parentCollection: child.parentCollection,
         }),
     });
     if (parent?.bookmarkedBy?.length !== 0) {
-        parent.bookmarkedBy.forEach(async (userId) => {
+        parent?.bookmarkedBy?.forEach(async (userId) => {
             const authorRef = doc(db, "users", userId);
             await updateDoc(authorRef, {
-                notificationCount: increment(1),
                 notifications: arrayUnion({
                     uid: responseId,
                     type: type,
                     bookmarked: true,
                     author: child.author,
+                    read: false,
                     parent: parent.uid,
                     parentCollection: child.parentCollection,
                 }),
@@ -42,7 +36,7 @@ export const removeNotification = async (parent, uid) => {
     const authorRef = doc(db, "users", parent.author);
     const authorData = await getUserData(parent.author);
 
-    const notificationToRemove = authorData.notifications.find(
+    const notificationToRemove = authorData?.notifications?.find(
         (notification) => notification.uid === uid
     );
     if (notificationToRemove) {
@@ -51,7 +45,7 @@ export const removeNotification = async (parent, uid) => {
         });
     }
     if (parent?.bookmarkedBy?.length !== 0) {
-        parent.bookmarkedBy.forEach(async (userId) => {
+        parent?.bookmarkedBy?.forEach(async (userId) => {
             const authorRef = doc(db, "users", userId);
             const authorData = await getUserData(userId);
 
@@ -76,11 +70,20 @@ export const deleteNotification = async (notification, uid) => {
         console.log(error);
     }
 };
-export const clearNotificationCount = async (uid) => {
+export const markNotificationAsRead = async (
+    notificationId,
+    notifications,
+    userId
+) => {
     try {
-        const authorRef = doc(db, "users", uid);
+        const updatedNotifications = notifications.map((notification) =>
+            notification.uid === notificationId
+                ? { ...notification, read: true }
+                : notification
+        );
+        const authorRef = doc(db, "users", userId);
         await updateDoc(authorRef, {
-            notificationCount: 0,
+            notifications: updatedNotifications,
         });
     } catch (error) {
         console.log(error);
