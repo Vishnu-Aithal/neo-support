@@ -65,11 +65,11 @@ Live Link - https://neo-support-git-temp-dev-vishnu-aithal.vercel.app/
     -   For Bookmarked Questions and Answers
 -   Follow posts by Bookmark (recieve live notifications on bookmarked posts)
 -   Profile
-    -All Pr-links with completed highlighted in green
-    -All comments which navigate to source on click
-    -All my Questions
-    -All my ANswers
-    -All my Bookmarks
+    -   All Pr-links with completed highlighted in green
+    -   All comments which navigate to source on click
+    -   All my Questions
+    -   All my ANswers
+    -   All my Bookmarks
 -   And Many More
 
 ---
