@@ -51,6 +51,10 @@ Live Link - https://neo-support-git-temp-dev-vishnu-aithal.vercel.app/
     -   Editable posts
     -   delete post
     -   image- url support
+-   Votes on Posts
+    -   Upvote
+    -   DownVote
+    -   Cancel Vote
 -   Filter Questions
     - By Search Term
     -   By tags
