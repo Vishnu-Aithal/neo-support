@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDoc, getFirestore, doc } from "firebase/firestore";
+import { getDoc, getFirestore, doc, Timestamp } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,14 +15,19 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-export const getDateString = (timestamp) => {
+export const getDateString = (timestamp: Timestamp) => {
     if (timestamp) {
         const dateString = timestamp.toDate().toString();
         return dateString.slice(0, 24);
+    } else {
+        return "";
     }
 };
 
-export const getParentData = async (parentCollection, parentId) => {
+export const getParentData = async (
+    parentCollection: "questions" | "answers" | "links",
+    parentId: string
+) => {
     try {
         const parent = await getDoc(doc(db, parentCollection, parentId));
 

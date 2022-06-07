@@ -1,6 +1,11 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { QuestionType } from "types/Post";
 
-const initialState = {
+export interface QuestionsState {
+    questions: QuestionType[];
+    sortedQuestions: QuestionType[];
+}
+const initialState: QuestionsState = {
     questions: [],
     sortedQuestions: [],
 };
@@ -9,10 +14,10 @@ const questionsSlice = createSlice({
     name: "questions",
     initialState,
     reducers: {
-        setQuestions(state, action) {
+        setQuestions(state, action: PayloadAction<QuestionType[]>) {
             return { ...state, questions: action.payload };
         },
-        setSortedQuestions(state, action) {
+        setSortedQuestions(state, action: PayloadAction<QuestionType[]>) {
             return { ...state, sortedQuestions: action.payload };
         },
     },

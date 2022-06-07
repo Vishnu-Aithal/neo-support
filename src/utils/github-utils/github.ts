@@ -1,6 +1,13 @@
 import axios from "axios";
 
-export const processUrl = (userUrl) => {
+interface Reviewer {
+    id: string;
+    login: string;
+    img: string;
+    reviews: string[];
+}
+
+export const processUrl = (userUrl: string) => {
     userUrl = userUrl.replace(
         "https://github.com/",
         "https://api.github.com/repos/"
@@ -11,7 +18,7 @@ export const processUrl = (userUrl) => {
     return { reviewsUrl, commentsUrl };
 };
 
-export const processUrlForValidation = (userUrl) => {
+export const processUrlForValidation = (userUrl: string) => {
     userUrl = userUrl.replace(
         "https://github.com/",
         "https://api.github.com/repos/"
@@ -20,7 +27,7 @@ export const processUrlForValidation = (userUrl) => {
     return userUrl;
 };
 
-export const getReviewsAndComments = async (url) => {
+export const getReviewsAndComments = async (url: string) => {
     const { commentsUrl, reviewsUrl } = processUrl(url);
 
     const commentsResponse = await axios.get(commentsUrl);
@@ -30,7 +37,7 @@ export const getReviewsAndComments = async (url) => {
         ...reviewsResponse.data,
     ];
 
-    let reviewers = [];
+    let reviewers: Reviewer[] = [];
 
     reviewsFromServer.forEach(
         ({
@@ -56,7 +63,14 @@ export const getReviewsAndComments = async (url) => {
                         id,
                         login,
                         img,
-                        reviews: body ? [body] : [],
+                        reviews: body
+                            ? [
+                                  body +
+                                      (original_line
+                                          ? ` - at line ${original_line}`
+                                          : ""),
+                              ]
+                            : [],
                     });
                 }
             }

@@ -1,6 +1,12 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { LinkType } from "types/Link";
 
-const initialState = {
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export interface PRState {
+    pullRequests: LinkType[];
+    sortedPullRequests: LinkType[];
+}
+const initialState: PRState = {
     pullRequests: [],
     sortedPullRequests: [],
 };
@@ -9,10 +15,10 @@ const pullRequestsSlice = createSlice({
     name: "pullRequests",
     initialState,
     reducers: {
-        setPullRequests(state, actions) {
+        setPullRequests(state, actions: PayloadAction<LinkType[]>) {
             return { ...state, pullRequests: actions.payload };
         },
-        setSortedPullRequests(state, actions) {
+        setSortedPullRequests(state, actions: PayloadAction<LinkType[]>) {
             return { ...state, sortedPullRequests: actions.payload };
         },
     },

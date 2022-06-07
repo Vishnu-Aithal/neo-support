@@ -1,28 +1,38 @@
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
-export const restoreDarkMode = createAsyncThunk(
+export interface ThemeState {
+    darkMode: boolean;
+}
+
+const initialState: ThemeState = { darkMode: false };
+
+export const restoreDarkMode = createAsyncThunk<boolean, undefined>(
     "them/restoreDarkMode",
     (_, thunkApi) => {
-        const savedTheme = JSON.parse(localStorage.getItem("darkMode"));
-        if (savedTheme) {
+        const localTheme = localStorage.getItem("darkMode");
+        if (localTheme) {
+            const savedTheme = JSON.parse(localTheme);
             return savedTheme;
         }
         thunkApi.rejectWithValue("No Saved Theme");
     }
 );
 
-export const toggleDarkMode = createAsyncThunk(
-    "theme/toggleDarkMode",
-    (_, thunkApi) => {
-        const darkMode = thunkApi.getState().theme.darkMode;
-        localStorage.setItem("darkMode", JSON.stringify(!darkMode));
-        return !darkMode;
-    }
-);
+export const toggleDarkMode = createAsyncThunk<
+    boolean,
+    undefined,
+    { state: RootState }
+>("theme/toggleDarkMode", (_, thunkApi) => {
+    const darkMode = thunkApi.getState().theme.darkMode;
+    localStorage.setItem("darkMode", JSON.stringify(!darkMode));
+    return !darkMode;
+});
 
 const themeSlice = createSlice({
     name: "theme",
-    initialState: { darkMode: false },
+    initialState,
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(toggleDarkMode.fulfilled, (state, action) => {
             state.darkMode = action.payload;

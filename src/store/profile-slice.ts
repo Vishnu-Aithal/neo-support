@@ -1,6 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CommentType } from "types/Comment";
+import { LinkType } from "types/Link";
+import { AnswerType, QuestionType } from "types/Post";
 
-const initialState = {
+export interface ProfileState {
+    myPullRequests: LinkType[];
+    myComments: CommentType[];
+    myQuestions: QuestionType[];
+    myAnswers: AnswerType[];
+}
+
+const initialState: ProfileState = {
     myPullRequests: [],
     myComments: [],
     myQuestions: [],
@@ -11,16 +21,16 @@ const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        setMyPullRequests(state, action) {
+        setMyPullRequests(state, action: PayloadAction<LinkType[]>) {
             return { ...state, myPullRequests: action.payload };
         },
-        setMyComments(state, action) {
+        setMyComments(state, action: PayloadAction<CommentType[]>) {
             return { ...state, myComments: action.payload };
         },
-        setMyQuestions(state, action) {
+        setMyQuestions(state, action: PayloadAction<QuestionType[]>) {
             return { ...state, myQuestions: action.payload };
         },
-        setMyAnswers(state, action) {
+        setMyAnswers(state, action: PayloadAction<AnswerType[]>) {
             return { ...state, myAnswers: action.payload };
         },
     },
@@ -30,7 +40,6 @@ export const {
     setMyComments,
     setMyPullRequests,
     setMyQuestions,
-    setmyComments,
     setMyAnswers,
 } = profileSlice.actions;
 

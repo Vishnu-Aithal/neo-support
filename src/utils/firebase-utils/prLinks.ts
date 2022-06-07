@@ -15,21 +15,24 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteChildComments } from "./comments";
 import { toast } from "react-toastify";
+import { LinkType, LinkTypeServer } from "types/Link";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 const prCollectionRef = collection(db, "links");
 
 export const getUnreviewedPRLinks = async () => {
-    let prLinks = [];
+    let prLinks: LinkType[] = [];
     const q = query(prCollectionRef, where("hasTwoReviews", "==", false));
     const prLinksSnapshot = await getDocs(q);
     prLinksSnapshot.forEach((prLinkRef) => {
         const uid = prLinkRef.id;
-        const prDataFromServer = prLinkRef.data();
-        prLinks.push({ uid, ...prDataFromServer });
+        const prDataFromServer = prLinkRef.data() as LinkTypeServer;
+        const created = getDateString(prDataFromServer.created);
+        prLinks.push({ uid, ...prDataFromServer, created });
     });
     return prLinks;
 };
 
-export const addNewPRLink = async (prData) => {
+export const addNewPRLink = async (prData: Partial<LinkType>) => {
     try {
         const q = query(prCollectionRef, where("link", "==", prData.link));
         const existingPR = await getDocs(q);
@@ -49,7 +52,7 @@ export const addNewPRLink = async (prData) => {
     }
 };
 
-export const updatePRlink = async (prData) => {
+export const updatePRlink = async (prData: LinkType) => {
     try {
         const prRef = doc(db, "links", prData.uid);
         await updateDoc(prRef, {
@@ -60,7 +63,7 @@ export const updatePRlink = async (prData) => {
         console.log(error);
     }
 };
-export const deletePRlink = async (prData) => {
+export const deletePRlink = async (prData: LinkType) => {
     try {
         const prRef = doc(db, "links", prData.uid);
         await deleteDoc(prRef);
@@ -72,7 +75,9 @@ export const deletePRlink = async (prData) => {
     }
 };
 
-export const usePRLinks = (actionCreater) => {
+export const usePRLinks = (
+    actionCreater: ActionCreatorWithPayload<LinkType[]>
+) => {
     const dispatch = useDispatch();
 
     return useEffect(() => {
@@ -81,19 +86,22 @@ export const usePRLinks = (actionCreater) => {
             where("hasTwoReviews", "==", false)
         );
         const unsubscribe = onSnapshot(prLinksQuery, (prLinkSnapshots) => {
-            const allPrLinks = [];
+            const allPrLinks: LinkType[] = [];
             prLinkSnapshots.forEach((prLinkSnapshot) => {
                 const uid = prLinkSnapshot.id;
-                const data = prLinkSnapshot.data();
-                data.created = getDateString(data.created);
-                allPrLinks.push({ uid, ...data });
+                const data = prLinkSnapshot.data() as LinkTypeServer;
+                const created = getDateString(data.created);
+                allPrLinks.push({ uid, ...data, created });
             });
             dispatch(actionCreater(allPrLinks));
         });
         return unsubscribe;
     }, [dispatch, actionCreater]);
 };
-export const useMyPRLinks = (userId, actionCreater) => {
+export const useMyPRLinks = (
+    userId: string,
+    actionCreater: ActionCreatorWithPayload<LinkType[]>
+) => {
     const dispatch = useDispatch();
 
     return useEffect(() => {
@@ -102,12 +110,12 @@ export const useMyPRLinks = (userId, actionCreater) => {
             where("author", "==", userId)
         );
         const unsubscribe = onSnapshot(prLinksQuery, (prLinkSnapshots) => {
-            const myPrLinks = [];
+            const myPrLinks: LinkType[] = [];
             prLinkSnapshots.forEach((prLinkSnapshot) => {
                 const uid = prLinkSnapshot.id;
-                const data = prLinkSnapshot.data();
-                data.created = getDateString(data.created);
-                myPrLinks.push({ uid, ...data });
+                const data = prLinkSnapshot.data() as LinkTypeServer;
+                const created = getDateString(data.created);
+                myPrLinks.push({ uid, ...data, created });
             });
             dispatch(actionCreater(myPrLinks));
         });

@@ -14,14 +14,16 @@ import {
 } from "firebase/firestore";
 import { db, getDateString } from "./main";
 import { deleteChildComments } from "./comments";
-import { useEffect } from "react";
+import React, { SetStateAction, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addNewNotification, removeNotification } from "./notifications";
+import { AnswerType, AnswerTypeServer, QuestionType } from "types/Post";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 const answersCollectionRef = collection(db, "answers");
 
-export const deleteChildAnswers = async (parentId) => {
+export const deleteChildAnswers = async (parentId: string) => {
     try {
         const answersQuery = query(
             answersCollectionRef,
@@ -40,7 +42,10 @@ export const deleteChildAnswers = async (parentId) => {
     }
 };
 
-export const addNewAnswer = async (parent, answerData) => {
+export const addNewAnswer = async (
+    parent: QuestionType,
+    answerData: AnswerType
+) => {
     try {
         const response = await addDoc(answersCollectionRef, {
             ...answerData,
@@ -57,19 +62,22 @@ export const addNewAnswer = async (parent, answerData) => {
     }
 };
 
-export const useAnswers = (parentId, setAnswers) => {
+export const useAnswers = (
+    parentId: string,
+    setAnswers: React.Dispatch<SetStateAction<AnswerType[]>>
+) => {
     return useEffect(() => {
         const answersQuery = query(
             answersCollectionRef,
             where("parentId", "==", parentId)
         );
         const unsubscribe = onSnapshot(answersQuery, (answerSnapshots) => {
-            const allAnswers = [];
+            const allAnswers: AnswerType[] = [];
             answerSnapshots.forEach((answerSnapshot) => {
                 const uid = answerSnapshot.id;
-                const data = answerSnapshot.data();
-                data.created = getDateString(data.created);
-                allAnswers.push({ uid, ...data });
+                const data = answerSnapshot.data() as AnswerTypeServer;
+                const created = getDateString(data.created);
+                allAnswers.push({ uid, ...data, created });
             });
             setAnswers(allAnswers);
         });
@@ -77,7 +85,10 @@ export const useAnswers = (parentId, setAnswers) => {
     }, [setAnswers, parentId]);
 };
 
-export const useMyAnswers = (userId, actionCreator) => {
+export const useMyAnswers = (
+    userId: string,
+    actionCreator: ActionCreatorWithPayload<AnswerType[]>
+) => {
     const dispatch = useDispatch();
 
     return useEffect(() => {
@@ -86,12 +97,12 @@ export const useMyAnswers = (userId, actionCreator) => {
             where("author", "==", userId)
         );
         const unsubscribe = onSnapshot(answersQuery, (answerSnapShots) => {
-            const allAnswers = [];
+            const allAnswers: AnswerType[] = [];
             answerSnapShots.forEach((answerSnapShot) => {
                 const uid = answerSnapShot.id;
-                const data = answerSnapShot.data();
-                data.created = getDateString(data.created);
-                allAnswers.push({ uid, ...data });
+                const data = answerSnapShot.data() as AnswerTypeServer;
+                const created = getDateString(data.created);
+                allAnswers.push({ uid, ...data, created });
             });
             dispatch(actionCreator(allAnswers));
         });
@@ -99,19 +110,22 @@ export const useMyAnswers = (userId, actionCreator) => {
     }, [userId, actionCreator, dispatch]);
 };
 
-export const useMyBookmarkedAnswers = (userId, setState) => {
+export const useMyBookmarkedAnswers = (
+    userId: string,
+    setState: React.Dispatch<SetStateAction<AnswerType[]>>
+) => {
     return useEffect(() => {
         const answersQuery = query(
             answersCollectionRef,
             where("bookmarkedBy", "array-contains", userId)
         );
         const unsubscribe = onSnapshot(answersQuery, (answerSnapshots) => {
-            const myBookmarkedAnswers = [];
+            const myBookmarkedAnswers: AnswerType[] = [];
             answerSnapshots.forEach((answerSnapshot) => {
                 const uid = answerSnapshot.id;
-                const data = answerSnapshot.data();
-                data.created = getDateString(data.created);
-                myBookmarkedAnswers.push({ uid, ...data });
+                const data = answerSnapshot.data() as AnswerTypeServer;
+                const created = getDateString(data.created);
+                myBookmarkedAnswers.push({ uid, ...data, created });
             });
             setState(myBookmarkedAnswers);
         });
@@ -119,7 +133,10 @@ export const useMyBookmarkedAnswers = (userId, setState) => {
     }, [userId, setState]);
 };
 
-export const deleteAnswer = async (parent, answerData) => {
+export const deleteAnswer = async (
+    parent: QuestionType,
+    answerData: AnswerType
+) => {
     try {
         const answerRef = doc(db, "answers", answerData.uid);
         const questionRef = doc(db, "questions", answerData.parentId);
@@ -133,7 +150,10 @@ export const deleteAnswer = async (parent, answerData) => {
         console.log(error);
     }
 };
-export const updateAnswer = async (updatedData, uid) => {
+export const updateAnswer = async (
+    updatedData: Partial<AnswerType>,
+    uid: string
+) => {
     try {
         const answerRef = doc(db, "answers", uid);
         await updateDoc(answerRef, updatedData);
@@ -144,7 +164,7 @@ export const updateAnswer = async (updatedData, uid) => {
     }
 };
 
-export const addBookMarkAnswer = async (post, userId) => {
+export const addBookMarkAnswer = async (post: AnswerType, userId: string) => {
     try {
         const answerRef = doc(db, "answers", post.uid);
         await updateDoc(answerRef, { bookmarkedBy: arrayUnion(userId) });
@@ -154,7 +174,10 @@ export const addBookMarkAnswer = async (post, userId) => {
         console.log(error);
     }
 };
-export const removeBookMarkAnswer = async (post, userId) => {
+export const removeBookMarkAnswer = async (
+    post: AnswerType,
+    userId: string
+) => {
     try {
         const answerRef = doc(db, "answers", post.uid);
         await updateDoc(answerRef, { bookmarkedBy: arrayRemove(userId) });
@@ -165,30 +188,39 @@ export const removeBookMarkAnswer = async (post, userId) => {
     }
 };
 
-export const upVoteAnswer = async (answer, userId) => {
+export const upVoteAnswer = async (answer: AnswerType, userId: string) => {
     try {
         const answerRef = doc(db, "answers", answer.uid);
         await updateDoc(answerRef, {
             upVotes: arrayUnion(userId),
             downVotes: arrayRemove(userId),
         });
-    } catch (error) {}
+    } catch (error) {
+        toast.error("Something Went Wrong!");
+        console.log(error);
+    }
 };
-export const downVoteAnswer = async (answer, userId) => {
+export const downVoteAnswer = async (answer: AnswerType, userId: string) => {
     try {
         const answerRef = doc(db, "answers", answer.uid);
         await updateDoc(answerRef, {
             upVotes: arrayRemove(userId),
             downVotes: arrayUnion(userId),
         });
-    } catch (error) {}
+    } catch (error) {
+        toast.error("Something Went Wrong!");
+        console.log(error);
+    }
 };
-export const unVoteAnswer = async (answer, userId) => {
+export const unVoteAnswer = async (answer: AnswerType, userId: string) => {
     try {
         const answerRef = doc(db, "answers", answer.uid);
         await updateDoc(answerRef, {
             upVotes: arrayRemove(userId),
             downVotes: arrayRemove(userId),
         });
-    } catch (error) {}
+    } catch (error) {
+        toast.error("Something Went Wrong!");
+        console.log(error);
+    }
 };

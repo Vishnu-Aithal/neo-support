@@ -14,13 +14,17 @@ import {
 import { db, getDateString } from "./main";
 import { deleteChildComments } from "./comments";
 import { deleteChildAnswers } from "./answers";
-import { useEffect } from "react";
+import React, { SetStateAction, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { QuestionType, QuestionTypeServer } from "types/Post";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 const questionsCollectionRef = collection(db, "questions");
 
-export const addNewQuestion = async (questionDetails) => {
+export const addNewQuestion = async (
+    questionDetails: Partial<QuestionType>
+) => {
     try {
         await addDoc(questionsCollectionRef, {
             ...questionDetails,
@@ -34,7 +38,10 @@ export const addNewQuestion = async (questionDetails) => {
     }
 };
 
-export const updateQuestion = async (updatedData, uid) => {
+export const updateQuestion = async (
+    updatedData: Partial<QuestionType>,
+    uid: string
+) => {
     try {
         const questionRef = doc(db, "questions", uid);
         await updateDoc(questionRef, updatedData);
@@ -45,7 +52,7 @@ export const updateQuestion = async (updatedData, uid) => {
     }
 };
 
-export const deleteQuestion = async (question) => {
+export const deleteQuestion = async (question: QuestionType) => {
     try {
         const questionRef = doc(db, "questions", question.uid);
         await deleteDoc(questionRef);
@@ -58,7 +65,10 @@ export const deleteQuestion = async (question) => {
     }
 };
 
-export const addBookMarkQuestion = async (post, userId) => {
+export const addBookMarkQuestion = async (
+    post: QuestionType,
+    userId: string
+) => {
     try {
         const questionRef = doc(db, "questions", post.uid);
         await updateDoc(questionRef, { bookmarkedBy: arrayUnion(userId) });
@@ -68,7 +78,10 @@ export const addBookMarkQuestion = async (post, userId) => {
         console.log(error);
     }
 };
-export const removeBookMarkQuestion = async (post, userId) => {
+export const removeBookMarkQuestion = async (
+    post: QuestionType,
+    userId: string
+) => {
     try {
         const questionRef = doc(db, "questions", post.uid);
         await updateDoc(questionRef, { bookmarkedBy: arrayRemove(userId) });
@@ -79,7 +92,9 @@ export const removeBookMarkQuestion = async (post, userId) => {
     }
 };
 
-export const useQuestions = (actionCreator) => {
+export const useQuestions = (
+    actionCreator: ActionCreatorWithPayload<QuestionType[]>
+) => {
     const dispatch = useDispatch();
     return useEffect(() => {
         const allQuestionsQuery = query(questionsCollectionRef);
@@ -87,12 +102,12 @@ export const useQuestions = (actionCreator) => {
         const unsubscribe = onSnapshot(
             allQuestionsQuery,
             (questionSnapshots) => {
-                const questions = [];
+                const questions: QuestionType[] = [];
                 questionSnapshots.forEach((questionSnapShot) => {
                     const uid = questionSnapShot.id;
-                    const data = questionSnapShot.data();
-                    data.created = getDateString(data.created);
-                    questions.push({ uid, ...data });
+                    const data = questionSnapShot.data() as QuestionTypeServer;
+                    const created = getDateString(data.created);
+                    questions.push({ uid, ...data, created });
                 });
                 dispatch(actionCreator(questions));
             }
@@ -100,21 +115,27 @@ export const useQuestions = (actionCreator) => {
         return unsubscribe;
     }, [actionCreator, dispatch]);
 };
-export const useSingleQuestion = (questionId, setQuestion) => {
+export const useSingleQuestion = (
+    questionId: string,
+    setQuestion: React.Dispatch<SetStateAction<QuestionType>>
+) => {
     return useEffect(() => {
         const questionRef = doc(db, "questions", questionId);
         const unsubscribe = onSnapshot(questionRef, (questionSnapshot) => {
-            const data = questionSnapshot.data();
+            const data = questionSnapshot.data() as QuestionTypeServer;
             const uid = questionSnapshot.id;
-            data.created = getDateString(data.created);
+            const created = getDateString(data.created);
 
-            setQuestion({ uid, ...data });
+            setQuestion({ uid, ...data, created });
         });
         return unsubscribe;
     }, [setQuestion, questionId]);
 };
 
-export const useMyQuestions = (userId, actionCreator) => {
+export const useMyQuestions = (
+    userId: string,
+    actionCreator: ActionCreatorWithPayload<QuestionType[]>
+) => {
     const dispatch = useDispatch();
 
     return useEffect(() => {
@@ -123,31 +144,34 @@ export const useMyQuestions = (userId, actionCreator) => {
             where("author", "==", userId)
         );
         const unsubscribe = onSnapshot(questionsQuery, (questionSnapshots) => {
-            const allQuestions = [];
+            const allQuestions: QuestionType[] = [];
             questionSnapshots.forEach((questionSnapshot) => {
                 const uid = questionSnapshot.id;
-                const data = questionSnapshot.data();
-                data.created = getDateString(data.created);
-                allQuestions.push({ uid, ...data });
+                const data = questionSnapshot.data() as QuestionTypeServer;
+                const created = getDateString(data.created);
+                allQuestions.push({ uid, ...data, created });
             });
             dispatch(actionCreator(allQuestions));
         });
         return unsubscribe;
     }, [userId, actionCreator, dispatch]);
 };
-export const useMyBookmarkedQuestions = (userId, setState) => {
+export const useMyBookmarkedQuestions = (
+    userId: string,
+    setState: React.Dispatch<SetStateAction<QuestionType[]>>
+) => {
     return useEffect(() => {
         const questionsQuery = query(
             questionsCollectionRef,
             where("bookmarkedBy", "array-contains", userId)
         );
         const unsubscribe = onSnapshot(questionsQuery, (questionSnapshots) => {
-            const myBookmarkedQuestions = [];
+            const myBookmarkedQuestions: QuestionType[] = [];
             questionSnapshots.forEach((questionSnapshot) => {
                 const uid = questionSnapshot.id;
-                const data = questionSnapshot.data();
-                data.created = getDateString(data.created);
-                myBookmarkedQuestions.push({ uid, ...data });
+                const data = questionSnapshot.data() as QuestionTypeServer;
+                const created = getDateString(data.created);
+                myBookmarkedQuestions.push({ uid, ...data, created });
             });
             setState(myBookmarkedQuestions);
         });
@@ -155,7 +179,10 @@ export const useMyBookmarkedQuestions = (userId, setState) => {
     }, [userId, setState]);
 };
 
-export const upVoteQuestion = async (question, userId) => {
+export const upVoteQuestion = async (
+    question: QuestionType,
+    userId: string
+) => {
     try {
         const questionRef = doc(db, "questions", question.uid);
         await updateDoc(questionRef, {
@@ -164,7 +191,10 @@ export const upVoteQuestion = async (question, userId) => {
         });
     } catch (error) {}
 };
-export const downVoteQuestion = async (question, userId) => {
+export const downVoteQuestion = async (
+    question: QuestionType,
+    userId: string
+) => {
     try {
         const questionRef = doc(db, "questions", question.uid);
         await updateDoc(questionRef, {
@@ -173,7 +203,10 @@ export const downVoteQuestion = async (question, userId) => {
         });
     } catch (error) {}
 };
-export const unVoteQuestion = async (question, userId) => {
+export const unVoteQuestion = async (
+    question: QuestionType,
+    userId: string
+) => {
     try {
         const questionRef = doc(db, "questions", question.uid);
         await updateDoc(questionRef, {

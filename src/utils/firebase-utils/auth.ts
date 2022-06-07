@@ -7,8 +7,11 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, getDoc, onSnapshot, setDoc, addDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { UserType } from "types/User";
+import { AppDispatch } from "store/store";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -48,6 +51,8 @@ export const signUpWithEmailPassword = async ({
     password,
     displayName,
     photoURL,
+}: {
+    [prop: string]: string;
 }) => {
     try {
         const { user } = await createUserWithEmailAndPassword(
@@ -67,32 +72,50 @@ export const signUpWithEmailPassword = async ({
 
         toast.success("Sign Up Success!");
     } catch (error) {
-        toast.error(error.message);
+        if (error instanceof Error) {
+            toast.error(error.message);
+        } else {
+            toast.error("Sign Up Failed");
+        }
     }
 };
 
-export const signInWithEmailPassword = async ({ email, password }) => {
+export const signInWithEmailPassword = async ({
+    email,
+    password,
+}: {
+    [props: string]: string;
+}) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Sign In Success");
     } catch (error) {
-        toast.error(error.message);
+        if (error instanceof Error) {
+            toast.error(error.message);
+        } else {
+            toast.error("Sign In Failed");
+        }
     }
 };
 
-export const getUserData = async (userId) => {
+export const getUserData = async (userId: string) => {
     const userDataSnapshot = await getDoc(doc(db, "users", userId));
-    return userDataSnapshot.data();
+    return userDataSnapshot.data() as UserType;
 };
 
-export const onAuthListener = (callbackFunc) => {
+//BUG explicit any type
+export const onAuthListener = (callbackFunc: any) => {
     return onAuthStateChanged(auth, callbackFunc);
 };
 
-export const listenUserData = (user, dispatch, actionCreater) => {
+export const listenUserData = (
+    user: UserType,
+    dispatch: AppDispatch,
+    actionCreater: ActionCreatorWithPayload<UserType>
+) => {
     const userRef = doc(db, "users", user.uid);
     const unsubscribe = onSnapshot(userRef, (snapshot) => {
-        const currentUserData = snapshot.data();
+        const currentUserData = snapshot.data() as UserType;
         dispatch(actionCreater(currentUserData));
     });
     return unsubscribe;
