@@ -26,7 +26,7 @@ export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
                     setEdit({ ...edit, editedText: e.target.value })
                 }
                 autoFocus
-                className="p-2 outline-none w-full"
+                className="p-2 outline-none w-full dark:bg-zinc-600 rounded-md mr-2"
                 type="text"
                 value={edit.editedText}
             />
@@ -38,12 +38,12 @@ export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
                         });
                         setEdit({ ...edit, editMode: false });
                     }}
-                    className="rounded-sm p-1 hover:scale-105 bg-yellow-200 transition-all">
+                    className="rounded-sm p-1 hover:scale-105 bg-yellow-200 dark:bg-yellow-500 transition-all">
                     <CheckIcon className={"w-3 h-3"} />
                 </button>
                 <button
                     onClick={() => setEdit({ ...edit, editMode: false })}
-                    className="ml-1 rounded-sm p-1 hover:scale-105 bg-red-400 transition-all">
+                    className="ml-1 rounded-sm p-1 hover:scale-105 bg-red-400 dark:bg-red-600 transition-all">
                     <ArrowRightIcon className={"w-3 h-3"} />
                 </button>
             </div>
