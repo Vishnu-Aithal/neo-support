@@ -1,8 +1,12 @@
 import { DeleteIcon } from "assets/Icons/Icons";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppSelector } from "store/TypedExports";
+import { LinkType } from "types/Link";
+import { NotificationType } from "types/Notification";
+import { AnswerType, QuestionType } from "types/Post";
+import { UserType } from "types/User";
 import {
     deleteNotification,
     getParentData,
@@ -10,10 +14,16 @@ import {
     markNotificationAsRead,
 } from "utils/firebase-utils";
 
-export const Notification = ({ notification }) => {
-    const currentUser = useSelector((state) => state.currentUser);
-    const [userData, setUserData] = useState(null);
-    const [parentData, setParentData] = useState(null);
+interface NotificationProps {
+    notification: NotificationType;
+}
+
+export const Notification: React.FC<NotificationProps> = ({ notification }) => {
+    const currentUser = useAppSelector((state) => state.currentUser)!; // page not accessable if no current User
+    const [userData, setUserData] = useState<UserType | null>(null);
+    const [parentData, setParentData] = useState<
+        QuestionType | AnswerType | LinkType | null
+    >(null);
     const message = {
         comment: "commented",
         answer: "answered",
@@ -24,20 +34,23 @@ export const Notification = ({ notification }) => {
         answers: "your answer",
     };
     const getLink = () => {
-        if (notification.type === "comment") {
-            if (parentData.collection === "questions") {
-                return `/question/${parentData.uid}`;
+        if (parentData) {
+            if (notification.type === "comment") {
+                if (parentData.collection === "questions") {
+                    return `/question/${parentData.uid}`;
+                }
+                if (parentData.collection === "answers") {
+                    return `/question/${parentData.parentId}?answerId=${parentData.uid}`;
+                }
+                if (parentData.collection === "links") {
+                    return `/profile/my-pr-links?prId=${parentData.uid}`;
+                }
             }
-            if (parentData.collection === "answers") {
-                return `/question/${parentData.parentId}?answerId=${parentData.uid}`;
-            }
-            if (parentData.collection === "links") {
-                return `/profile/my-pr-links?prId=${parentData.uid}`;
+            if (notification.type === "answer") {
+                return `/question/${parentData.uid}?answerId=${notification.uid}`;
             }
         }
-        if (notification.type === "answer") {
-            return `/question/${parentData.uid}?answerId=${notification.uid}`;
-        }
+        return "/";
     };
     useEffect(() => {
         (async () => {
@@ -48,14 +61,14 @@ export const Notification = ({ notification }) => {
             );
             setUserData(user);
 
-            if (!parent) {
+            if (!parent && currentUser) {
                 console.log("here");
                 deleteNotification(notification, currentUser.uid);
             } else {
-                setParentData(parent);
+                parent && setParentData(parent);
             }
         })();
-    }, [notification, currentUser.uid]);
+    }, [notification, currentUser]);
     return (
         parentData &&
         userData && (
@@ -94,7 +107,9 @@ export const Notification = ({ notification }) => {
                                     : parent[notification.parentCollection]
                             }`}
                         </p>
-                        <p className="font-semibold text-lg mt-2">{`${parentData?.title}`}</p>
+                        <p className="font-semibold mt-2">
+                            {parentData?.title}
+                        </p>
                     </div>
                 </Link>
             </div>

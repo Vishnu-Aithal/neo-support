@@ -1,9 +1,14 @@
 import MDEditor from "@uiw/react-md-editor";
-import { useSelector } from "react-redux";
+import { SetStateAction } from "react";
 import rehypeSanitize from "rehype-sanitize";
+import { useAppSelector } from "store/TypedExports";
 
-export const NewPost = ({ value, setValue }) => {
-    const darkMode = useSelector((state) => state.theme.darkMode);
+interface NewPostProps {
+    value: string;
+    setValue: React.Dispatch<SetStateAction<string>>;
+}
+export const NewPost: React.FC<NewPostProps> = ({ value, setValue }) => {
+    const darkMode = useAppSelector((state) => state.theme.darkMode);
     return (
         <div
             data-color-mode={`${darkMode ? "dark" : "light"}`}
@@ -18,7 +23,9 @@ export const NewPost = ({ value, setValue }) => {
                 }
                 visiableDragbar={false}
                 value={value}
-                onChange={setValue}
+                onChange={(editor, data, value) =>
+                    setValue(editor ? editor : "")
+                } // TODO Visit Here
                 previewOptions={{
                     rehypePlugins: [[rehypeSanitize]],
                 }}

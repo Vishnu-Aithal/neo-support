@@ -1,7 +1,18 @@
 import { useState } from "react";
+import { LinkType } from "types/Link";
+import { AnswerType, QuestionType } from "types/Post";
+import { UserType } from "types/User";
 import { addNewComment } from "utils/firebase-utils";
 
-export const NewComment = ({ parent = {}, currentUser = null }) => {
+interface NewCommentProps {
+    parent: QuestionType | AnswerType | LinkType;
+    currentUser: UserType;
+}
+
+export const NewComment: React.FC<NewCommentProps> = ({
+    parent,
+    currentUser,
+}) => {
     const [body, setBody] = useState("");
     return (
         <div className="flex">
@@ -19,7 +30,6 @@ export const NewComment = ({ parent = {}, currentUser = null }) => {
                         parentCollection: parent.collection,
                         body,
                         author: currentUser.uid,
-                        authorDetails: currentUser,
                     });
                     setBody("");
                 }}

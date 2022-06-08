@@ -2,17 +2,21 @@ import { Preview } from "../Previews/Preview";
 import { useMyQuestions } from "utils/firebase-utils";
 
 import { setMyQuestions } from "store/profile-slice";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "store/TypedExports";
 
-export const MyQuestions = () => {
-    const questions = useSelector((state) => state.profile.myQuestions);
-    const currentUser = useSelector((state) => state.currentUser);
+export const MyQuestions: React.FC = () => {
+    const questions = useAppSelector((state) => state.profile.myQuestions);
+    const currentUser = useAppSelector((state) => state.currentUser)!;
 
     useMyQuestions(currentUser.uid, setMyQuestions);
     return (
         <>
             {questions.map((question) => (
-                <Preview postData={question} key={question.uid} />
+                <Preview
+                    postData={question}
+                    key={question.uid}
+                    type={"question"}
+                />
             ))}
         </>
     );

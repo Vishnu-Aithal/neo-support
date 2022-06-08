@@ -1,9 +1,9 @@
 import { Container } from "components/Layout/Container";
 import { Notification } from "components/Notification/Notification";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "store/TypedExports";
 
-export const NotificationsPage = () => {
-    const currentUser = useSelector((state) => state.currentUser);
+export const NotificationsPage: React.FC = () => {
+    const currentUser = useAppSelector((state) => state.currentUser);
 
     return (
         <Container>

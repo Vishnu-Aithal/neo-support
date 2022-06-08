@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
     signInWithGoogle,
@@ -8,7 +8,7 @@ import {
 import { GoogleIcon } from "../../assets/Icons/Icons";
 import { InputField } from "./InputField";
 
-export const SignIn = () => {
+export const SignIn: React.FC = () => {
     const [signUpMode, setSignUpMode] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,6 +17,7 @@ export const SignIn = () => {
     const [validEmail, setValidEmail] = useState(false);
     useEffect(() => {
         const regex =
+            // eslint-disable-next-line no-useless-escape
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (email.trim()) {
             regex.test(email) ? setValidEmail(true) : setValidEmail(false);
@@ -34,14 +35,22 @@ export const SignIn = () => {
                             name="displayNAme"
                             value={displayName}
                             type={"text"}
-                            onChange={(e) => setDisplayName(e.target.value)}
+                            onChange={(e: ChangeEvent) =>
+                                setDisplayName(
+                                    (e.target as HTMLInputElement)?.value
+                                )
+                            }
                         />
                         <InputField
                             label={"Photo URL"}
                             name="photoURL"
                             value={photoURL}
                             type={"url"}
-                            onChange={(e) => setphotoURL(e.target.value)}
+                            onChange={(e: ChangeEvent) =>
+                                setphotoURL(
+                                    (e.target as HTMLInputElement)?.value
+                                )
+                            }
                         />
                     </>
                 )}
@@ -50,14 +59,18 @@ export const SignIn = () => {
                     name="email"
                     value={email}
                     type={"email"}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: ChangeEvent) =>
+                        setEmail((e.target as HTMLInputElement)?.value)
+                    }
                 />
                 <InputField
                     label={"Password"}
                     name="password"
                     value={password}
                     type={"password"}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: ChangeEvent) =>
+                        setPassword((e.target as HTMLInputElement)?.value)
+                    }
                 />
 
                 {!signUpMode && (
@@ -75,8 +88,7 @@ export const SignIn = () => {
                                 signInWithEmailPassword({ email, password })
                             }
                             disabled={!(validEmail && password)}
-                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700  border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400"
-                            to={"/pull-requests"}>
+                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700  border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400">
                             Sign In
                         </button>
                     </div>
@@ -108,8 +120,7 @@ export const SignIn = () => {
                                     photoURL
                                 )
                             }
-                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700 border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400"
-                            to={"/pull-requests"}>
+                            className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700 border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400">
                             Sign Up
                         </button>
                     </div>
@@ -128,12 +139,11 @@ export const SignIn = () => {
                 <button
                     onClick={() =>
                         signInWithEmailPassword({
-                            email: process.env.REACT_APP_TEST_EMAIL,
-                            password: process.env.REACT_APP_TEST_PASSWORD,
+                            email: process.env.REACT_APP_TEST_EMAIL!,
+                            password: process.env.REACT_APP_TEST_PASSWORD!,
                         })
                     }
-                    className="px-4 py-1 w-full text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md ml-auto font-bold disabled:pointer-events-none dark:bg-zinc-700 dark:border-zinc-600 dark:hover:text-white"
-                    to={"/pull-requests"}>
+                    className="px-4 py-1 w-full text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white border shadow-sm rounded-md ml-auto font-bold disabled:pointer-events-none dark:bg-zinc-700 dark:border-zinc-600 dark:hover:text-white">
                     Sign In Demo
                 </button>
                 <Link

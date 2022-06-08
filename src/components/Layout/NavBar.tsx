@@ -1,8 +1,20 @@
 import { NavLink } from "react-router-dom";
-import { BellIcon, GithubIcon, PostIcon, UserIcon } from "assets/Icons/Icons";
-import { useSelector } from "react-redux";
+import {
+    BellIcon,
+    GithubIcon,
+    IconType,
+    PostIcon,
+    UserIcon,
+} from "assets/Icons/Icons";
+import { useAppSelector } from "store/TypedExports";
 
-const NavBarLink = ({ to, Icon, name }) => {
+interface NavBarLinkProps {
+    to: string;
+    Icon: IconType;
+    name: string;
+}
+
+const NavBarLink: React.FC<NavBarLinkProps> = ({ to, Icon, name }) => {
     return (
         <NavLink
             to={to}
@@ -25,8 +37,8 @@ const NavBarLink = ({ to, Icon, name }) => {
     );
 };
 
-export const NavBar = () => {
-    const currentUser = useSelector((state) => state.currentUser);
+export const NavBar: React.FC = () => {
+    const currentUser = useAppSelector((state) => state.currentUser);
     const notificationCount = currentUser?.notifications?.reduce(
         (count, notification) =>
             notification.read === false ? count + 1 : count,

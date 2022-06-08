@@ -1,16 +1,32 @@
+import { SetStateAction } from "react";
 import { NewPost } from "./NewPost";
 
-export const NewPostContainer = ({
-    type,
-    title,
-    setTitle,
-    addClickHandler,
-    body,
-    setBody,
-    currentTags,
-    currentTagHandler,
-    tags,
-}) => {
+interface CommonProps {
+    type: "answer" | "edit" | "question";
+    title: string;
+    setTitle: React.Dispatch<SetStateAction<string>>;
+    addClickHandler: () => void;
+    body: string;
+    setBody: React.Dispatch<SetStateAction<string>>;
+}
+
+interface NewAnswerProps extends CommonProps {
+    type: "answer";
+}
+interface EditPostProps extends CommonProps {
+    type: "edit";
+}
+interface NewQuestionProps extends CommonProps {
+    type: "question";
+    currentTags: string[];
+    currentTagHandler: (tag: string) => void;
+    tags: string[];
+}
+
+type NewPostContainerProps = NewAnswerProps | EditPostProps | NewQuestionProps;
+
+export const NewPostContainer: React.FC<NewPostContainerProps> = (props) => {
+    const { type, title, setTitle, addClickHandler, body, setBody } = props;
     const buttonTypes = {
         question: "Post Question",
         answer: "Post Answer",
@@ -32,13 +48,13 @@ export const NewPostContainer = ({
                 placeholder={`${placeHolderTypes[type]} `}
             />
             <NewPost value={body} setValue={setBody} />
-            {type === "question" && (
+            {props.type === "question" && (
                 <div className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
+                    {props.tags.map((tag) => (
                         <button
-                            onClick={() => currentTagHandler(tag)}
+                            onClick={() => props.currentTagHandler(tag)}
                             className={`${
-                                currentTags.includes(tag)
+                                props.currentTags.includes(tag)
                                     ? "bg-gray-300 dark:bg-zinc-700"
                                     : ""
                             } p-2 border dark:border-zinc-600 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600`}>

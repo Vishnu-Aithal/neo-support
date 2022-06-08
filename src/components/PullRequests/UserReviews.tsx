@@ -1,4 +1,6 @@
-export const UserReviews = ({ data }) => {
+import { Reviewer } from "utils/github-utils/github";
+
+export const UserReviews: React.FC<{ data: Reviewer }> = ({ data }) => {
     return (
         <div className="w-full border dark:border-zinc-600 mb-2 rounded-md">
             <div className="flex items-center border-b dark:border-zinc-600 p-2">

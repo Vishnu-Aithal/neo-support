@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { OpenEyeIcon, ClosedEyeIcon } from "assets/Icons/Icons";
 
-export const InputField = ({ type, label, name, value, onChange }) => {
+interface InputFieldProps {
+    type: string;
+    label: string;
+    name: string;
+    value: string;
+    onChange: (e: ChangeEvent) => void;
+}
+export const InputField: React.FC<InputFieldProps> = ({
+    type,
+    label,
+    name,
+    value,
+    onChange,
+}) => {
     const [showPassword, setShowPassword] = useState(false);
     return (
         <div className="relative mt-8 after:w-full after:h-0.5 after:bg-gray-500 after:absolute after:bottom-0 after:left-0 after:scale-x-0 focus-within:after:scale-x-100 after:transition-transform">

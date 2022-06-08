@@ -1,6 +1,15 @@
 import { DeleteIcon } from "assets/Icons/Icons";
+import { LinkType } from "types/Link";
 
-export const PRCardDeleteButton = ({ deletePRlink, prData }) => {
+interface DeleteProps {
+    deletePRlink: (prData: LinkType) => Promise<void>;
+    prData: LinkType;
+}
+
+export const PRCardDeleteButton: React.FC<DeleteProps> = ({
+    deletePRlink,
+    prData,
+}) => {
     return (
         <button
             onClick={() => deletePRlink(prData)}

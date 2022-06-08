@@ -117,16 +117,20 @@ export const useQuestions = (
 };
 export const useSingleQuestion = (
     questionId: string,
-    setQuestion: React.Dispatch<SetStateAction<QuestionType>>
+    setQuestion: React.Dispatch<SetStateAction<QuestionType | null>>
 ) => {
     return useEffect(() => {
         const questionRef = doc(db, "questions", questionId);
         const unsubscribe = onSnapshot(questionRef, (questionSnapshot) => {
-            const data = questionSnapshot.data() as QuestionTypeServer;
-            const uid = questionSnapshot.id;
-            const created = getDateString(data.created);
+            if (questionSnapshot.exists()) {
+                const data = questionSnapshot.data() as QuestionTypeServer;
+                const uid = questionSnapshot.id;
+                const created = getDateString(data.created);
 
-            setQuestion({ uid, ...data, created });
+                setQuestion({ uid, ...data, created });
+            } else {
+                setQuestion(null);
+            }
         });
         return unsubscribe;
     }, [setQuestion, questionId]);

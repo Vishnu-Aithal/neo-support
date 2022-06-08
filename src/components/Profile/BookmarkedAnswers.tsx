@@ -1,18 +1,21 @@
 import { Preview } from "../Previews/Preview";
 
-import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useMyBookmarkedAnswers } from "utils/firebase-utils";
+import { AnswerType } from "types/Post";
+import { useAppSelector } from "store/TypedExports";
 
-export const BookMarkedAnswers = () => {
-    const [bookMarkedAnswers, setBookMarkedAnswers] = useState([]);
-    const currentUser = useSelector((state) => state.currentUser);
+export const BookMarkedAnswers: React.FC = () => {
+    const [bookMarkedAnswers, setBookMarkedAnswers] = useState<AnswerType[]>(
+        []
+    );
+    const currentUser = useAppSelector((state) => state.currentUser)!;
 
     useMyBookmarkedAnswers(currentUser.uid, setBookMarkedAnswers);
     return (
         <>
             {bookMarkedAnswers.map((post) => (
-                <Preview postData={post} key={post.uid} />
+                <Preview postData={post} key={post.uid} type={"answer"} />
             ))}
         </>
     );

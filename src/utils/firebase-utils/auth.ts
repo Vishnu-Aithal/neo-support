@@ -6,12 +6,15 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
+    User,
 } from "firebase/auth";
 import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { UserType } from "types/User";
 import { AppDispatch } from "store/store";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import { useEffect, useState } from "react";
+import { UserState } from "store/currentUser-slice";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -103,15 +106,27 @@ export const getUserData = async (userId: string) => {
     return userDataSnapshot.data() as UserType;
 };
 
-//BUG explicit any type
-export const onAuthListener = (callbackFunc: any) => {
+export const useAuthorDetails = (authorId: string) => {
+    const [authorDetails, setAuthorDetails] = useState<UserState>(null);
+    useEffect(() => {
+        (async () => {
+            const userDetails = await getUserData(authorId);
+            setAuthorDetails(userDetails);
+        })();
+    }, [authorId, setAuthorDetails]);
+    return authorDetails;
+};
+
+export const onAuthListener = (
+    callbackFunc: (user: User | null) => Promise<void>
+) => {
     return onAuthStateChanged(auth, callbackFunc);
 };
 
 export const listenUserData = (
-    user: UserType,
+    user: User,
     dispatch: AppDispatch,
-    actionCreater: ActionCreatorWithPayload<UserType>
+    actionCreater: ActionCreatorWithPayload<UserState>
 ) => {
     const userRef = doc(db, "users", user.uid);
     const unsubscribe = onSnapshot(userRef, (snapshot) => {

@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { CommentType } from "types/Comment";
+import { LinkType } from "types/Link";
+import { AnswerType, QuestionType } from "types/Post";
 import { getParentData } from "utils/firebase-utils";
 import { Comment } from "./Comment";
 
-export const CommentLinks = ({ commentData }) => {
-    const [parent, setParent] = useState(null);
+export const CommentLinks: React.FC<{ commentData: CommentType }> = ({
+    commentData,
+}) => {
+    const [parent, setParent] = useState<
+        QuestionType | AnswerType | LinkType | null
+    >(null);
     const navigate = useNavigate();
     const getLink = () => {
-        if (parent.collection === "questions") {
-            return `/question/${parent.uid}`;
+        if (parent) {
+            if (parent.collection === "questions") {
+                return `/question/${parent.uid}`;
+            }
+            if (parent.collection === "answers") {
+                return `/question/${parent.parentId}?answerId=${parent.uid}`;
+            }
+            if (parent.collection === "links") {
+                return `/profile/my-pr-links?prId=${parent.uid}`;
+            }
         }
-        if (parent.collection === "answers") {
-            return `/question/${parent.parentId}?answerId=${parent.uid}`;
-        }
-        if (parent.collection === "links") {
-            return `/profile/my-pr-links?prId=${parent.uid}`;
-        }
+        return "/profile";
     };
     useEffect(() => {
         (async () => {
@@ -23,12 +33,11 @@ export const CommentLinks = ({ commentData }) => {
                 commentData.parentCollection,
                 commentData.parentId
             );
-            setParent(parentData);
+            parentData && setParent(parentData);
         })();
     }, [commentData]);
-    return (
-        parent &&
-        parent.collection !== "links" && (
+    if (parent && parent.collection !== "links") {
+        return (
             <button
                 onClick={() => navigate(getLink())}
                 className="border text-left dark:border-zinc-600 rounded-md p-1 hover:bg-gray-200 dark:hover:bg-zinc-600">
@@ -38,6 +47,8 @@ export const CommentLinks = ({ commentData }) => {
                     key={commentData.uid}
                 />
             </button>
-        )
-    );
+        );
+    } else {
+        return <></>;
+    }
 };

@@ -10,16 +10,17 @@ import {
 import { useParams } from "react-router-dom";
 import { Answer } from "components/Posts/Answer";
 import { NewPostContainer } from "components/Posts/NewPostContainer";
-import { useSelector } from "react-redux";
+import { AnswerType, QuestionType } from "types/Post";
+import { useAppSelector } from "store/TypedExports";
 
-export const SingleQuestionsPage = () => {
-    const { questionId } = useParams();
-    const [question, setQuestion] = useState(null);
+export const SingleQuestionsPage: React.FC = () => {
+    const { questionId } = useParams() as { questionId: string };
+    const [question, setQuestion] = useState<QuestionType | null>(null);
 
     useSingleQuestion(questionId, setQuestion);
-    const currentUser = useSelector((state) => state.currentUser);
-    const [answers, setAnswers] = useState([]);
-    const [sortedAnswers, setSortedAnswers] = useState([]);
+    const currentUser = useAppSelector((state) => state.currentUser);
+    const [answers, setAnswers] = useState<AnswerType[]>([]);
+    const [sortedAnswers, setSortedAnswers] = useState<AnswerType[]>([]);
     const [answerTitle, setAnswerTitle] = useState("");
 
     const [answerBody, setAnswerBody] = useState("");
@@ -36,13 +37,12 @@ export const SingleQuestionsPage = () => {
     }, [answers]);
 
     const addClickHandler = () => {
-        addNewAnswer(question, {
+        addNewAnswer(question!, {
             title: answerTitle,
             parentId: questionId,
             parentCollection: "questions",
             body: answerBody,
-            author: currentUser.uid,
-            authorDetails: currentUser,
+            author: currentUser!.uid,
             upVotes: [],
             downVotes: [],
         });
@@ -50,9 +50,9 @@ export const SingleQuestionsPage = () => {
         setAnswerTitle("");
     };
 
-    return (
+    return question ? (
         <Container>
-            {question && <Question question={question} />}
+            {<Question question={question} />}
             <div className="border-b-2 w-full p-2 border-zinc-400">
                 {answers.length !== 0 ? (
                     <h2 className="font-semibold">{`${answers.length} Answers`}</h2>
@@ -75,5 +75,9 @@ export const SingleQuestionsPage = () => {
                 />
             )}
         </Container>
+    ) : (
+        <h2 className="font-semibold m-auto uppercase text-xl">
+            Question Not Found
+        </h2>
     );
 };

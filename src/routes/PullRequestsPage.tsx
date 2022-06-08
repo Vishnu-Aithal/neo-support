@@ -4,17 +4,18 @@ import { addNewPRLink, usePRLinks } from "utils/firebase-utils";
 
 import { setPullRequests } from "store/pullRequests-slice";
 import { NewPullRequest } from "components/PullRequests/NewPullRequest";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useAppSelector } from "store/TypedExports";
+import { LinkType } from "types/Link";
 
-export const PullRequestsPage = () => {
-    const prLinks = useSelector((state) => state.pullRequests.pullRequests);
-    const [filteredPrLinks, setFilteredPrLinks] = useState([]);
+export const PullRequestsPage: React.FC = () => {
+    const prLinks = useAppSelector((state) => state.pullRequests.pullRequests);
+    const [filteredPrLinks, setFilteredPrLinks] = useState<LinkType[]>([]);
     const [currentPod, setCurrentPod] = useState("ALL");
 
     const pods = ["ALL", "POD A", "POD B", "POD C", "POD D"];
 
-    const currentUser = useSelector((state) => state.currentUser);
+    const currentUser = useAppSelector((state) => state.currentUser);
 
     usePRLinks(setPullRequests);
 
@@ -30,7 +31,9 @@ export const PullRequestsPage = () => {
 
     return (
         <Container>
-            <NewPullRequest {...{ currentUser, addNewPRLink }} />
+            {currentUser && (
+                <NewPullRequest {...{ currentUser, addNewPRLink }} />
+            )}
             <div className="w-full flex flex-wrap gap-2">
                 <h2 className=" font-semibold text-zinc-500 w-full">
                     FILTER BY POD

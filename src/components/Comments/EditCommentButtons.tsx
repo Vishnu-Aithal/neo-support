@@ -1,8 +1,22 @@
 import { ArrowRightIcon, CheckIcon } from "assets/Icons/Icons";
-export const EditCommentButtons = ({
+import { CommentType } from "types/Comment";
+import { editComment } from "utils/firebase-utils";
+interface EditCommentButtonsProps {
+    setEdit: React.Dispatch<
+        React.SetStateAction<{
+            editMode: boolean;
+            editedText: string;
+        }>
+    >;
+    edit: {
+        editMode: boolean;
+        editedText: string;
+    };
+    commentData: CommentType;
+}
+export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
     setEdit,
     edit,
-    editComment,
     commentData,
 }) => {
     return (

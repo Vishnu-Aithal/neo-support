@@ -1,13 +1,13 @@
 import { useMyComments } from "utils/firebase-utils";
 import { setMyComments } from "store/profile-slice";
 
-import { useSelector } from "react-redux";
 import { CommentLinks } from "components/Comments/CommentLinks";
+import { useAppSelector } from "store/TypedExports";
 
-export const MyComments = () => {
-    const comments = useSelector((state) => state.profile.myComments);
+export const MyComments: React.FC = () => {
+    const comments = useAppSelector((state) => state.profile.myComments);
 
-    const currentUser = useSelector((state) => state.currentUser);
+    const currentUser = useAppSelector((state) => state.currentUser)!;
 
     useMyComments(currentUser.uid, setMyComments);
     return (

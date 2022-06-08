@@ -44,7 +44,7 @@ export const deleteChildAnswers = async (parentId: string) => {
 
 export const addNewAnswer = async (
     parent: QuestionType,
-    answerData: AnswerType
+    answerData: Omit<AnswerType, "uid" | "collection" | "created">
 ) => {
     try {
         const response = await addDoc(answersCollectionRef, {
@@ -52,7 +52,7 @@ export const addNewAnswer = async (
             collection: "answers",
             created: serverTimestamp(),
         });
-        const questionRef = doc(db, "questions", answerData.parentId);
+        const questionRef = doc(db, "questions", answerData?.parentId);
         await updateDoc(questionRef, { answers: arrayUnion(response.id) });
         await addNewNotification(parent, answerData, response.id, "answer");
         toast.success("Answer Posted SuccesFully!");

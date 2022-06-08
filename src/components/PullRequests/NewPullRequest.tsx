@@ -1,13 +1,25 @@
-import { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { processUrlForValidation } from "utils/github-utils/github";
-export const NewPullRequest = ({ currentUser, addNewPRLink }) => {
+import { UserType } from "types/User";
+import { LinkType } from "types/Link";
+
+interface NewPullRequestProps {
+    currentUser: UserType;
+    addNewPRLink: (prData: Partial<LinkType>) => Promise<void>;
+}
+
+type PodSelect = "Select Pod" | `${"POD"} ${"A" | "B" | "C" | "D"}`;
+export const NewPullRequest: React.FC<NewPullRequestProps> = ({
+    currentUser,
+    addNewPRLink,
+}) => {
     const [newLink, setNewLink] = useState("");
-    const [linkPod, setLinkPod] = useState("Select Pod");
+    const [linkPod, setLinkPod] = useState<PodSelect>("Select Pod");
     const [validLink, setValidLink] = useState(false);
 
     useEffect(() => {
-        let timeOutId;
+        let timeOutId: NodeJS.Timeout;
         setValidLink(false);
         (async () => {
             if (
@@ -41,7 +53,11 @@ export const NewPullRequest = ({ currentUser, addNewPRLink }) => {
             />
             <select
                 value={linkPod}
-                onChange={(e) => setLinkPod(e.target.value)}
+                onChange={(e: ChangeEvent) =>
+                    setLinkPod(
+                        (e.target as HTMLSelectElement).value as PodSelect
+                    )
+                }
                 name="pod"
                 id=""
                 className="p-2 border dark:border-zinc-600 dark:bg-zinc-700 rounded-md ml-2">
@@ -54,15 +70,16 @@ export const NewPullRequest = ({ currentUser, addNewPRLink }) => {
             <button
                 disabled={!validLink || linkPod === "Select Pod"}
                 onClick={() => {
-                    addNewPRLink({
-                        title: newLink,
-                        author: currentUser.uid,
-                        authorDetails: currentUser,
-                        link: newLink,
-                        pod: linkPod,
-                        hasTwoReviews: false,
-                    });
-                    setNewLink("");
+                    if (validLink && linkPod !== "Select Pod") {
+                        addNewPRLink({
+                            title: newLink,
+                            author: currentUser.uid,
+                            link: newLink,
+                            pod: linkPod,
+                            hasTwoReviews: false,
+                        });
+                        setNewLink("");
+                    }
                 }}
                 className="ml-2 px-5 py-2 border dark:border-zinc-600 rounded-md shadow-sm hover:scale-110 hover:bg-gray-200 dark:hover:bg-zinc-600 disabled:pointer-events-none disabled:text-gray-100 disabled:bg-gray-300 dark:disabled:text-zinc-600 dark:disabled:bg-gray-400">
                 Add

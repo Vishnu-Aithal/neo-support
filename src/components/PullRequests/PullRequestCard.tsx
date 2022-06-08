@@ -1,26 +1,29 @@
 import { useState, useEffect, useRef } from "react";
-import { getReviewsAndComments } from "utils/github-utils/github.js";
+import { getReviewsAndComments, Reviewer } from "utils/github-utils/github";
 import { Comment } from "components/Comments/Comment";
 import { NewComment } from "../Comments/NewComment";
 import { UserReviews } from "components/PullRequests/UserReviews";
 import { updatePRlink, deletePRlink, useComments } from "utils/firebase-utils";
 import { PRCardDeleteButton } from "./DeleteButton";
 import { useSearchParams } from "react-router-dom";
+import { UserType } from "types/User";
+import { LinkType } from "types/Link";
+import { CommentType } from "types/Comment";
 
-export const PullRequestCard = ({
-    currentUser = null,
-    prData = {
-        uid: "sdfasd",
-        link: "https://github.com/Vishnu-Aithal/notes-app/pull/1",
-        author: "UserId",
-        created: "fireBaseTimeStamp",
-    },
+interface PullRequestCardProps {
+    currentUser: UserType | null;
+    prData: LinkType;
+}
+
+export const PullRequestCard: React.FC<PullRequestCardProps> = ({
+    currentUser,
+    prData,
 }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const { link: url, created, uid } = prData;
-    const [userReviews, setUserReviews] = useState([]);
-    const [comments, setComments] = useState([]);
-    const prRef = useRef(null);
+    const [userReviews, setUserReviews] = useState<Reviewer[]>([]);
+    const [comments, setComments] = useState<CommentType[]>([]);
+    const prRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         (async () => {
@@ -39,11 +42,11 @@ export const PullRequestCard = ({
         const redirectedPrId = searchParams.get("prId");
         if (redirectedPrId === uid) {
             setTimeout(() => {
-                prRef.current.scrollIntoView({
+                prRef.current?.scrollIntoView({
                     behavior: "smooth",
                     block: "start",
                 });
-                prRef.current.classList.add("shadow-lg");
+                prRef.current?.classList.add("shadow-lg");
             }, 250);
             setSearchParams({}, { replace: true });
         }

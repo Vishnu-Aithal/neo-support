@@ -6,7 +6,9 @@ import { ConditionalRouter } from "routes/ConditionalRouter";
 import { Provider as StoreProvider } from "react-redux";
 import { store } from "store/store";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+    document.getElementById("root") as HTMLDivElement
+);
 root.render(
     <React.StrictMode>
         <BrowserRouter>

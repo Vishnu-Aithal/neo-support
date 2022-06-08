@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,15 +22,17 @@ import { BookMarkedAnswers } from "components/Profile/BookmarkedAnswers";
 import { UserFeedPage } from "./UserFeedPage";
 import { NotificationsPage } from "./NotificationsPage";
 import { restoreDarkMode } from "store/themeSlice";
+import { useAppDispatch, useAppSelector } from "store/TypedExports";
+import { User } from "firebase/auth";
 
-export const ConditionalRouter = () => {
-    const currentUser = useSelector((state) => state.currentUser);
-    const darkMode = useSelector((state) => state.theme.darkMode);
-    const dispatch = useDispatch();
-    let userDataUnsubscribe = useRef(() => null);
+export const ConditionalRouter: React.FC = () => {
+    const currentUser = useAppSelector((state) => state.currentUser);
+    const darkMode = useAppSelector((state) => state.theme.darkMode);
+    const dispatch = useAppDispatch();
+    let userDataUnsubscribe = useRef(() => {});
 
     useEffect(() => {
-        const listenerCleaner = onAuthListener(async (user) => {
+        const listenerCleaner = onAuthListener(async (user: User | null) => {
             userDataUnsubscribe.current();
             if (user) {
                 userDataUnsubscribe.current = listenUserData(

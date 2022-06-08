@@ -14,19 +14,27 @@ import {
 } from "utils/firebase-utils";
 
 import { PostBody } from "./PostBody";
-import { useSelector } from "react-redux";
 import { NewPostContainer } from "./NewPostContainer";
 import { PostButtons } from "./PostButtons";
 import { useSearchParams } from "react-router-dom";
+import { AnswerType, QuestionType } from "types/Post";
+import { useAppSelector } from "store/TypedExports";
+import { CommentType } from "types/Comment";
+import { useAuthorDetails } from "utils/firebase-utils/auth";
 
-export const Answer = ({ parent, answer }) => {
+interface AnswerProps {
+    parent: QuestionType;
+    answer: AnswerType;
+}
+
+export const Answer: React.FC<AnswerProps> = ({ parent, answer }) => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState<CommentType[]>([]);
     const [editMode, setEditMode] = useState(false);
     const [answerTitle, setAnswerTitle] = useState("");
     const [answerBody, setAnswerBody] = useState("");
-    const answerRef = useRef(null);
-    const currentUser = useSelector((state) => state.currentUser);
+    const answerRef = useRef<HTMLDivElement>(null);
+    const currentUser = useAppSelector((state) => state.currentUser);
     const editModeHandler = () => {
         setEditMode((editMode) => !editMode);
         setAnswerTitle(answer.title);
@@ -45,29 +53,33 @@ export const Answer = ({ parent, answer }) => {
         setEditMode(false);
     };
 
-    const deletePost = (post) => deleteAnswer(parent, post);
     useComments(answer.uid, setComments);
     useEffect(() => {
         const redirectedAnswerId = searchParams.get("answerId");
         if (redirectedAnswerId === answer.uid) {
-            answerRef.current.scrollIntoView({
+            answerRef?.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             });
             setSearchParams({}, { replace: true });
         }
     }, [searchParams, answer, setSearchParams]);
+    const authorDetails = useAuthorDetails(answer.author);
     return (
         <div ref={answerRef} className="relative w-full">
             {currentUser && (
                 <PostButtons
                     type="answer"
-                    deletePost={deletePost}
+                    deletePost={() => deleteAnswer(parent, answer)}
                     editMode={editMode}
                     editModeHandler={editModeHandler}
                     post={answer}
-                    addBookMarkPost={addBookMarkAnswer}
-                    removeBookMarkPost={removeBookMarkAnswer}
+                    addBookMarkPost={() =>
+                        addBookMarkAnswer(answer, currentUser.uid)
+                    }
+                    removeBookMarkPost={() =>
+                        removeBookMarkAnswer(answer, currentUser.uid)
+                    }
                 />
             )}
 
@@ -91,9 +103,16 @@ export const Answer = ({ parent, answer }) => {
                         <PostHeader
                             currentUser={currentUser}
                             post={answer}
-                            unVote={unVoteAnswer}
-                            upVote={upVoteAnswer}
-                            downVote={downVoteAnswer}
+                            unVote={(userId: string) =>
+                                unVoteAnswer(answer, userId)
+                            }
+                            upVote={(userId: string) =>
+                                upVoteAnswer(answer, userId)
+                            }
+                            downVote={(userId: string) =>
+                                downVoteAnswer(answer, userId)
+                            }
+                            authorDetails={authorDetails}
                         />
 
                         <PostBody post={answer} />

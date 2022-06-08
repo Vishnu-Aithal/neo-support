@@ -8,10 +8,11 @@ import {
 import { Link } from "react-router-dom";
 import { signOutFromApp } from "utils/firebase-utils";
 
-import { useDispatch, useSelector } from "react-redux";
 import { toggleDarkMode } from "store/themeSlice";
+import { UserType } from "types/User";
+import { useAppDispatch, useAppSelector } from "store/TypedExports";
 
-const UserDisplay = ({ currentUser }) => {
+const UserDisplay: React.FC<{ currentUser: UserType }> = ({ currentUser }) => {
     return (
         <Link
             to="/profile"
@@ -27,9 +28,9 @@ const UserDisplay = ({ currentUser }) => {
 };
 
 export const Header = () => {
-    const currentUser = useSelector((state) => state.currentUser);
-    const darkMode = useSelector((state) => state.theme.darkMode);
-    const dispatch = useDispatch();
+    const currentUser = useAppSelector((state) => state.currentUser);
+    const darkMode = useAppSelector((state) => state.theme.darkMode);
+    const dispatch = useAppDispatch();
     return (
         <header className="flex p-3 items-center h-fit border-b dark:border-zinc-700 dark:bg-zinc-800">
             <Link

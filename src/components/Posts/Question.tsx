@@ -15,16 +15,23 @@ import {
 
 import { PostHeader } from "./PostHeader";
 import { PostBody } from "./PostBody";
-import { useSelector } from "react-redux";
 import { NewPostContainer } from "./NewPostContainer";
 import { PostButtons } from "./PostButtons";
+import { QuestionType } from "types/Post";
+import { CommentType } from "types/Comment";
+import { useAppSelector } from "store/TypedExports";
+import { useAuthorDetails } from "utils/firebase-utils/auth";
 
-export const Question = ({ question }) => {
-    const [comments, setComments] = useState([]);
+interface QuestionProps {
+    question: QuestionType;
+}
+
+export const Question: React.FC<QuestionProps> = ({ question }) => {
+    const [comments, setComments] = useState<CommentType[]>([]);
     const [editMode, setEditMode] = useState(false);
     const [questionBody, setQuestionBody] = useState("");
     const [questionTitle, setQuestionTitle] = useState("");
-    const currentUser = useSelector((state) => state.currentUser);
+    const currentUser = useAppSelector((state) => state.currentUser);
     const editModeHandler = () => {
         setEditMode((editMode) => !editMode);
         setQuestionTitle(question.title);
@@ -43,18 +50,23 @@ export const Question = ({ question }) => {
         setEditMode(false);
     };
     useComments(question.uid, setComments);
+    const authorDetails = useAuthorDetails(question.author);
 
     return (
         <div className="flex flex-col w-full mx-auto relative">
             {currentUser && (
                 <PostButtons
                     type="question"
-                    deletePost={deleteQuestion}
+                    deletePost={() => deleteQuestion(question)}
                     editMode={editMode}
                     editModeHandler={editModeHandler}
                     post={question}
-                    addBookMarkPost={addBookMarkQuestion}
-                    removeBookMarkPost={removeBookMarkQuestion}
+                    addBookMarkPost={() =>
+                        addBookMarkQuestion(question, currentUser.uid)
+                    }
+                    removeBookMarkPost={() =>
+                        removeBookMarkQuestion(question, currentUser.uid)
+                    }
                 />
             )}
 
@@ -77,9 +89,16 @@ export const Question = ({ question }) => {
                     <PostHeader
                         currentUser={currentUser}
                         post={question}
-                        unVote={unVoteQuestion}
-                        upVote={upVoteQuestion}
-                        downVote={downVoteQuestion}
+                        unVote={(userId: string) =>
+                            unVoteQuestion(question, userId)
+                        }
+                        upVote={(userId: string) =>
+                            upVoteQuestion(question, userId)
+                        }
+                        downVote={(userId: string) =>
+                            downVoteQuestion(question, userId)
+                        }
+                        authorDetails={authorDetails}
                     />
                     <PostBody post={question} />
                     <div className="w-full flex flex-wrap p-4 gap-2">

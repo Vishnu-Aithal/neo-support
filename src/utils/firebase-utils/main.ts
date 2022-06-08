@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDoc, getFirestore, doc, Timestamp } from "firebase/firestore";
+import { LinkTypeServer } from "types/Link";
+import { AnswerTypeServer, QuestionTypeServer } from "types/Post";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -32,8 +34,12 @@ export const getParentData = async (
         const parent = await getDoc(doc(db, parentCollection, parentId));
 
         if (parent.exists()) {
-            const parentData = parent.data();
-            return { ...parentData, uid: parent.id };
+            const parentData = parent.data() as
+                | QuestionTypeServer
+                | AnswerTypeServer
+                | LinkTypeServer;
+            const created = getDateString(parentData.created);
+            return { ...parentData, uid: parent.id, created };
         }
         return null;
     } catch (error) {

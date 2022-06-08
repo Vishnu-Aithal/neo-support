@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { NavBar } from "components/Layout/NavBar";
 import { Header } from "components/Layout/Header";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "store/TypedExports";
 
 function App() {
-    const darkMode = useSelector((state) => state.theme.darkMode);
+    const darkMode = useAppSelector((state) => state.theme.darkMode);
     return (
         <div
             className={`h-screen w-screen flex flex-col text-zinc-700 ${

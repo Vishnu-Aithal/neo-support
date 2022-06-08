@@ -1,7 +1,7 @@
 import { Container } from "components/Layout/Container";
 import { NavLink, Outlet } from "react-router-dom";
 
-const TopNavLink = ({ to, name }) => (
+const TopNavLink: React.FC<{ [p: string]: string }> = ({ to, name }) => (
     <NavLink
         className={({ isActive }) =>
             `p-2 rounded-md border dark:border-zinc-600 hover:bg-gray-300 dark:hover:bg-zinc-600 ${

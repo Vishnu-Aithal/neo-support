@@ -4,23 +4,28 @@ import { NewPostContainer } from "components/Posts/NewPostContainer";
 import { Preview } from "components/Previews/Preview";
 
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { setQuestions, setSortedQuestions } from "store/questions-slice";
+import { useAppDispatch, useAppSelector } from "store/TypedExports";
 import { addNewQuestion } from "utils/firebase-utils";
 import { useQuestions } from "utils/firebase-utils";
 
-export const QuestionsPage = () => {
-    const dispatch = useDispatch();
-    const questions = useSelector((state) => state.questions.questions);
-    const sortedQuestions = useSelector(
+export const QuestionsPage: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const questions = useAppSelector((state) => state.questions.questions);
+    const sortedQuestions = useAppSelector(
         (state) => state.questions.sortedQuestions
     );
     const [questionBody, setQuestionBody] = useState("");
     const [questionTitle, setQuestionTitle] = useState("");
-    const [newQuestionTags, setNewQuestionTags] = useState([]);
+    const [newQuestionTags, setNewQuestionTags] = useState<string[]>([]);
     const [showNewQuestion, setShowNewQuestion] = useState(false);
-    const currentUser = useSelector((state) => state.currentUser);
-    const [filters, setFilters] = useState({
+    const currentUser = useAppSelector((state) => state.currentUser);
+    const [filters, setFilters] = useState<{
+        searchTerm: string;
+        filterTags: string[];
+        newestFirst: boolean;
+        sort: "top-first" | "newest-first" | "oldest-first";
+    }>({
         searchTerm: "",
         filterTags: [],
         newestFirst: true,
@@ -62,11 +67,11 @@ export const QuestionsPage = () => {
 
         if (filters.sort === "newest-first") {
             filtered.sort((a, b) => {
-                return new Date(b.created) - new Date(a.created);
+                return Date.parse(b.created) - Date.parse(a.created);
             });
         } else if (filters.sort === "oldest-first") {
             filtered.sort((a, b) => {
-                return new Date(a.created) - new Date(b.created);
+                return Date.parse(a.created) - Date.parse(b.created);
             });
         } else {
             filtered.sort((a, b) => {
@@ -83,8 +88,7 @@ export const QuestionsPage = () => {
         addNewQuestion({
             title: questionTitle,
             body: questionBody,
-            author: currentUser.uid,
-            authorDetails: currentUser,
+            author: currentUser?.uid,
             tags: newQuestionTags,
             answers: [],
             upVotes: [],
@@ -94,7 +98,7 @@ export const QuestionsPage = () => {
         setQuestionBody("");
     };
 
-    const newQuestionTagHandler = (tag) => {
+    const newQuestionTagHandler = (tag: string) => {
         if (newQuestionTags.includes(tag)) {
             setNewQuestionTags(
                 newQuestionTags.filter((currentTag) => currentTag !== tag)
@@ -104,7 +108,7 @@ export const QuestionsPage = () => {
         }
     };
 
-    const filterTagsHandler = (tag) => {
+    const filterTagsHandler = (tag: string) => {
         if (filters.filterTags.includes(tag)) {
             setFilters({
                 ...filters,
@@ -210,7 +214,11 @@ export const QuestionsPage = () => {
                 />
             )}
             {sortedQuestions.map((question) => (
-                <Preview key={question.uid} postData={question} />
+                <Preview
+                    key={question.uid}
+                    postData={question}
+                    type={"question"}
+                />
             ))}
         </Container>
     );

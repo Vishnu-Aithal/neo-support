@@ -1,6 +1,6 @@
 import axios from "axios";
 
-interface Reviewer {
+export interface Reviewer {
     id: string;
     login: string;
     img: string;
