@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# This is Temparory-Development Branch of my Solo hackathon Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I will Add additional features to submit this as a macro project for my weekFour Submission, with different Hosting Link.
 
-## Available Scripts
+Code written during hackathon 48Hours time is in the master branch, hosted with same link as submitted, with last commit before "09:00-AM 09-05-2022". which will not be touched.
 
-In the project directory, you can run:
+# Neo - Support - React
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ![Site Video](https://github.com/Vishnu-Aithal/neo-support/blob/temp-dev/src/assets/images/neo-support.gif)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Live Link - https://neo-support-git-temp-dev-vishnu-aithal.vercel.app/
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> ### Tech Stack Used:
 
-### `npm run build`
+-   HTML5
+-   Tailwind CSS
+-   ReactJS
+-   Redux Toolkit
+-   React Router
+-   FireBase
+-   React Md Editor
+-   Rehype Sanitize
+-   React - Toastify
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> ### Features:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   Auth - Login - Sign up - logout - Persist Login
+-   Mobile Responsive
+-   Dark Mode - Persist
+-   Toasts
+-   React Router
+-   Redux Toolkit
+-   Api Calls
+-   Backend
+-   Database
+-   Pull Requests
+    -   Url Validation with debounce
+    -   Filter by Pod
+    -   fetch reviews and comments from github api
+    -   auto detection of 2 peer reviews and highlight
+    -   Comment on Pr Cards
+-   Posts
+    -   Markdown posts for question and answer
+    -   Tags for questions
+    -   Editable posts
+    -   delete post
+    -   image- url support
+-   Votes on Posts
+    -   Upvote
+    -   DownVote
+    -   Cancel Vote
+-   Filter Questions
+    - By Search Term
+    -   By tags
+    -   By Date Created
+    -   By Votes
+-   Comment on Question, Answer, PR-Card
 
-### `npm run eject`
+-   Realtime Notifications
+    -   Unread Notification COunt
+    -   For comments on your posts, PR-cards
+    -   For answers to your Question
+    -   For Bookmarked Questions and Answers
+-   Follow posts by Bookmark (recieve live notifications on bookmarked posts)
+-   Profile
+    -   All Pr-links with completed highlighted in green
+    -   All comments which navigate to source on click
+    -   All my Questions
+    -   All my ANswers
+    -   All my Bookmarks
+-   And Many More
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> ### How to run locally:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Fork the Repo
+2. cd root directory
+3. run npm install to install dependencies
+4. run npm start to spin up a local dev server
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
