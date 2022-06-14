@@ -24,6 +24,7 @@ import { NotificationsPage } from "./NotificationsPage";
 import { restoreDarkMode } from "store/themeSlice";
 import { useAppDispatch, useAppSelector } from "store/TypedExports";
 import { User } from "firebase/auth";
+import { MyDetails } from "components/Profile/MyDetails";
 
 export const ConditionalRouter: React.FC = () => {
     const currentUser = useAppSelector((state) => state.currentUser);
@@ -98,6 +99,7 @@ export const ConditionalRouter: React.FC = () => {
                                 path="bookmarked-answers"
                                 element={<BookMarkedAnswers />}
                             />
+                            <Route path="my-details" element={<MyDetails />} />
                         </Route>
                     </Route>
                 </Route>

@@ -29,6 +29,7 @@ export const ProfilePage = () => {
                     to="/profile/bookmarked-answers"
                     name="Bookmarked Answers"
                 />
+                <TopNavLink to="/profile/my-details" name="My Details" />
             </div>
             <Outlet />
         </Container>

@@ -6,7 +6,8 @@ interface InputFieldProps {
     label: string;
     name: string;
     value: string;
-    onChange: (e: ChangeEvent) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    disabled?: boolean;
 }
 export const InputField: React.FC<InputFieldProps> = ({
     type,
@@ -14,6 +15,7 @@ export const InputField: React.FC<InputFieldProps> = ({
     name,
     value,
     onChange,
+    disabled,
 }) => {
     const [showPassword, setShowPassword] = useState(false);
     return (
@@ -30,6 +32,7 @@ export const InputField: React.FC<InputFieldProps> = ({
                         : "password"
                 }
                 placeholder={label}
+                disabled={disabled}
             />
             <label className="absolute top-1 left-2 text-xs font-semibold  -translate-y-6  -translate-x-1 peer-placeholder-shown:translate-y-0 transition-all pointer-events-none peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-placeholder-shown:font-normal peer-placeholder-shown:translate-x-0">
                 {label}

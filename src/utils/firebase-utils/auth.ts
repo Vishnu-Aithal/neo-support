@@ -8,7 +8,7 @@ import {
     createUserWithEmailAndPassword,
     User,
 } from "firebase/auth";
-import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { UserType } from "types/User";
 import { AppDispatch } from "store/store";
@@ -134,4 +134,17 @@ export const listenUserData = (
         dispatch(actionCreater(currentUserData));
     });
     return unsubscribe;
+};
+
+export const updateUserDetails = async (
+    updatedDetails: Partial<UserType>,
+    userId: string
+) => {
+    try {
+        const userRef = doc(db, "users", userId);
+        await updateDoc(userRef, updatedDetails);
+        toast.success("User Details Updated");
+    } catch (error) {
+        toast.error("Failed to Update UserDetails");
+    }
 };
