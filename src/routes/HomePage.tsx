@@ -10,7 +10,7 @@ export const HomePage: React.FC = () => {
     const dispatch = useAppDispatch();
     return (
         <div className={`${darkMode ? "dark" : ""}`}>
-            <div className="h-screen w-screen flex sm:gap-10 flex-wrap items-center justify-center relative text-zinc-700 dark:text-zinc-200 bg-slate-50 dark:bg-zinc-800 animate-fade-in">
+            <div className="min-h-screen h-fit w-screen flex sm:gap-10 flex-wrap items-center justify-center relative text-zinc-700 dark:text-zinc-200 bg-slate-50 dark:bg-zinc-800 animate-fade-in">
                 <button
                     className="absolute top-4 right-4 hover:scale-105"
                     onClick={() => dispatch(toggleDarkMode())}>

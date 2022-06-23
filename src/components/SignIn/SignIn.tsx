@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
     signInWithGoogle,
@@ -14,20 +14,25 @@ export const SignIn: React.FC = () => {
     const [password, setPassword] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [photoURL, setphotoURL] = useState("");
-    const [validEmail, setValidEmail] = useState(false);
-    useEffect(() => {
-        const regex =
-            // eslint-disable-next-line no-useless-escape
-            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (email.trim()) {
-            regex.test(email) ? setValidEmail(true) : setValidEmail(false);
-        }
-    }, [email]);
+    const [validPhotoURL, setValidPhotoURL] = useState(true);
+
     return (
-        <div className="border dark:border-zinc-600 shadow-xs px-12 py-2 rounded-md flex flex-col w-fit animate-fade-in">
+        <div className="border dark:border-zinc-600 shadow-xs px-12 py-2 rounded-md flex flex-col w-fit animate-fade-in my-4 sm:my-0">
             <form
                 className="flex flex-col"
-                onSubmit={(e) => e.preventDefault()}>
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    if (signUpMode) {
+                        signUpWithEmailPassword({
+                            email,
+                            password,
+                            displayName,
+                            photoURL,
+                        });
+                    } else {
+                        signInWithEmailPassword({ email, password });
+                    }
+                }}>
                 {signUpMode && (
                     <>
                         <InputField
@@ -35,22 +40,21 @@ export const SignIn: React.FC = () => {
                             name="displayNAme"
                             value={displayName}
                             type={"text"}
-                            onChange={(e: ChangeEvent) =>
-                                setDisplayName(
-                                    (e.target as HTMLInputElement)?.value
-                                )
-                            }
+                            onChange={(e) => setDisplayName(e.target.value)}
+                        />
+                        <img
+                            className="w-0 h-0 overflow-hidden"
+                            src={photoURL}
+                            alt="PhotoURL Validation"
+                            onLoad={() => setValidPhotoURL(true)}
+                            onError={() => setValidPhotoURL(false)}
                         />
                         <InputField
                             label={"Photo URL"}
                             name="photoURL"
                             value={photoURL}
-                            type={"url"}
-                            onChange={(e: ChangeEvent) =>
-                                setphotoURL(
-                                    (e.target as HTMLInputElement)?.value
-                                )
-                            }
+                            type="url"
+                            onChange={(e) => setphotoURL(e.target.value)}
                         />
                     </>
                 )}
@@ -58,19 +62,17 @@ export const SignIn: React.FC = () => {
                     label={"Email"}
                     name="email"
                     value={email}
-                    type={"email"}
-                    onChange={(e: ChangeEvent) =>
-                        setEmail((e.target as HTMLInputElement)?.value)
-                    }
+                    type="email"
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <InputField
                     label={"Password"}
                     name="password"
+                    pattern=".{8,}"
+                    title="8 characters minimum"
                     value={password}
                     type={"password"}
-                    onChange={(e: ChangeEvent) =>
-                        setPassword((e.target as HTMLInputElement)?.value)
-                    }
+                    onChange={(e) => setPassword(e.target.value)}
                 />
 
                 {!signUpMode && (
@@ -84,10 +86,8 @@ export const SignIn: React.FC = () => {
                             </span>
                         </p>
                         <button
-                            onClick={() =>
-                                signInWithEmailPassword({ email, password })
-                            }
-                            disabled={!(validEmail && password)}
+                            type="submit"
+                            disabled={!(email && password)}
                             className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700  border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400">
                             Sign In
                         </button>
@@ -104,20 +104,13 @@ export const SignIn: React.FC = () => {
                             </span>
                         </p>
                         <button
-                            onClick={() =>
-                                signUpWithEmailPassword({
-                                    email,
-                                    password,
-                                    displayName,
-                                    photoURL,
-                                })
-                            }
+                            type="submit"
                             disabled={
                                 !(
-                                    validEmail &&
+                                    email &&
                                     password &&
                                     displayName &&
-                                    photoURL
+                                    validPhotoURL
                                 )
                             }
                             className="px-4 py-2 text-center hover:scale-110 hover:bg-gray-400 hover:text-slate-50 bg-white dark:bg-zinc-700 border dark:border-zinc-600 shadow-sm rounded-md my-6 ml-auto font-bold disabled:pointer-events-none disabled:bg-gray-400 dark:disabled:bg-gray-400">

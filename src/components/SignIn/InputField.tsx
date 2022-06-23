@@ -1,28 +1,17 @@
-import { ChangeEvent, useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
 import { OpenEyeIcon, ClosedEyeIcon } from "assets/Icons/Icons";
 
-interface InputFieldProps {
+interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
     type: string;
     label: string;
-    name: string;
-    value: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    disabled?: boolean;
 }
-export const InputField: React.FC<InputFieldProps> = ({
-    type,
-    label,
-    name,
-    value,
-    onChange,
-    disabled,
-}) => {
+export const InputField: React.FC<InputFieldProps> = (props) => {
+    const { type, label } = props;
     const [showPassword, setShowPassword] = useState(false);
     return (
         <div className="relative mt-8 after:w-full after:h-0.5 after:bg-gray-500 after:absolute after:bottom-0 after:left-0 after:scale-x-0 focus-within:after:scale-x-100 after:transition-transform">
             <input
-                value={value}
-                onChange={onChange}
+                {...props}
                 className="border-b dark:border-zinc-600 p-1 outline-none bg-transparent placeholder-transparent peer "
                 type={
                     type !== "password"
@@ -32,7 +21,6 @@ export const InputField: React.FC<InputFieldProps> = ({
                         : "password"
                 }
                 placeholder={label}
-                disabled={disabled}
             />
             <label className="absolute top-1 left-2 text-xs font-semibold  -translate-y-6  -translate-x-1 peer-placeholder-shown:translate-y-0 transition-all pointer-events-none peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base peer-placeholder-shown:font-normal peer-placeholder-shown:translate-x-0">
                 {label}

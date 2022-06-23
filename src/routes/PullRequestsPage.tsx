@@ -15,6 +15,8 @@ export const PullRequestsPage: React.FC = () => {
 
     const pods = ["ALL", "POD A", "POD B", "POD C", "POD D"];
 
+    const [showTip, setShowTip] = useState(false);
+
     const currentUser = useAppSelector((state) => state.currentUser);
 
     usePRLinks(setPullRequests);
@@ -31,9 +33,25 @@ export const PullRequestsPage: React.FC = () => {
 
     return (
         <Container>
+            <div className="w-full relative mb-3">
+                {showTip && (
+                    <p className="border p-2 rounded-md dark:border-zinc-600">
+                        Add a Github Pull Request link below, it will be shown
+                        here for review, after getting atleast 2 reviews from
+                        github users, it will be removed from here and marked
+                        with green border in profile page. (requires LogIn)
+                    </p>
+                )}
+                <button
+                    onClick={() => setShowTip((prevState) => !prevState)}
+                    className="text-xs outline-none bg-zinc-300 dark:bg-zinc-700 rounded-sm px-2 py-1 font-mono absolute translate-y-1 -right-1 -top-3 hover:scale-105">
+                    {showTip ? "Close" : "Help"}
+                </button>
+            </div>
             {currentUser && (
                 <NewPullRequest {...{ currentUser, addNewPRLink }} />
             )}
+
             <div className="w-full flex flex-wrap gap-2">
                 <h2 className=" font-semibold text-zinc-500 w-full">
                     FILTER BY POD
