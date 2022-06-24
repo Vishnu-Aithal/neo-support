@@ -32,7 +32,8 @@ export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
             />
             <div className="ms-auto flex-shrink-0">
                 <button
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         editComment(commentData.uid, {
                             body: edit.editedText,
                         });
@@ -42,7 +43,10 @@ export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
                     <CheckIcon className={"w-3 h-3"} />
                 </button>
                 <button
-                    onClick={() => setEdit({ ...edit, editMode: false })}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setEdit({ ...edit, editMode: false });
+                    }}
                     className="ml-1 rounded-sm p-1 hover:scale-105 bg-red-400 dark:bg-red-600 transition-all">
                     <ArrowRightIcon className={"w-3 h-3"} />
                 </button>
