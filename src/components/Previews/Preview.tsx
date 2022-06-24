@@ -25,7 +25,10 @@ export const Preview: React.FC<PreviewProps> = (props) => {
                         : `/question/${postData.uid}`
                 }
                 className="flex w-full mx-auto border dark:border-zinc-600 rounded-md p-2 shadow-sm hover:shadow-md">
-                <UserImage src={authorDetails?.photoURL || ""} />
+                <UserImage
+                    src={authorDetails?.photoURL || ""}
+                    alt={authorDetails?.displayName || "Author"}
+                />
 
                 {type === "question" ? (
                     <PreviewBody
