@@ -14,6 +14,11 @@ export const BookMarkedQuestions: React.FC = () => {
     useMyBookmarkedQuestions(currentUser.uid, setBookMarkedBookmarkedQuestions);
     return (
         <>
+            {bookMarkedQuestions.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    No Bookmarked Questions
+                </p>
+            )}
             {bookMarkedQuestions.map((post) => (
                 <Preview postData={post} key={post.uid} type={"question"} />
             ))}

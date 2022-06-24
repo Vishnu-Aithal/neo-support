@@ -11,6 +11,11 @@ export const MyPullRequests: React.FC = () => {
     useMyPRLinks(currentUser.uid, setMyPullRequests);
     return (
         <>
+            {prLinks.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    You are not tracking any Pull Request now
+                </p>
+            )}
             {prLinks.map((prData) => (
                 <PullRequestCard
                     key={prData.uid}

@@ -7,6 +7,11 @@ export const NotificationsPage: React.FC = () => {
 
     return (
         <Container>
+            {currentUser?.notifications?.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    No New Notifications
+                </p>
+            )}
             {currentUser?.notifications?.map((notification) => (
                 <Notification
                     key={notification.uid}

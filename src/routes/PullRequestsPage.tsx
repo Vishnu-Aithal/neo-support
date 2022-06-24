@@ -69,6 +69,11 @@ export const PullRequestsPage: React.FC = () => {
                     </button>
                 ))}
             </div>
+            {filteredPrLinks.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    No Pull Requests to Review
+                </p>
+            )}
             {filteredPrLinks.map((prData) => (
                 <PullRequestCard
                     key={prData.uid}

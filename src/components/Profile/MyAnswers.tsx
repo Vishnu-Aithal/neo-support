@@ -11,6 +11,11 @@ export const MyAnswers: React.FC = () => {
     useMyAnswers(currentUser.uid, setMyAnswers);
     return (
         <>
+            {answers.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    You have not Answered any Questions Yet!
+                </p>
+            )}
             {answers.map((question) => (
                 <Preview
                     postData={question}

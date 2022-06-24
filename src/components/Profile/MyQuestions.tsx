@@ -11,6 +11,11 @@ export const MyQuestions: React.FC = () => {
     useMyQuestions(currentUser.uid, setMyQuestions);
     return (
         <>
+            {questions.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    You have not Asked any Questions Yet!
+                </p>
+            )}
             {questions.map((question) => (
                 <Preview
                     postData={question}

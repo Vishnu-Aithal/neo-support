@@ -14,6 +14,11 @@ export const BookMarkedAnswers: React.FC = () => {
     useMyBookmarkedAnswers(currentUser.uid, setBookMarkedAnswers);
     return (
         <>
+            {bookMarkedAnswers.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    No Bookmarked Answers
+                </p>
+            )}
             {bookMarkedAnswers.map((post) => (
                 <Preview postData={post} key={post.uid} type={"answer"} />
             ))}

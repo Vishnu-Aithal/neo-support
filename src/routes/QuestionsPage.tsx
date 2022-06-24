@@ -197,7 +197,7 @@ export const QuestionsPage: React.FC = () => {
             </div>
             <button
                 onClick={() => setShowNewQuestion(!showNewQuestion)}
-                className="w-full p-2 border dark:border-zinc-600 rounded dark:bg-zinc-700 hover:bg-gray-300 dark:hover:bg-zinc-600">
+                className="w-full p-2 border dark:border-zinc-600 rounded dark:bg-zinc-700 hover:bg-gray-300 dark:hover:bg-zinc-600 shadow-sm font-semibold">
                 {showNewQuestion ? "Close New Question" : "Ask New Question"}
             </button>
             {currentUser && showNewQuestion && (
@@ -212,6 +212,11 @@ export const QuestionsPage: React.FC = () => {
                     currentTags={newQuestionTags}
                     tags={tags}
                 />
+            )}
+            {sortedQuestions.length === 0 && (
+                <p className="w-full text-center text-lg font-semibold text-zinc-500">
+                    No Questions
+                </p>
             )}
             {sortedQuestions.map((question) => (
                 <Preview
