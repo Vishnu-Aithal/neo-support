@@ -27,6 +27,9 @@ export const addNewNotification = async (
     }
     if ("bookmarkedBy" in parent && parent?.bookmarkedBy?.length !== 0) {
         parent?.bookmarkedBy?.forEach(async (userId) => {
+            if (userId === child.author) {
+                return;
+            }
             const authorRef = doc(db, "users", userId);
             await updateDoc(authorRef, {
                 notifications: arrayUnion({
