@@ -20,7 +20,9 @@ export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
     commentData,
 }) => {
     return (
-        <div className="flex w-full items-center">
+        <div
+            className="flex w-full items-center"
+            onClick={(e) => e.stopPropagation()}>
             <input
                 onChange={(e) =>
                     setEdit({ ...edit, editedText: e.target.value })
@@ -32,8 +34,7 @@ export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
             />
             <div className="ms-auto flex-shrink-0">
                 <button
-                    onClick={(e) => {
-                        e.stopPropagation();
+                    onClick={() => {
                         editComment(commentData.uid, {
                             body: edit.editedText,
                         });
@@ -43,10 +44,7 @@ export const EditCommentButtons: React.FC<EditCommentButtonsProps> = ({
                     <CheckIcon className={"w-3 h-3"} />
                 </button>
                 <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setEdit({ ...edit, editMode: false });
-                    }}
+                    onClick={() => setEdit({ ...edit, editMode: false })}
                     className="ml-1 rounded-sm p-1 hover:scale-105 bg-red-400 dark:bg-red-600 transition-all">
                     <ArrowRightIcon className={"w-3 h-3"} />
                 </button>
