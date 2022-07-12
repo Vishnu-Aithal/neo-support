@@ -66,7 +66,11 @@ export const PullRequestCard: React.FC<PullRequestCardProps> = ({
                 <PRCardDeleteButton {...{ deletePRlink, prData }} />
             )}
             <div className="p-4 border-b dark:border-zinc-600 text-lg font-semibold flex flex-col">
-                <a href={url} target="_blank" rel="noreferrer">
+                <a
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="break-all">
                     {url}
                 </a>
                 <p className="ml-auto text-xs text-gray-600">{created}</p>
