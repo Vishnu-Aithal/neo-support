@@ -10,7 +10,7 @@ Code written during hackathon 48Hours time is in the master branch, hosted with 
 
 ## ![Site Video](https://github.com/Vishnu-Aithal/neo-support/blob/temp-dev/src/assets/images/neo-support.gif)
 
-Live Link - https://neo-support-git-temp-dev-vishnu-aithal.vercel.app/
+Live Link - https://neo-support.vercel.app/
 
 ---
 
@@ -56,7 +56,7 @@ Live Link - https://neo-support-git-temp-dev-vishnu-aithal.vercel.app/
     -   DownVote
     -   Cancel Vote
 -   Filter Questions
-    - By Search Term
+    -   By Search Term
     -   By tags
     -   By Date Created
     -   By Votes
