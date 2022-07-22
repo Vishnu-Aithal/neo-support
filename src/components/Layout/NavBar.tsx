@@ -63,30 +63,34 @@ export const NavBar: React.FC = () => {
                     />
                 </li>
 
-                <li className="relative overflow-visible">
-                    <NavBarLink
-                        to={"/notifications"}
-                        Icon={BellIcon}
-                        name={"Notifications"}
-                    />
+                {currentUser && (
+                    <li className="relative overflow-visible">
+                        <NavBarLink
+                            to={"/notifications"}
+                            Icon={BellIcon}
+                            name={"Notifications"}
+                        />
 
-                    <div
-                        className={`${
-                            notificationCount ? "flex" : "hidden"
-                        } absolute top-1 right-1 items-center content-center p-1 rounded-full min-w-fit w-6 bg-red-500`}>
-                        <p className=" text-white text-center w-full text-xs font-bold">
-                            {notificationCount}
-                        </p>
-                    </div>
-                </li>
+                        <div
+                            className={`${
+                                notificationCount ? "flex" : "hidden"
+                            } absolute top-1 right-1 items-center content-center p-1 rounded-full min-w-fit w-6 bg-red-500`}>
+                            <p className=" text-white text-center w-full text-xs font-bold">
+                                {notificationCount}
+                            </p>
+                        </div>
+                    </li>
+                )}
 
-                <li>
-                    <NavBarLink
-                        to={"/profile"}
-                        Icon={UserIcon}
-                        name={"Profile"}
-                    />
-                </li>
+                {currentUser && (
+                    <li>
+                        <NavBarLink
+                            to={"/profile"}
+                            Icon={UserIcon}
+                            name={"Profile"}
+                        />
+                    </li>
+                )}
             </ul>
         </aside>
     );
