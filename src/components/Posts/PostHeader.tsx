@@ -60,6 +60,9 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
                     </button>
                 )}
                 {post.upVotes.length - post.downVotes.length}
+                {!currentUser && (
+                    <p className="text-sm font-semibold text-zinc-500">Votes</p>
+                )}
                 {currentUser && (
                     <button
                         className={`${
