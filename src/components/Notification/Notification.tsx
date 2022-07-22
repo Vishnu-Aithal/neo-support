@@ -92,7 +92,7 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
                     to={getLink()}
                     className="rounded-md border dark:border-zinc-600 hover:shadow-md p-2 flex items-start w-full">
                     <img
-                        className="rounded-full w-12"
+                        className="rounded-full w-12 aspect-square"
                         src={userData.photoURL}
                         alt={userData.displayName}
                     />
